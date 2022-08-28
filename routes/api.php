@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+
+
+Route::get('/test/results', 'ApiController@getTestResults');
+
+Route::post('/email/link', 'ApiController@doEmailLink');
+Route::post('/email/link/confirm', 'ApiController@doEmailLinkConfirm');
+
+
+Route::post('/platform/user/kit/register', 'ApiController@doPlatformUserKitRegister');
+Route::get('/platform/user/kit/search', 'ApiController@getPlatformUserKitSearch');
