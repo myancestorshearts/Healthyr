@@ -20,10 +20,8 @@ class ViewController extends Controller {
      * returns 
      *   result
      */
-	public function doMigrate(Request $request)
+	public function doMigrate()
 	{
-        dd('test');
-        dd(env('APP_KEY'));
 		set_time_limit(60);
 		Artisan::call("migrate", ['--force' => 'default']);
 		$response = new Response;
