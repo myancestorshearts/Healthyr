@@ -22,6 +22,7 @@ class ViewController extends Controller {
      */
 	public function doMigrate(Request $request)
 	{
+        dd('test');
         dd(env('APP_KEY'));
 		set_time_limit(60);
 		Artisan::call("migrate", ['--force' => 'default']);
