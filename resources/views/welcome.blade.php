@@ -8,6 +8,6 @@
 
     </head>
     <body>
-        The healthyr api is up and running
+        The Healthyr api is up and running
     </body>
 </html>
