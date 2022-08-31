@@ -6,8 +6,6 @@ namespace App\Libraries;
 class Spot {
     
 	private $key;
-	private $password;
-	private $endpoint;
 
 	/**purpose
 	 *   constructs class from environment variables
@@ -17,9 +15,7 @@ class Spot {
 	 *   (none)
 	 */
 	function __construct() {
-		$this->key = env('GOA_KEY', '');
-		$this->password = env('GOA_PASSWORD', '');
-		$this->endpoint = env('GOA_ENDPOINT', '');
+		$this->key = env('SPOT_KEY', '');
 	}
 
 	/**purpose

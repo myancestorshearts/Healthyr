@@ -135,6 +135,9 @@ class ApiController extends BaseController
      */
     public function doPlatformUserKitRegister(Request $request) {
 
+        
+        header('Access-Control-Allow-Origin: *');
+
         // create response
         $response = new Response;
 
@@ -147,6 +150,10 @@ class ApiController extends BaseController
         // validate the email
         $validated_email = Validator::validateEmail($request->get('email'));
         if (!isset($validated_email)) return $response->jsonFailure('Invalid Email');
+
+        // register the test kit
+
+        
 
         // return successful response
         return $response->jsonSuccess();
