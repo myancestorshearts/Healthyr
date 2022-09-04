@@ -139,7 +139,7 @@ class ApiController extends BaseController
         header('Access-Control-Allow-Origin: *');
 
         // create response
-        $response = new response;
+        $response = new Response;
 
         // check inputs
         if (!$response->hasRequired($request, ['first_name', 'last_name', 'email', 'phone', 'date_of_birth', 'gender', 'platform_user_id'])) return $response->jsonFailure('Missing required fields');
