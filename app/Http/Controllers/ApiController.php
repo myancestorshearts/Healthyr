@@ -249,8 +249,30 @@ class ApiController extends BaseController
         // check inputs
         if (!$response->hasRequired($request, ['kit_id', 'platform_user_id'])) $response->jsonFailure('Missing required fields');
 
-        // make sure platform user id is greater than 8 characters
-        if (strlen($request->get('platform_user_id')) < 8) return $response->jsonFailure('Platform user id must be greater than 8 characters');
+        // validate platform user id
+        $platform_user_id_validated = Validator::validateText($request->get('platform_user_id'), ['clearable' => false]);
+        if (!isset($platform_user_id_validated)) return $response->jsonFailure('Invalid platform user id');
+
+        // validate platform user id
+        $kit_id_validated = Validator::validateText($request->get('kit_id'), ['clearable' => false]);
+        if (!isset($kit_id_validated)) return $response->jsonFailure('Invalid platform user id');
+
+        // check to see if kit already exists for platform user
+        $platform_user_kit = Models\PlatformUserKit::where([
+            ['platform_user_id', '=', $platform_user_id_validated],
+            ['kit_id', '=', $kit_id_validated]
+        ])->limit(1)->get()->first();
+
+        // if platform user kit does not exist then create it 
+        if (!isset($platform_user_kit)) {
+            $platform_user_kit = new Models\PlatformUserKit;
+            $platform_user_kit->platform_user_id = $platform_user_id_validated;
+            $platform_user_kit->kit_id = $kit_id_validated;
+        }
+
+        // save platform user and make sure its active
+        $platform_user_kit->active = 1;
+        $platform_user_kit->save();
 
         // return successful response
         return $response->jsonSuccess();
