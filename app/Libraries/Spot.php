@@ -52,13 +52,13 @@ class Spot {
 	 * returns
 	 *   decoded response
 	 */
-	public function callPost($api, $data) {
+	public function callPost($api, $data = []) {
 
 		$this->createCurl($api);
 		
 		curl_setopt($this->curl, CURLOPT_POST, 1);
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($data)); 
-
+		
 		$server_output = curl_exec($this->curl);
 
 		$server_decoded = json_decode($server_output);
@@ -76,10 +76,12 @@ class Spot {
 	 * returns
 	 *   decoded response
 	 */
-	public function callGet($api, $data) {
-
-        $data_string = http_build_query($data);
-        $this->createCurl($api . '?' . $data_string);
+	public function callGet($api, $data = null) {
+		if (!isset($data)) $this->createCurl($api);
+		else {
+			$data_string = http_build_query($data);
+			$this->createCurl($api . '?' . $data_string);
+		}
 
 		$server_output = curl_exec($this->curl);
 		$server_decoded = json_decode($server_output);
@@ -89,8 +91,19 @@ class Spot {
 	}
 
 
-    public function registerKit($kit_id, $email, $first_name, $last_name) {
-        return true;
+    public function getKit($kit_id) {
+        
+
+		$response = new Response;
+
+		$result = $this->callGet('kits/' . $kit_id . '/');
+
+		if (!isset($result->kit_id)) return $response->setFailure();
+
+		$response->set('kit', $result);
+
+		return $response->setSuccess();
+
     }
 
 	public function createPatient($platform_user) {

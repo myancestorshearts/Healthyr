@@ -293,8 +293,31 @@ class ApiController extends BaseController
         // create response
         $response = new Response;
 
-        // get all kit ids 
-        
+        // check inputs
+        if (!$response->hasRequired($request, ['platform_user_id'])) $response->jsonFailure('Missing required fields');
+
+        // check for platform user
+        $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
+        if (!isset($platform_user)) return $response->jsonFailure('No user exists with platform user id', 'INVALID_PLATFORM_USER_ID', 'INVALID_PLATFORM_USER_ID');
+
+        // get kits
+        $platform_user_kits = Models\PlatformUserKit::where([
+            ['platform_user_id', '=', $platform_user->platform_user_id],
+            ['active', '=', 1]
+        ])->get();
+
+
+        // spot kits 
+        $spot_kits = [];
+        foreach($platform_user_kits as $platform_user_kit) {
+            // call the patient api
+            $spot = new Libraries\Spot;
+            $kit_response = $spot->getKit($platform_user_kit->kit_id);
+            if ($kit_response->isSuccess()) $spot_kits[] = $kit_response->get('kit');
+        }
+
+        // set kits
+        $response->set('kits', $spot_kits);
 
         // return successful response
         return $response->jsonSuccess();
