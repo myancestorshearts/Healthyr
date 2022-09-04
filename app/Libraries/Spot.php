@@ -119,7 +119,7 @@ class Spot {
 		}
 
 		if (!isset($result->patient_id)) {
-			return $response->setFailure('Patient could not be created - double check infor and try again');
+			return $response->setFailure('Patient could not be created - double check infor and try again: ' . json_encode($result));
 		}
 
 		$response->set('patient_id', $result->patient_id);
