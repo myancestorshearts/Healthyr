@@ -118,6 +118,10 @@ class Spot {
 			return $response->setFailure($error);
 		}
 
+		if (!isset($result->patient_id)) {
+			return $response->setFailure('Patient could not be created - double check infor and try again');
+		}
+
 		$response->set('patient_id', $result->patient_id);
 
 		return $response->setSuccess();
