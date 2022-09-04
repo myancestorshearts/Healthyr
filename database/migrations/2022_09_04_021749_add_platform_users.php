@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         //
-        Schema::create('platform_user', function (Blueprint $table) {
+        Schema::create('platform_users', function (Blueprint $table) {
             $table->id();
             $table->string('platform_user_id')->index();
             $table->string('patient_id')->index();
