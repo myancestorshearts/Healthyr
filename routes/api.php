@@ -25,5 +25,8 @@ Route::post('/email/link', 'ApiController@doEmailLink');
 Route::post('/email/link/confirm', 'ApiController@doEmailLinkConfirm');
 
 
+
+Route::get('/platform/user/patient', 'ApiController@getPlatformUserPatient');
+Route::post('/platform/user/patient/register', 'ApiController@doPlatformUserPatientRegister');
 Route::post('/platform/user/kit/register', 'ApiController@doPlatformUserKitRegister');
 Route::get('/platform/user/kit/search', 'ApiController@getPlatformUserKitSearch');

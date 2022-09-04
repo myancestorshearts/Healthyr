@@ -121,43 +121,70 @@ class ApiController extends BaseController
         return $response->jsonSuccess('Linked email');
     }
 
+    /**purpose
+     *   create a patient
+     * args
+     *   platform_user_id (required)
+     *   first_name (required)
+     *   last_name (required)
+     *   email (required)
+     *   phone (required)
+     *   gender (required)
+     *   date_of_birth (required)
+     */
+    public function doPlatformUserPatientRegister(Request $request) {
+
+        // create response
+        $response = new response;
+
+        // return successful response
+        return $response->jsonSuccess();
+    }
+
+    /**purpose
+     *   get a platform user patient
+     * args
+     *   platform_user_id (required)
+     * returns
+     *   patient
+     */
+    public function getPlatformUserPatient(Request $request) {
+
+        // create response
+        $response = new Response;
+
+        // check to see if patient exists
+
+
+        // return response
+        return $response->jsonSuccess();
+    }
+
 
     /**purpose
      *   register a test kit
      * args
      *   kit_id (required) (linked to kit in spot system)
      *   platform_user_id (required) (links kit to platform user id) (must be greater than 30 characters)
-     *   first_name (required)
-     *   last_name (required)
-     *   email (required)
      * returns
      *   (none)
      */
     public function doPlatformUserKitRegister(Request $request) {
 
-        
         header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Headers: Content-Type,Accept,Authorization');
-
+        
         // create response
         $response = new Response;
 
         // check inputs
-        if (!$response->hasRequired($request, ['kit_id', 'platform_user_id', 'first_name', 'last_name', 'email'])) $response->jsonFailure('Missing required fields');
+        if (!$response->hasRequired($request, ['kit_id', 'platform_user_id'])) $response->jsonFailure('Missing required fields');
 
-        // make sure platform user id is greater than 30 characters
-        if (strlen($request->get('platform_user_id')) < 30) return $response->jsonFailure('Platform user id must be greater than 30 characters');
-
-        // validate the email
-        $validated_email = Validator::validateEmail($request->get('email'));
-        if (!isset($validated_email)) return $response->jsonFailure('Invalid Email');
-
-        // register the test kit
-
-        
+        // make sure platform user id is greater than 8 characters
+        if (strlen($request->get('platform_user_id')) < 8) return $response->jsonFailure('Platform user id must be greater than 8 characters');
 
         // return successful response
         return $response->jsonSuccess();
+    
     }
 
 
@@ -172,8 +199,6 @@ class ApiController extends BaseController
 
         // create response
         $response = new Response;
-
-
 
         // return successful response
         return $response->jsonSuccess();
