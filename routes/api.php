@@ -24,9 +24,7 @@ Route::get('/test/results', 'ApiController@getTestResults');
 Route::post('/email/link', 'ApiController@doEmailLink');
 Route::post('/email/link/confirm', 'ApiController@doEmailLinkConfirm');
 
-
-
-Route::get('/platform/user/patient', 'ApiController@getPlatformUserPatient');
-Route::post('/platform/user/patient/register', 'ApiController@doPlatformUserPatientRegister');
+Route::get('/platform/user', 'ApiController@getPlatformUser'); // completed
+Route::post('/platform/user/register', 'ApiController@doPlatformUserRegister');
 Route::post('/platform/user/kit/register', 'ApiController@doPlatformUserKitRegister');
-Route::get('/platform/user/kit/search', 'ApiController@getPlatformUserKitSearch');
+Route::get('/platform/user/kits', 'ApiController@getPlatformUserKits');

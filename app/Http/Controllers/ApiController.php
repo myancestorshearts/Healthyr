@@ -122,7 +122,7 @@ class ApiController extends BaseController
     }
 
     /**purpose
-     *   create a patient
+     *   create a platform user
      * args
      *   platform_user_id (required)
      *   first_name (required)
@@ -132,29 +132,73 @@ class ApiController extends BaseController
      *   gender (required)
      *   date_of_birth (required)
      */
-    public function doPlatformUserPatientRegister(Request $request) {
+    public function doPlatformUserRegister(Request $request) {
+
+        header('Access-Control-Allow-Origin: *');
 
         // create response
         $response = new response;
+
+        // check inputs
+        if (!$response->hasRequired($request, ['first_name', 'last_name', 'email', 'phone', 'date_of_birth', 'gender', 'platform_user_id'])) return $response->jsonFailure('Missing required fields');
+
+        // check if platform user already exists
+        $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
+        if (!isset($platform_user)) return $response->jsonFailure('Invalid platform user id');
+
+        // validate email
+        $email_validated = Validator::validateEmail($request->get('email'));
+        if (!isset($email_validated)) return $response->jsonFailure('Invalid email');
+
+        // validate phone
+        $phone_validated = Validator::validatePhone($request->get('phone'));
+        if (!isset($phone_validated)) return $response->jsonFailure('Invalid phone');
+
+        // validate first name
+        $first_name_validated = Validator::validateText($request->get('first_name'));
+        if (!isset($first_name_validated)) return $response->jsonFailure('Invalid first name');
+        
+        // validate last name
+        $last_name_validated = Validator::validateText($request->get('last_name'));
+        if (!isset($last_name_validated)) return $response->jsonFailure('Invalid last name');
+
+        // validate gender 
+        $gender = $request->get('gender');
+        if ($gender != 'M' && $gender != 'F' && $gender != 'O') return $response->jsonFailure('Invalid gender');
+
+        // validate date of birth
+        $date_of_birth = strtotime($request->get('date_of_birth'));
+        if ($date_of_birth > now()) return $response->jsonFailure('Invalid date of birth');
+
+        // call the patient api
 
         // return successful response
         return $response->jsonSuccess();
     }
 
     /**purpose
-     *   get a platform user patient
+     *   get a platform user
      * args
      *   platform_user_id (required)
      * returns
-     *   patient
+     *   platform_user
      */
-    public function getPlatformUserPatient(Request $request) {
+    public function getPlatformUser(Request $request) {
+
+        header('Access-Control-Allow-Origin: *');
 
         // create response
         $response = new Response;
 
-        // check to see if patient exists
+        // check to see if platform user exists
+        if (!$response->hasRequired($request, ['platform_user_id'])) return $response->jsonFailure('Missing required fields');
 
+        // check for platform user
+        $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
+        if (!isset($platform_user)) return $response->jsonFailure('No user exists with platform user id', 'INVALID_PLATFORM_USER_ID', 'INVALID_PLATFORM_USER_ID');
+
+        // set platform user
+        $response->set('platform_user', $platform_user);
 
         // return response
         return $response->jsonSuccess();
@@ -172,7 +216,7 @@ class ApiController extends BaseController
     public function doPlatformUserKitRegister(Request $request) {
 
         header('Access-Control-Allow-Origin: *');
-        
+
         // create response
         $response = new Response;
 
@@ -184,7 +228,6 @@ class ApiController extends BaseController
 
         // return successful response
         return $response->jsonSuccess();
-    
     }
 
 
@@ -195,10 +238,15 @@ class ApiController extends BaseController
      * returns
      *   tests
      */
-    public function getPlatformUserKitSearch(Request $request) {
+    public function getPlatformUserKits(Request $request) {
+
+        header('Access-Control-Allow-Origin: *');
 
         // create response
         $response = new Response;
+
+        // get all kit ids 
+        
 
         // return successful response
         return $response->jsonSuccess();
