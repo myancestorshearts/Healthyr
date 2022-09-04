@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('patient_id')->index();
             $table->string('first_name')->index();
             $table->string('last_name')->index();
+            $table->string('email')->index();
             $table->datetime('date_of_birth')->index();
             $table->string('phone')->index();
             $table->string('gender')->index();

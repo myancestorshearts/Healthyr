@@ -15,6 +15,10 @@ class Functions {
 		return date("Y-m-d H:i:s", $time);
 	}
 
+	public static function convertTimeToMysqlDateOnly($time)
+	{
+		return date("Y-m-d", $time);
+	}
 
 	public static function isEmpty($string)
 	{

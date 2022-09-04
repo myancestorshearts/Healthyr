@@ -2,10 +2,13 @@
 
 namespace App\Libraries;
 
+use App\Http\Controllers\Response;
 
 class Spot {
     
 	private $key;
+	private $endpoint;
+	private $curl;
 
 	/**purpose
 	 *   constructs class from environment variables
@@ -16,109 +19,8 @@ class Spot {
 	 */
 	function __construct() {
 		$this->key = env('SPOT_KEY', '');
+		$this->endpoint = 'https://app.spotdx.com/api/v1/';
 	}
-
-	/**purpose
-	 *   get a access token for pitney
-	 * args
-	 *   (none)
-	 * returns
-	 *   access_token
-	 *   clientID
-	 */
-	private function getAccessToken() {
-
-        // first check stored access token
-		// get token
-		$tokens = Dynamo\Tokens::findOrCreate(Goa::TOKEN_KEY);
-
-        // check token for validity
-        if (isset($tokens->access)) {
-
-            // if token is still valid then return token
-			if (time() < $tokens->access_expires - 100) return decrypt($tokens->access);
-
-            // if token is expired then we need to refresh token
-			$refresh_response = $this->refreshTokens(decrypt($tokens->refresh));
-			if ($refresh_response->result == 'success') {
-				$tokens->access = encrypt($refresh_response->data->model->access->token);
-				$tokens->access_expires = $refresh_response->data->model->access->expires;
-				$tokens->refresh = encrypt($refresh_response->data->model->refresh->token);
-				$tokens->updateItem();
-				return $refresh_response->data->model->access->token;
-			}
-        }  
-
-        // fail save to get access token by generating from key and password
-		$generate_response = $this->generateTokens();
-		// create token from response
-		if ($generate_response->result == 'success') {
-			$tokens->access = encrypt($generate_response->data->model->access->token);
-			$tokens->access_expires = $generate_response->data->model->access->expires;
-			$tokens->refresh = encrypt($generate_response->data->model->refresh->token);
-			$tokens->updateItem();
-			return $generate_response->data->model->access->token;
-		}
-		else return null;
-	}
-
-    /**purpose 
-     *   generate an access token from goa api
-     * args
-     *   (none) 
-     * returns
-     *   tokens
-     */
-    private function generateTokens() {
-
-		$curl = curl_init();
-
-		curl_setopt($curl, CURLOPT_URL, $this->endpoint . '/restapi/tokens/generate');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	
-		$headers = [
-			'Authorization: Basic ' . base64_encode($this->key . ':' . $this->password),
-			'Content-Type: application/x-www-form-urlencoded'
-		];
-		
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($curl, CURLOPT_POST, true);                                     
-		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query(['grant_type' => 'client_credentials']));   
-	
-		$server_output = curl_exec($curl);
-		$server_decoded = json_decode($server_output);
-
-		curl_close($curl);
-		return $server_decoded;
-    }
-
-    /**purpose
-     *   refresh tokens from goa api
-     * args
-     *   (none)
-     * returns
-     *   tokens
-     */
-    private function refreshTokens($refresh_token) {
-		$curl = curl_init();
-
-		curl_setopt($curl, CURLOPT_URL, $this->endpoint . '/restapi/tokens/refresh');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-		$headers = [
-			'Authorization: Bearer ' . $refresh_token
-		];   
-		
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
-		curl_setopt($curl, CURLOPT_POST, true);                                      
-		
-		$server_output = curl_exec($curl);
-		$server_decoded = json_decode($server_output);
-
-		curl_close($curl);
-		return $server_decoded;
-    }
 
 	/**purpose
 	 *   create curl for Pitney call includes access token
@@ -129,8 +31,6 @@ class Spot {
 	 */
 	private function createCurl($api) {
 
-		$access_token = $this->getAccessToken();
-
 		$this->curl = curl_init();
 
 		curl_setopt($this->curl, CURLOPT_URL, $this->endpoint . $api);
@@ -138,7 +38,7 @@ class Spot {
 
 		$headers = [
 			'Content-Type: application/json',
-			'Authorization: Bearer ' . $access_token
+			'Authorization: Token ' . $this->key
 		];
 
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
@@ -156,11 +56,11 @@ class Spot {
 
 		$this->createCurl($api);
 		
-		$data_string = json_encode(json_decode(json_encode($data)));
-		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data_string); 
 		curl_setopt($this->curl, CURLOPT_POST, 1);
+		curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($data)); 
 
 		$server_output = curl_exec($this->curl);
+
 		$server_decoded = json_decode($server_output);
 
 		curl_close($this->curl);
@@ -190,7 +90,37 @@ class Spot {
 
 
     public function registerKit($kit_id, $email, $first_name, $last_name) {
-        return true
+        return true;
     }
+
+	public function createPatient($platform_user) {
+
+		$response = new Response;
+
+		$args = [
+			'first_name' => $platform_user->first_name,
+			'last_name' => $platform_user->last_name,
+			'email' => $platform_user->email,
+			'sex' => $platform_user->gender,
+			'date_of_birth' => $platform_user->date_of_birth,
+			'phone' => $platform_user->phone
+		];
+
+		$result = $this->callPost('patient/', $args);
+
+		if (isset($result->error)) {
+			$error_strings = [];
+			foreach($result->error as $key => $value) {
+				$error_strings[] = $key . ': ' . implode('', $value);
+			}
+			$error = implode(' - ', $error_strings);
+
+			return $response->setFailure($error);
+		}
+
+		$response->set('patient_id', $result->patient_id);
+
+		return $response->setSuccess();
+	}
 
 }

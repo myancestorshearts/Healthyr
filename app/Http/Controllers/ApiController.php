@@ -10,6 +10,8 @@ use App\Common\Validator;
 
 use App\Models;
 
+use App\Libraries;
+
 class ApiController extends BaseController
 {
 
@@ -144,7 +146,7 @@ class ApiController extends BaseController
 
         // check if platform user already exists
         $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
-        if (!isset($platform_user)) return $response->jsonFailure('Invalid platform user id');
+        if (isset($platform_user)) return $response->jsonFailure('Platform user already exists');
 
         // validate email
         $email_validated = Validator::validateEmail($request->get('email'));
@@ -154,12 +156,16 @@ class ApiController extends BaseController
         $phone_validated = Validator::validatePhone($request->get('phone'));
         if (!isset($phone_validated)) return $response->jsonFailure('Invalid phone');
 
+        // validate platform user id
+        $platform_user_id_validated = Validator::validateText($request->get('platform_user_id'), ['clearable' => false]);
+        if (!isset($platform_user_id_validated)) return $response->jsonFailure('Invalid platform user id');
+
         // validate first name
-        $first_name_validated = Validator::validateText($request->get('first_name'));
+        $first_name_validated = Validator::validateText($request->get('first_name'), ['clearable' => false]);
         if (!isset($first_name_validated)) return $response->jsonFailure('Invalid first name');
         
         // validate last name
-        $last_name_validated = Validator::validateText($request->get('last_name'));
+        $last_name_validated = Validator::validateText($request->get('last_name'), ['clearable' => false]);
         if (!isset($last_name_validated)) return $response->jsonFailure('Invalid last name');
 
         // validate gender 
@@ -168,9 +174,26 @@ class ApiController extends BaseController
 
         // validate date of birth
         $date_of_birth = strtotime($request->get('date_of_birth'));
-        if ($date_of_birth > now()) return $response->jsonFailure('Invalid date of birth');
+        if ($date_of_birth > time()) return $response->jsonFailure('Invalid date of birth');
+
+        $platform_user = new Models\PlatformUser;
+        $platform_user->platform_user_id = $platform_user_id_validated;
+        $platform_user->first_name = $first_name_validated;
+        $platform_user->last_name = $last_name_validated;
+        $platform_user->email = $email_validated;
+        $platform_user->gender = $gender;
+        $platform_user->date_of_birth = Functions::convertTimeToMysqlDateOnly($date_of_birth);
+        $platform_user->phone = $phone_validated;
+        $platform_user->active = 1;
 
         // call the patient api
+        $spot = new Libraries\Spot;
+        $patient_response = $spot->createPatient($platform_user);
+        if ($patient_response->isFailure()) return $patient_response->jsonFailure();
+
+        // set patient id and save
+        $platform_user->patient_id = $patient_response->get('patient_id');
+        $platform_user->save();
 
         // return successful response
         return $response->jsonSuccess();
