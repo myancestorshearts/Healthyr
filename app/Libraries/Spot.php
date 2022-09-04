@@ -127,4 +127,24 @@ class Spot {
 		return $response->setSuccess();
 	}
 
+	public function getRegistrationToken($platform_user) {
+		
+		$response = new Response;
+
+		$result = $this->callPost('tokens/patient_registration/', ['patient_id' => $platform_user->patient_id]);
+
+		if (isset($result->error)) {
+			return $response->setFailure($result->error);
+		}
+
+		if (!isset($result->token)) {
+			return $response->setFailure('Patient could not be created - double check infor and try again: ' . json_encode($result));
+		}
+
+		$response->set('token', $result->token);
+
+		return $response->setSuccess();
+
+	}
+
 }

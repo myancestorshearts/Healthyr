@@ -28,3 +28,4 @@ Route::get('/platform/user', 'ApiController@getPlatformUser'); // completed
 Route::post('/platform/user/register', 'ApiController@doPlatformUserRegister');
 Route::post('/platform/user/kit/register', 'ApiController@doPlatformUserKitRegister');
 Route::get('/platform/user/kits', 'ApiController@getPlatformUserKits');
+Route::get('/platform/user/registration/token', 'ApiController@getPlatformUserRegistrationToken');

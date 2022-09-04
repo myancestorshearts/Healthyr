@@ -278,4 +278,34 @@ class ApiController extends BaseController
         return $response->jsonSuccess();
 
     }
+
+    /**purpose
+     *   get a test kit registration token
+     * args
+     *   platform_user_id (required)
+     * returns
+     *   token
+     */
+    public function getPlatformUserRegistrationToken(Request $request) {
+        
+        header('Access-Control-Allow-Origin: *');
+
+        // create response
+        $response = new Response;
+
+        // check inputs
+        if (!$response->hasRequired($request, ['platform_user_id'])) $response->jsonFailure('Missing required fields');
+
+        // check for platform user
+        $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
+        if (!isset($platform_user)) return $response->jsonFailure('No user exists with platform user id', 'INVALID_PLATFORM_USER_ID', 'INVALID_PLATFORM_USER_ID');
+
+        // call the patient api
+        $spot = new Libraries\Spot;
+        $token_response = $spot->getRegistrationToken($platform_user);
+        if ($token_response->isFailure()) return $token_response->jsonFailure();
+
+        // return successful response
+        return $token_response->jsonSuccess();
+    }
 }
