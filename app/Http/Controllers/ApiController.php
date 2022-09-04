@@ -195,6 +195,9 @@ class ApiController extends BaseController
         $platform_user->patient_id = $patient_response->get('patient_id');
         $platform_user->save();
 
+        // set platform user in response
+        $response->set('platform_user', $platform_user);
+
         // return successful response
         return $response->jsonSuccess();
     }
