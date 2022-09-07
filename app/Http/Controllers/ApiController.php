@@ -310,6 +310,7 @@ class ApiController extends BaseController
         // spot kits 
         $spot_kits = [];
         foreach($platform_user_kits as $platform_user_kit) {
+
             // call the patient api
             $spot = new Libraries\Spot;
             $kit_response = $spot->getKit($platform_user_kit->kit_id);
@@ -320,7 +321,7 @@ class ApiController extends BaseController
         $response->set('kits', $spot_kits);
 
         // return successful response
-        return $response->jsonSuccess();
+        return $response->jsonSuccess();    
 
     }
 

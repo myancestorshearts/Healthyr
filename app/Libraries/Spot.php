@@ -96,7 +96,7 @@ class Spot {
 
 		$response = new Response;
 
-		$result = $this->callGet('kits/' . $kit_id . '/');
+		$result = $this->callGet('kits/' . strtoupper($kit_id) . '/');
 
 		if (!isset($result->kit_id)) return $response->setFailure();
 
