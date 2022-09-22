@@ -4,7 +4,7 @@ namespace App\Libraries;
 
 use App\Http\Controllers\Response;
 
-class Spot {
+class JohnHopkins {
     
 	private $endpoint;
 	private $curl;
@@ -17,7 +17,7 @@ class Spot {
 	 *   (none)
 	 */
 	function __construct() {
-		$this->endpoint = 'https://jh-prod-integration-api.azure-api.net/healthyr/';
+		$this->endpoint = 'https://jh-prod-integration-api.azure-api.net/healthyr/api/';
 	}
 
     /**purpose
@@ -35,17 +35,14 @@ class Spot {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 		$headers = [
-			'Content-Type: application/json',
-			'Authorization: Token ' . $this->key
+			'Content-Type: application/x-www-form-urlencoded'
 		];
 
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
-
-		$this->createCurl($api);
 		
 		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query([
             'grant_type' => 'client_credentials',
             'client_id' => '04b55459-7213-4b5e-a77c-328e22d82600',
             'client_secret' => 'IyO8Q~SqOHOfFOh2xHHANmnoRxxfdNY4jyBCFagm',
@@ -55,7 +52,8 @@ class Spot {
 		$server_output = curl_exec($curl);
 
 		$server_decoded = json_decode($server_output);
-
+    
+        return isset($server_decoded->access_token) ? $server_decoded->access_token : '';
 		curl_close($curl);
     }
 
@@ -68,14 +66,16 @@ class Spot {
 	 */
 	private function createCurl($api) {
 
-		$this->curl = curl_init();
+        $token = $this->getAccessToken();
 
+		$this->curl = curl_init();
+        
 		curl_setopt($this->curl, CURLOPT_URL, $this->endpoint . $api);
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
 
 		$headers = [
 			'Content-Type: application/json',
-			'Authorization: Token ' . $this->key
+			'Authorization: Bearer ' . $token
 		];
 
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
@@ -93,6 +93,7 @@ class Spot {
 	 */
 	public function callPost($api, $data = []) {
 
+
 		$this->createCurl($api);
 		
 		curl_setopt($this->curl, CURLOPT_POST, 1);
@@ -101,7 +102,7 @@ class Spot {
 		$server_output = curl_exec($this->curl);
 
 		$server_decoded = json_decode($server_output);
-
+        
 		curl_close($this->curl);
 		return $server_decoded;
 	}
@@ -129,73 +130,12 @@ class Spot {
 		return $server_decoded;
 	}
 
-
-    public function getKit($kit_id) {
-        
-		$response = new Response;
-
-		$result = $this->callGet('kits/' . strtoupper($kit_id) . '/');
-
-		if (!isset($result->kit_id)) return $response->setFailure();
-
-		$response->set('kit', $result);
-
-		return $response->setSuccess();
-		
+    public function register($platform_user) {
+        $this->callPost('members', [
+            'firstName' => $platform_user->first_name,
+            'lastName' => $platform_user->last_name,
+            'email' => $platform_user->email
+        ]);
     }
-
-	public function createPatient($platform_user) {
-
-		$response = new Response;
-
-		$args = [
-			'first_name' => $platform_user->first_name,
-			'last_name' => $platform_user->last_name,
-			'email' => $platform_user->email,
-			'sex' => $platform_user->gender,
-			'date_of_birth' => $platform_user->date_of_birth,
-			'phone' => $platform_user->phone
-		];
-
-		$result = $this->callPost('patient/', $args);
-
-		if (isset($result->error)) {
-			$error_strings = [];
-			foreach($result->error as $key => $value) {
-				$error_strings[] = $key . ': ' . implode('', $value);
-			}
-			$error = implode(' - ', $error_strings);
-
-			return $response->setFailure($error);
-		}
-
-		if (!isset($result->patient_id)) {
-			return $response->setFailure('Patient could not be created - double check infor and try again: ' . json_encode($result));
-		}
-
-		$response->set('patient_id', $result->patient_id);
-
-		return $response->setSuccess();
-	}
-
-	public function getRegistrationToken($platform_user) {
-		
-		$response = new Response;
-
-		$result = $this->callPost('tokens/patient_registration/', ['patient_id' => $platform_user->patient_id]);
-
-		if (isset($result->error)) {
-			return $response->setFailure($result->error);
-		}
-
-		if (!isset($result->token)) {
-			return $response->setFailure('Patient could not be created - double check infor and try again: ' . json_encode($result));
-		}
-
-		$response->set('token', $result->token);
-
-		return $response->setSuccess();
-
-	}
 
 }
