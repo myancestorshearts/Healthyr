@@ -6,7 +6,6 @@ use App\Http\Controllers\Response;
 
 class Spot {
     
-	private $key;
 	private $endpoint;
 	private $curl;
 
@@ -18,12 +17,50 @@ class Spot {
 	 *   (none)
 	 */
 	function __construct() {
-		$this->key = env('SPOT_KEY', '');
-		$this->endpoint = 'https://app.spotdx.com/api/v1/';
+		$this->endpoint = 'https://jh-prod-integration-api.azure-api.net/healthyr/';
 	}
 
+    /**purpose
+     *   get an access token from john hopkins
+     * args
+     *   none
+     * returns
+     *   token
+     */
+    private function getAccessToken() {
+        
+		$curl = curl_init();
+
+		curl_setopt($curl, CURLOPT_URL, 'https://login.microsoftonline.com/605bb507-9dca-402b-b95f-c1d07fca7d57/oauth2/v2.0/token');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+		$headers = [
+			'Content-Type: application/json',
+			'Authorization: Token ' . $this->key
+		];
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+
+		$this->createCurl($api);
+		
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+            'grant_type' => 'client_credentials',
+            'client_id' => '04b55459-7213-4b5e-a77c-328e22d82600',
+            'client_secret' => 'IyO8Q~SqOHOfFOh2xHHANmnoRxxfdNY4jyBCFagm',
+            'scope' => 'api://5dcecda0-5216-440a-bb35-2e83fe51aea6/.default'
+        ])); 
+		
+		$server_output = curl_exec($curl);
+
+		$server_decoded = json_decode($server_output);
+
+		curl_close($curl);
+    }
+
 	/**purpose
-	 *   create curl for Spot call includes access token
+	 *   create curl for john hopkins call includes access token
 	 * args
 	 *   api
 	 * returns 
@@ -44,8 +81,10 @@ class Spot {
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
     }
 
+
+
 	/**purpose
-	 *   call a post for Spot that has auth token
+	 *   call a post for john hopkins that has auth token
 	 * args
 	 *   api
 	 *   data
@@ -69,7 +108,7 @@ class Spot {
 
 	
 	/**purpose
-	 *   call a post for Spot that has auth token
+	 *   call a post for john hopkins that has auth token
 	 * args
 	 *   api
 	 *   data
@@ -102,7 +141,7 @@ class Spot {
 		$response->set('kit', $result);
 
 		return $response->setSuccess();
-
+		
     }
 
 	public function createPatient($platform_user) {
