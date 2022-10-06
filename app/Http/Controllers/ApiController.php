@@ -263,6 +263,15 @@ class ApiController extends BaseController
         $kit_id_validated = Validator::validateText($request->get('kit_id'), ['clearable' => false]);
         if (!isset($kit_id_validated)) return $response->jsonFailure('Invalid platform user id');
 
+        // check to see if kit is registered to someone else then do not allow
+        //    I Feel like this will have to be removed one day - Its a check Logan requested
+        $existing_user_kit = Models\PlatformUserKit::where([
+            ['kit_id', '=', $kit_id_validated],
+            ['active', '=', 1],
+            ['platform_user_id', '!=', $platform_user_id_validated]
+        ])->limit(1)->get()->first();
+        if (isset($existing_user_kit)) return $response->jsonFailure('Kit already registered to someone else');
+
         // check to see if kit already exists for platform user
         $platform_user_kit = Models\PlatformUserKit::where([
             ['platform_user_id', '=', $platform_user_id_validated],
@@ -272,40 +281,26 @@ class ApiController extends BaseController
         // if platform user kit does not exist then create it 
         if (!isset($platform_user_kit)) {
 
-
-
-            if (in_array($kit_id_validated, [
-                'SPOT1512HC',
-                'SPOT5OYIHC',
-                'SPOTSVMMHC',
-                'SPOTK154HC',
-                'SPOTO0YTHC'
-            ])) {
-                $john_hopkins = new Libraries\JohnHopkins;
-                $john_hopkins->register($platform_user);
-            }
-
-            /*
             // check test kit
             $spot = new Libraries\Spot;
             $validated_kit_response = $spot->getKit($kit_id_validated);
             if (!$validated_kit_response->has('kit')) return $response->jsonFailure('Invalid kit id. Please double check and try again.');
+            
             // check type
-
             $validated_kit = $validated_kit_response->get('kit');
             $contains_diabetes = false;
             if (isset($validated_kit->panels)) {
                 foreach($validated_kit->panels as $panel) {
-                    if ($panel == 'diabetes_panel') $contains_diabetes = true;
+                    if ($panel == Models\PlatformUserKit::PANEL_DIABETES) $contains_diabetes = true;
                 }
             }
 
+            // if kit contains diabetes panel then we need to call john hopkins. 
             if ($contains_diabetes) {
-                // call john hopkins
                 $john_hopkins = new Libraries\JohnHopkins;
                 $john_hopkins->register($platform_user);
             }
-*/
+
             $platform_user_kit = new Models\PlatformUserKit;
             $platform_user_kit->platform_user_id = $platform_user_id_validated;
             $platform_user_kit->kit_id = $kit_id_validated;
