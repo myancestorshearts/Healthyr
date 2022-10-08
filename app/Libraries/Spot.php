@@ -19,7 +19,7 @@ class Spot {
 	 */
 	function __construct() {
 		$this->key = env('SPOT_KEY', '');
-		$this->endpoint = 'https://app.spotdx.com/api/v1/';
+		$this->endpoint = 'https://mytest.behealthyr.com/api/v1/';
 	}
 
 	/**purpose
