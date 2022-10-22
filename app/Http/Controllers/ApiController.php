@@ -361,7 +361,7 @@ class ApiController extends BaseController
                             if (isset($analyte)) $result->description = $analyte->description;
                             else $result->descrription = 'This is the description';
 
-                            $result->affect = 'This is the affect';
+                            $result->effect = 'This is the affect';
 
                             $result->report_min = 0;
                             $result->low_min = 10;
