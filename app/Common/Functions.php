@@ -2,6 +2,9 @@
 
 namespace App\Common;
 
+use DB;
+use Config;
+
 class Functions {
 
 	public static function startsWith($haystack, $needle)
@@ -126,6 +129,35 @@ class Functions {
 		return $csv_models;
 	}
 
+
+	/**purpose
+	 *   set the credentials of the database (mainly used for artisan commands where the database doesn't exist in the env variables)
+	 * args
+	 *   host - host of database
+	 *   port - port of database
+	 *   database - database name
+	 *   user - user for the database
+	 *   password - password for the user for the database
+	 */
+	public static function setMysqlDatabaseConfig($host, $port, $database, $user, $password)
+	{
+		DB::disconnect('mysql');
+		DB::purge('mysql');
+		Config::set("database.connections.mysql", [
+			"host" => $host,
+			"port" => $port,
+			"database" => $database,
+			"username" => $user,
+			"password" => $password,
+			'driver' => 'mysql',
+			'charset' => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix' => '',
+			'strict' => false,
+			'engine' => null,
+		]);
+		DB::reconnect('mysql');
+	}
 }
 
 ?>
