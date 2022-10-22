@@ -37,7 +37,6 @@ class ApiController extends BaseController
 
             if (!isset($tests_by_email[$email_link->email])) $tests_by_email[$email_link->email] = [];
 
-
             // call spots api to get test results by email
 
         }
@@ -350,7 +349,32 @@ class ApiController extends BaseController
             // call the patient api
             $spot = new Libraries\Spot;
             $kit_response = $spot->getKit($platform_user_kit->kit_id);
-            if ($kit_response->isSuccess()) $spot_kits[] = $kit_response->get('kit');
+            if ($kit_response->isSuccess()) {
+
+                $spot_kit = $kit_response->get('kit');
+
+                
+                foreach ($spot_kit->samples as $sample) {
+                    if ($sample->status == 'resulted') {
+                        foreach($sample->report->results as $result) {
+                            $analyte = Models\Analyte::where('key', '=', $result->name)->limit(1)->get()->first();
+                            if (isset($analyte)) $result->description = $analyte->description;
+                            else $result->descrription = 'This is the description';
+
+                            $result->affect = 'This is the affect';
+
+                            $result->report_min = 0;
+                            $result->low_min = 10;
+                            $result->healthy_min = 25;
+                            $result->healthy_max = 50;
+                            $result->high_max = 60;
+                            $result->report_max = 90;
+                        }
+                    }
+                }
+
+                $spot_kits[] = $spot_kit;
+            }
         }
 
         // set kits

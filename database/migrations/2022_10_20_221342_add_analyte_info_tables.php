@@ -21,7 +21,6 @@ return new class extends Migration
             $table->id();
             $table->string('key')->index();
             $table->string('name')->index();
-            $table->boolean('active')->index();
             $table->timestamps();
         });
 
@@ -38,8 +37,7 @@ return new class extends Migration
         Schema::create('test_analytes', function (Blueprint $table) {
             $table->id();
             $table->integer('test_id')->index();
-            $table->integer('analytes_id')->index();
-            $table->boolean('active')->index();
+            $table->integer('analyte_id')->index();
             $table->timestamps();
         });
 
