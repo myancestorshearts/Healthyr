@@ -342,6 +342,9 @@ class ApiController extends BaseController
         ])->get();
 
 
+        $filter_age = 250;
+        $filter_gender = $platform_user->id;
+
         // spot kits 
         $spot_kits = [];
         foreach($platform_user_kits as $platform_user_kit) {
@@ -358,10 +361,12 @@ class ApiController extends BaseController
                     if ($sample->status == 'resulted') {
                         foreach($sample->report->results as $result) {
                             $analyte = Models\Analyte::where('key', '=', $result->name)->limit(1)->get()->first();
-                            if (isset($analyte)) $result->description = $analyte->description;
-                            else $result->descrription = 'This is the description';
 
-                            $result->effect = 'This is the affect';
+
+                            
+                            $result->description = 'No Description. Contact Support';
+
+                            $result->effect = 'No Effect. Contact Support';
 
                             $result->report_min = 0;
                             $result->low_min = 10;
@@ -369,6 +374,35 @@ class ApiController extends BaseController
                             $result->healthy_max = 50;
                             $result->high_max = 60;
                             $result->report_max = 90;
+
+
+                            if (isset($analyte)) {
+                                $result->description = $analyte->description;
+                                
+                                $analyte_range = Models\AnalyteRange::where([
+                                    ['analyte_id', '=', $analyte->id],
+                                    ['gender', '=', $filter_gender],
+                                    ['age_min_months', '<', $filter_age],
+                                    ['pregnant', '=', 0]
+                                ])->whereRaw('(age_max_months > ' . $filter_age . ' OR age_max_months IS NULL)')->limit(1)->get()->first();
+
+                                if (isset($analyte_range)) {
+                                    $result->report_min = $analyte_range->report_min;
+                                    $result->low_min = $analyte_range->low_min;
+                                    $result->healthy_min = $analyte_range->healthy_min;
+                                    $result->healthy_max = $analyte_range->healthy_max;
+                                    $result->high_max = $analyte_range->high_max;
+                                    $result->report_max = $analyte_range->report_max;
+
+                                    $analyte_range_effect = Models\AnalyteRangeEffect::where([
+                                        ['analyte_range_id', '=', $analyte_range->id],
+                                        ['min', '<=', $result->result]
+                                    ])->whereRaw('(max > '. $result->result . ' OR max IS NULL)')->limit(1)->get()->first();
+                                    if (isset($analyte_range_effect)) {
+                                        $result->effect = $analyte_range_effect->effect;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
