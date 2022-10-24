@@ -394,7 +394,6 @@ class ApiController extends BaseController
                                     $result->high_max = $analyte_range->high_max;
                                     $result->report_max = $analyte_range->report_max;
 
-
                                     $result_filtered = preg_replace('/\D/', '', $result->result);
 
                                     $analyte_range_effect = Models\AnalyteRangeEffect::where([
