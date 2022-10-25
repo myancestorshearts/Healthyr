@@ -386,6 +386,8 @@ class ApiController extends BaseController
                                     ['pregnant', '=', 0]
                                 ])->whereRaw('(age_max_months > ' . $filter_age . ' OR age_max_months IS NULL)')->limit(1)->get()->first();
                               
+                               
+
                                 if (isset($analyte_range)) {
                                     $result->report_min = $analyte_range->report_min;
                                     $result->low_min = $analyte_range->low_min;
@@ -394,7 +396,7 @@ class ApiController extends BaseController
                                     $result->high_max = $analyte_range->high_max;
                                     $result->report_max = $analyte_range->report_max;
 
-                                    $result_filtered = preg_replace('/\D/', '', $result->result);
+                                    $result_filtered = str_replace('<', '', str_replace('>', '', $result->result));
 
                                     $analyte_range_effect = Models\AnalyteRangeEffect::where([
                                         ['analyte_range_id', '=', $analyte_range->id],
