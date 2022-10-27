@@ -405,10 +405,8 @@ class ApiController extends BaseController
                                     ])->whereRaw('(max > '. $result_filtered . ' OR max IS NULL)')->limit(1)->get()->first();
                                     if (isset($analyte_range_effect)) {
                                         $result->effect = $analyte_range_effect->effect;
+                                        $filtered_results[] = $result;
                                     }
-                                    
-
-                                    $filtered_results[] = $result;
                                 }
                             }
                         }
