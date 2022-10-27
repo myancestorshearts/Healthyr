@@ -359,6 +359,7 @@ class ApiController extends BaseController
                 
                 foreach ($spot_kit->samples as $sample) {
                     if ($sample->status == 'resulted') {
+                        $filtered_results = [];
                         foreach($sample->report->results as $result) {
                             $analyte = Models\Analyte::where('key', '=', $result->name)->limit(1)->get()->first();
 
@@ -405,9 +406,13 @@ class ApiController extends BaseController
                                     if (isset($analyte_range_effect)) {
                                         $result->effect = $analyte_range_effect->effect;
                                     }
+                                    
+
+                                    $filtered_results[] = $result;
                                 }
                             }
                         }
+                        $sample->report->results = $filtered_results;
                     }
                 }
 

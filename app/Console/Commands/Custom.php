@@ -162,7 +162,13 @@ class Custom extends Command
                         'min' => 0,
                         'max' => $analyte_range->low_min,
                     ];
-                    if (isset($analyte_range->healthy_min)) $ranges_effects[] = [
+                    if (isset($analyte_range->healthy_min) && !isset($analyte_range->low_min)) $ranges_effects[] = [
+                        'description' => $panel['low response'],
+                        'min' => 0,
+                        'max' => $analyte_range->healthy_min,
+                    ];
+
+                    if (isset($analyte_range->healthy_min) && isset($analyte_range->low_min)) $ranges_effects[] = [
                         'description' => $panel['low normal response'],
                         'min' => isset($analyte_range->low_min) ? $analyte_range->low_min : 0,
                         'max' => $analyte_range->healthy_min
@@ -172,11 +178,18 @@ class Custom extends Command
                         'min' => isset($analyte_range->healthy_min) ? $analyte_range->healthy_min : 0,
                         'max' => isset($analyte_range->healthy_max) ? $analyte_range->healthy_max : null
                     ];
-                    if (isset($analyte_range->healthy_max)) $ranges_effects[] = [
+                    if (isset($analyte_range->healthy_max) && isset($analyte_range->high_max)) $ranges_effects[] = [
                         'description' => $panel['high normal response'],
                         'min' => $analyte_range->healthy_max,
                         'max' => isset($analyte_range->high_max) ? $analyte_range->high_max : null
                     ];
+
+                    if (isset($analyte_range->healthy_max) && !isset($analyte_range->high_max))  $ranges_effects[] = [
+                        'description' => $panel['high response'],
+                        'min' => $analyte_range->healthy_max,
+                        'max' => null
+                    ];
+                    
                     if (isset($analyte_range->high_max)) $ranges_effects[] = [
                         'description' => $panel['high response'],
                         'min' => $analyte_range->high_max,
