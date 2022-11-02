@@ -29,3 +29,13 @@ Route::post('/platform/user/register', 'ApiController@doPlatformUserRegister'); 
 Route::post('/platform/user/kit/register', 'ApiController@doPlatformUserKitRegister'); // completed
 Route::get('/platform/user/kits', 'ApiController@getPlatformUserKits'); // completed
 Route::get('/platform/user/registration/token', 'ApiController@getPlatformUserRegistrationToken'); // completed
+
+// authentication for everything else
+Route::post('login', 'Controller@doLogin');
+Route::post('register', 'Controller@doRegister');
+Route::post('verify/email', 'Controller@doVerifyEmail');
+Route::post('password/request', 'Controller@doPasswordRequest');
+Route::post('password/set', 'Controller@doPasswordSet');
+
+
+

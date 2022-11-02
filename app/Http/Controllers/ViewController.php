@@ -28,4 +28,28 @@ class ViewController extends Controller {
 		return $response->jsonSuccess();
 	}
 
+    /**purpose
+     *   shows view to authentiate (register, login, verify email, reset password)
+     * args
+     *   (none)
+     * returns
+     *   authenticate view
+     */
+    public function showAuthentication() {
+        //if (Auth::check()) return Redirect::to('/portal');
+        return view('authentication');
+    }
+
+    /**purpose 
+     *   shows user portal view (customer interacts with site)
+     * args
+     *   (none)
+     * returns
+     *   user portal view
+     */
+    public function showAdmin() {
+        //if (!Auth::check()) return Redirect::to('/');
+        return view('admin');
+    }
+
 }
