@@ -1,10 +1,9 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import Portal from '../../common/portal/index'
-
 import ContentDashboard from './content/dashboard'
-import ContentOrders from './content/orders'
-import ContentShipments from './content/shipments'
+import ContentTests from './content/tests'
+import ContentAnalytes from './content/analytes'
 import ContentSettings from './content/settings'
 
 const MENUS = [
@@ -16,19 +15,19 @@ const MENUS = [
     default: true,
   },
   {
-    title: 'Test',
-    icon: 'fa fa-tags',
-    component: ContentOrders,
-    link: '/orders',
+    title: 'Tests',
+    icon: 'fa fa-flask',
+    component: ContentTests,
+    link: '/tests',
   },
   {
-    title: 'Test',
-    icon: 'fa fa-truck',
-    component: ContentShipments,
-    link: '/shipments',
+    title: 'Analytes',
+    icon: 'fa fa-thermometer-full',
+    component: ContentAnalytes,
+    link: '/analytes',
   },
   {
-    title: 'Test',
+    title: 'Settings',
     icon: 'fa fa-gears',
     component: ContentSettings,
     link: '/settings',
@@ -37,7 +36,7 @@ const MENUS = [
 
 class App extends React.Component {
   render() {
-    return <Portal prefix="/brand" menus={MENUS} />
+    return <Portal prefix="/admin" menus={MENUS} />
   }
 }
 
