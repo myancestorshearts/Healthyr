@@ -407,6 +407,15 @@ class ApiController extends BaseController
                                         $result->effect = $analyte_range_effect->effect;
                                         $filtered_results[] = $result;
                                     }
+
+                                    // set healthy, warning, unhealthy
+                                    $result->range_placement = 'healthy';
+                                    if (isset($result->healthy_min) && $result_filtered < $result->healthy_min) {
+                                        $result->range_placement = (!isset($result->low_min) || $result_filtered < $result->low_min) ? 'unhealthy' : 'warning';
+                                    }
+                                    if (isset($result->healthy_max) && $result_filtered > $result->healthy_max) {
+                                        $result->range_placement = (!isset($result->high_max) || $result_filtered > $result->high_max) ? 'unhealthy' : 'warning';
+                                    }
                                 }
                             }
                         }
