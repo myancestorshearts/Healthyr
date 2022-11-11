@@ -62,12 +62,12 @@ const STYLES = {
         alignItems: 'center'
     },
     containerActive: {
-        backgroundColor: Brand.getBackgroundColor(),
-        color: Brand.getActiveColor()
+        backgroundColor: Brand.getActiveColor(),
+        color: 'white'
     },
     title: {
         textDecoration: 'none',
-        color: '#555'
+        color: 'white'
     },
     icon: {
         padding: '20px',

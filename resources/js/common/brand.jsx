@@ -1,8 +1,8 @@
 export default class Brand {
   static primaryColor = '#20145e'
   static secondaryColor = '#20145e'
-  static backgroundColor = '#f5f5f5'
-  static backgroundLightColor = '#86d1e6'
+  static backgroundColor = '#f5f8fa'
+  static backgroundLightColor = '#f5f8fa'
   static activeColor = '#20145e'
   static logoDarkUrl = '/global/assets/images/branding/logo.avif'
   static logoLightUrl = '/global/assets/images/branding/logo.avif'

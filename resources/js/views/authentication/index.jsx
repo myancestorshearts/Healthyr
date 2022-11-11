@@ -69,7 +69,7 @@ const STYLES = {
     backgroundColor: CommonBrand.getBackgroundColor(),
     borderRadius: '20px',
     opacity: '95.5%',
-    boxShadow: 'rgb(231 228 233) 2px 2px 5px;',
+    boxShadow: 'rgb(180 204 222 / 20%) 5px 5px 10px',
   },
   logo: {
     maxHeight: '100px',

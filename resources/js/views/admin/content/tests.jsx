@@ -51,11 +51,7 @@ export default class Orders extends React.Component {
       drawerOpen: false,
     }
 
-    drawerToggleClickHandler = () => {
-      this.setState({
-        drawerOpen: !this.state.drawerOpen,
-      })
-    }
+    
   }
   render() {
     return (
