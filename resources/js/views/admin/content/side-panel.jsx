@@ -9,11 +9,8 @@ export default class SidePanel extends React.Component {
           <i className='fa fa-times' style={STYLES.icon}/>
           <span style={STYLES.spantitle}>Test Analysis</span>
         </div>
-        <div>
-          Comment
-          <textarea
-           style={STYLES.text}
-          />
+        <div style={STYLES.contentContainer}>
+          {this.props.children}
         </div>
          
         
@@ -34,13 +31,13 @@ const STYLES = {
     color: Brand.getActiveColor(),
     minWidth: '500px',
     border: 'none',
-    borderBottom: '1px solid #20145e',
+    //borderBottom: '1px solid #20145e',
     boxShadow: 'none',
-    fontSize: '18px'
+    fontSize: '40px'
   },
   spantitle: {
      padding: '15px',
-     fontSize: '18px',
+     fontSize: '40px',
      fontFamily: 'poppins'
   },
   text: {
@@ -53,6 +50,9 @@ const STYLES = {
     width: '200px',
     height: '100px',
     position: 'fixed'
+  },
+  contentContainer: {
+    padding: '20px'
   }
   
 }

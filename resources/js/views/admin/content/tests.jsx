@@ -172,7 +172,7 @@ export default class Orders extends React.Component {
             headerIcon="fa fa-tags"
           />
         ) : null}
-        <SidePanel show={this.state.drawerOpen} />
+        <SidePanel show={this.state.drawerOpen}> Comment </SidePanel>
       </FlexContainer>
     )
   }
