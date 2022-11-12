@@ -8,7 +8,7 @@ import PortalPanelTotal from '../../../common/portal/panel/total'
 import PortalTitle from '../../../common/portal/title'
 
 import PortalPanelTable from '../../../common/portal/panel/table'
-import SidePanel from './side-panel'
+import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
 
 const FILTER_TIME_FRAME = [
@@ -51,13 +51,25 @@ export default class Orders extends React.Component {
       drawerOpen: false,
     }
 
-    
+    this.handleSelectModel.bind(this)
   }
+
+  handleSelectModel(x) { 
+    SidePanel.pushStart('First Slideout', 
+    <React.Fragment>
+      <div onClick={() => {
+        SidePanel.pushStart('Second Slideout', 
+        <React.Fragment>
+          This is a second slide out
+        </React.Fragment>, 1)
+      }}>{x.name} - {x.value} - {x.id}</div>
+    </React.Fragment>)
+  }
+
   render() {
     return (
       <FlexContainer gap="20px">
         <PortalTitle title="Tests" />
-
         <FlexContainer gap="10px">
           <i
             style={{
@@ -105,6 +117,7 @@ export default class Orders extends React.Component {
         ) : null}
         {this.state.view == VIEW_TABLE ? (
           <PortalPanelTable
+            onSelectModel={this.handleSelectModel}
             ref={(e) => (this.table = e)}
             properties={{
               name: {
@@ -172,7 +185,6 @@ export default class Orders extends React.Component {
             headerIcon="fa fa-tags"
           />
         ) : null}
-        <SidePanel show={this.state.drawerOpen}> Comment </SidePanel>
       </FlexContainer>
     )
   }
