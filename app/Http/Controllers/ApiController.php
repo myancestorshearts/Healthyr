@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Common\Functions;
 use App\Common\Validator;
+use App\Common\Response;
 
 use App\Models;
 
@@ -14,6 +15,228 @@ use App\Libraries;
 
 class ApiController extends BaseController
 {
+
+
+	/**purpose
+	 *   register a user
+	 * args
+	 *   user_id (optional) (only exists if user is installing app from store)
+	 *   first_name (required)
+	 *   last_name (required)
+	 *   email (required)
+	 *   password (required)
+	 *   company (optional)
+	 *   phone (required)
+	 *   code (optional)
+ 	 * returns
+	 *   user
+	 */
+	public function doRegister(Request $request) {
+
+        // create response
+        $response = new Response;
+
+        // validate requests has all required arguments
+        if (!$response->hasRequired($request, ['name', 'email', 'phone', 'password'])) return $response->jsonFailure('Missing required fields');
+
+        // validate various fields to make sure they are valid
+        $validated_name = Validator::validateText($request->get('name'), ['trim' => true]);
+        if (!isset($validated_name)) return $response->jsonFailure('Invalid name', 'INVALID_ARGS');
+
+        $validated_company = Validator::validateText($request->get('company', ''), ['trim' => true, 'clearable' => true]);
+        if (!isset($validated_company)) return $response->jsonFailure('Invalid company name', 'INVALID_ARGS');
+        
+        $validated_email = Validator::validateEmail($request->get('email', ''));
+        if (!isset($validated_email)) return $response->jsonFailure('Invalid email', 'INVALID_ARGS');
+        
+        $validated_phone = Validator::validatePhone($request->get('phone', ''));
+        if (!isset($validated_phone)) return $response->jsonFailure('Invalid phone', 'INVALID_ARGS');
+
+		// check to see if user exists with email already
+		if (Mysql\User::where('email', '=', $validated_email)->count() > 0) return $response->jsonFailure('User already exists with email', 'DUPLICATE_USER');
+
+        // create initial user and set defaults
+		$user = new Mysql\User;
+
+		// set credentials
+		$user->name = $validated_name;
+		$user->company = $validated_company;
+		$user->email = $validated_email;
+		$user->phone = $validated_phone;
+		$user->verified = 0;
+		$user->admin = 0;
+		$user->active = 1;
+		
+		// set password
+		if (!$user->setPassword($request->get('password'))) return $response->jsonFailure('Password does not meet requirements. Password must be at least 8 characters long', 'PASSWORD_FAILED_REQUIREMENTS');
+
+		// save the user
+		$user->save();
+		
+		// send email 
+		$user->sendVerificationEmail();
+
+		// send admin new user
+		$user->sendAdminNewUser();
+
+		// set user in response
+		$response->set('user', $user);
+    
+		// return response
+        return $response->jsonSuccess();
+	}
+
+	/**purpose
+	 *   login user and get tokens
+	 * args
+	 *   email (required)
+	 *   password (required)
+	 * returns
+	 *   user
+	 *   token 
+	 */
+	public function doLogin(Request $request) {
+        
+        // create response
+		$response = new Response;
+
+        // check for arguments
+		if (!$response->hasRequired($request, ['email', 'password'])) return $response->jsonFailure('Missing required fields');
+
+		// validate email
+        $validated_email = Validator::validateEmail($request->get('email', ''));
+        if (!isset($validated_email)) return $response->jsonFailure('Invalid email', 'INVALID_ARGS');
+
+        // get user by email
+        $user = Mysql\User::where('email', '=', $validated_email)->limit(1)->get()->first();
+		if (!isset($user)) return $response->jsonFailure('Invalid credentials');
+
+		// check password
+		if (!$user->checkPassword($request->get('password'))) return $response->jsonFailure('Invalid credentials');
+
+		// check to make sure email is verified
+		if (!Validator::validateBoolean($user->verified)) return $response->jsonFailure('Email is not verified - Must verify before you can log in');
+
+		// check to make sure email is verified
+		if (!Validator::validateBoolean($user->active)) return $response->jsonFailure('Invalid credentials');
+
+		// create access token
+		$tokens = $user->generateTokens();
+
+		// set response
+		$response->set('tokens', $tokens);
+		$response->set('user', $user);
+
+        // return successful response
+		return $response->jsonSuccess();
+	}
+	
+	/**purpose 
+	 *   verify email
+	 * args
+	 *   key (required)
+	 * returns
+	 *   result
+	 */
+	public function doVerifyEmail(Request $request)
+	{
+		// create response
+		$response = new Response;
+
+		// verify has required arguments
+		if (!$response->hasRequired($request, ['key'])) return $response->jsonFailure('Missing required fields');
+
+		// decrypt key 
+		$email = decrypt($request->get('key'));
+		
+		// get user
+		$user = Mysql\User::where('email', '=', $email)->limit(1)->get()->first();
+		if (!isset($user)) return $response->jsonFailure('User not found');
+
+		// set email is verified
+		$user->verified = true;
+
+		// save user
+		$user->save();
+
+		// return successful repsonse
+		return $response->jsonSuccess();
+	}
+
+	
+	/**purpose
+	 *   request a forgotton password
+	 * args
+	 *   email (required)
+	 * returns
+	 *   result
+	 */
+	public function doPasswordRequest(Request $request) {
+		// create response
+		$response = new Response;
+
+		// check to make sure required fields are set
+		if (!$response->hasRequired($request, ['email'])) return $response->jsonFailure('Missing required fields');
+
+		// validate email
+        $validated_email = Validator::validateEmail($request->get('email', ''));
+        if (!isset($validated_email)) return $response->jsonFailure('Invalid email', 'INVALID_ARGS');
+
+		// check to make sure account exists
+		$user = Mysql\User::where('email', '=', $validated_email)->limit(1)->get()->first();
+		if (!isset($user)) return $response->jsonFailure('No user found associated with email.');
+
+		// send reset request
+		$user->sendPasswordRequest();
+		
+		// return successful repsonse
+		return $response->jsonSuccess();
+	}
+
+	/**purpose
+	 *   set password
+	 * args
+	 *   key (required)
+	 *   password (required)
+	 * returns
+	 *   (none)
+	 */
+	public function doPasswordSet(Request $request) {
+
+		// create response
+		$response = new Response;
+
+		// check key 
+		if (!$response->hasRequired($request, ['key', 'password'])) return $response->jsonFailure('Missing required fields');
+
+		// decrypted key
+		$decrypted_key = decrypt($request->get('key'));
+
+		// get email and expire
+		$decrypted_parts = explode('#', $decrypted_key);
+		if (count($decrypted_parts) != 2) return $rseponse->jsonFailure('Invalid key');
+		$email = $decrypted_parts[0];
+		$time = $decrypted_parts[1];
+
+		// check time 
+		if ($time < time()) return $response->jsonFailure('Password reset expired.  Please request another password reset');
+
+		// get user from email
+		$user = Mysql\User::where('email', '=', $email)->limit(1)->get()->first();
+		$user->verified = 1;
+		if (!isset($user)) return $response->jsonFailure('Invalid key');
+
+		// check password that it meets requirements
+		$password_result = $user->setPassword($request->get('password'));
+		if (!$password_result) return $response->jsonFailure('Password did not meet requirements');
+
+		// save user
+		$user->save();
+
+		// return successful repsonse
+		return $response->jsonSuccess();
+	}
+
 
     /**purpose
      *   get test results based on id that has verified emails
