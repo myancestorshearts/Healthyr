@@ -1,5 +1,4 @@
 import React from 'react';
-import CommonApiAuth from '../../../common/api/auth';
 import Text from '../../../common/inputs/text';
 import Button from '../../../common/inputs/button';
 import toastr from 'toastr';
@@ -24,12 +23,8 @@ export default class Set extends React.Component {
         }
         let queryParams = Functions.getQueryParams();
         let args = { ...this.state, key: queryParams.key }
-        CommonApiAuth.Authenticate.passwordSet(args, success => {
-            toastr.success('Set password successfully');
-            this.props.history.push('/')
-        }, failure => {
-            toastr.error(failure.message);
-        })
+
+        // this is where we will need the password set
     }
 
     render() {

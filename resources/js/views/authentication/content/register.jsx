@@ -1,8 +1,6 @@
 import React from 'react';
-import CommonApiAuth from '../../../common/api/auth';
 import Text from '../../../common/inputs/text';
 import Button from '../../../common/inputs/button';
-import toastr from 'toastr';
 import Functions from '../../../common/functions';
 import CommonBrand from '../../../common/brand';
 
@@ -31,11 +29,7 @@ export default class Register extends React.Component {
         let queryParams = Functions.getQueryParams();
         let args = { ...this.state, code: queryParams.code, user_id: queryParams.user_id }
 
-        CommonApiAuth.Authenticate.register(args, success => {
-            this.props.history.push('/thank-you');
-        }, failure => {
-            toastr.error(failure.message);
-        })
+        // this is where we will need the register
     }
 
     render() {

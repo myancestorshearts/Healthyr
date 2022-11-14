@@ -10,6 +10,7 @@ use App\Common\Validator;
 use App\Common\Response;
 
 use App\Models;
+use App\Models\Mysql;
 
 use App\Libraries;
 
@@ -74,10 +75,10 @@ class ApiController extends BaseController
 		$user->save();
 		
 		// send email 
-		$user->sendVerificationEmail();
+		//$user->sendVerificationEmail();
 
 		// send admin new user
-		$user->sendAdminNewUser();
+		//$user->sendAdminNewUser();
 
 		// set user in response
 		$response->set('user', $user);

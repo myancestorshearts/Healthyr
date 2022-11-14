@@ -31,11 +31,11 @@ Route::get('/platform/user/kits', 'ApiController@getPlatformUserKits'); // compl
 Route::get('/platform/user/registration/token', 'ApiController@getPlatformUserRegistrationToken'); // completed
 
 // authentication for everything else
-Route::post('login', 'Controller@doLogin');
-Route::post('register', 'Controller@doRegister');
-Route::post('verify/email', 'Controller@doVerifyEmail');
-Route::post('password/request', 'Controller@doPasswordRequest');
-Route::post('password/set', 'Controller@doPasswordSet');
+Route::post('login', 'ApiController@doLogin');
+Route::post('register', 'ApiController@doRegister');
+Route::post('verify/email', 'ApiController@doVerifyEmail');
+Route::post('password/request', 'ApiController@doPasswordRequest');
+Route::post('password/set', 'ApiController@doPasswordSet');
 
 
 

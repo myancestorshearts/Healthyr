@@ -16,8 +16,8 @@ class Authenticate {
     static login(parameters, successCallback, failureCallback) {
         WebClient.basicPost(parameters, '/api/login', (success) => {
             // set local storage to pull user
-            Storage.set('postpo-tokens', success.data.tokens);
-            Storage.set('postpo-user', success.data.user);
+            Storage.set('healthyr-tokens', success.data.tokens);
+            Storage.set('healthyr-user', success.data.user);
 
             // call success callback
             if (successCallback) successCallback(success);
@@ -32,9 +32,9 @@ class Authenticate {
      *   (none)
      */
     static logout() {
-        Storage.remove('postpo-tokens');
-        Storage.remove('postpo-loginasuser-tokens');
-        Storage.remove('postpo-user');
+        Storage.remove('healthyr-tokens');
+        Storage.remove('healthyr-loginasuser-tokens');
+        Storage.remove('healthyr-user');
     }
 
     /**purpose
@@ -89,6 +89,6 @@ class Authenticate {
     }
 }
 
-export default class ApiAuth {
+export default class Auth {
     static Authenticate = Authenticate;
 }

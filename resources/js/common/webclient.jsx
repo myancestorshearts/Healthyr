@@ -32,8 +32,8 @@ export default class WebClient {
             url = callUrl + "?" + new URLSearchParams(parameters);
         }
 
-        let tokens = Storage.get('postpo-tokens');
-        if (Storage.has('postpo-loginasuser-tokens')) tokens = Storage.get('postpo-loginasuser-tokens');
+        let tokens = Storage.get('healthyr-tokens');
+        if (Storage.has('healthyr-loginasuser-tokens')) tokens = Storage.get('healthyr-loginasuser-tokens');
         if (tokens) {
             args.headers.Authorization = 'Bearer ' + tokens.access.token;
         }

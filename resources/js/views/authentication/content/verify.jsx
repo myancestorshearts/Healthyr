@@ -1,5 +1,4 @@
 import React from 'react';
-import CommonApiAuth from '../../../common/api/auth';
 import Button from '../../../common/inputs/button';
 import Functions from '../../../common/functions';
 import CommonBrand from '../../../common/brand';
@@ -19,11 +18,8 @@ export default class Verify extends React.Component {
     componentDidMount() {
         let queryParams = Functions.getQueryParams();
         let args = { ...this.state, key: queryParams.key }
-        CommonApiAuth.Authenticate.verifyEmail(args, success => {
-            this.setState({ verified: true })
-        }, failure => {
-            this.setState({ errorMessage: failure.message + ' - Email failed to validate. Please contact support.' })
-        })
+     
+        // this is where we will want the verify email request
     }
 
     handleProceedToLogin(e) {

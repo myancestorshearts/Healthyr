@@ -9,7 +9,6 @@ import Forgot from './content/forgot'
 import Set from './content/set'
 import Verify from './content/verify'
 import ThankYou from './content/thank-you'
-import ShopifySet from './content/shopify-set'
 
 import ComponentFlexContainer from '../../common/components/flex-container'
 import ComponentResponsive from '../../common/components/responsive'
@@ -44,7 +43,6 @@ export default class LoginView extends React.Component {
                 <Route path="/set" component={Set} />
                 <Route path="/verify" component={Verify} />
                 <Route path="/thank-you" component={ThankYou} />
-                <Route path="/shopify-set" component={ShopifySet} />
               </Switch>
             </div>
           </ComponentFlexContainer>
