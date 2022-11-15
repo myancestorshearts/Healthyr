@@ -89,7 +89,7 @@ class SidePanelComponent extends React.Component {
       <div style={containerStyles}>
         <div style={subContainer}>
           <div style={STYLES.iconFilter}>
-            <i className='fa fa-times' style={STYLES.icon} onClick={this.handleClose}/>
+            <i className='fa fa-angle-right' style={STYLES.icon} onClick={this.handleClose}/>
             <span style={STYLES.spantitle}>{this.props.title}</span>
           </div>
           <div style={STYLES.contentContainer}>
@@ -112,13 +112,13 @@ const STYLES = {
     right: '0px',
     background: '#FFFFFF',
     transition: '.3s', 
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    boxShadow: '5px 5px 10px 2px rgba(0,0,0,.8)'
   },
   iconFilter: {
     padding: '15px',
     color: Brand.getActiveColor(),
     border: 'none',
-    //borderBottom: '1px solid #20145e',
     boxShadow: 'none',
     fontSize: '40px'
   },
