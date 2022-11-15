@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom'
 import CommonBrand from '../../../common/brand'
 
 import CommonFunctions from '../../../common/functions'
+import ApiAuth from '../../../common/api/auth'
+import toastr from 'toastr'
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -20,9 +22,14 @@ export default class Login extends React.Component {
   }
 
   handleLogin(e) {
-    e.preventDefault()
+    e.preventDefault();
+     
+    ApiAuth.Authenticate.login({email: this.state.email, password: this.state.password}, success => {
+      window.location = '/admin';
+    }, failure => {
+      toastr.error(failure.message)
+    })
 
-    // this is where we need the login function
 
   }
 
