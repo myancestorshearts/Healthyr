@@ -3,6 +3,8 @@ import Text from '../../../common/inputs/text';
 import Button from '../../../common/inputs/button';
 import Functions from '../../../common/functions';
 import CommonBrand from '../../../common/brand';
+import ApiAuth from '../../../common/api/auth';
+import toastr from  'toastr';
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -30,6 +32,11 @@ export default class Register extends React.Component {
         let args = { ...this.state, code: queryParams.code, user_id: queryParams.user_id }
 
         // this is where we will need the register
+        ApiAuth.Authenticate.register(args, () => {
+            this.props.history.push('/thank-you');
+        }, failure => {
+            toastr.error(failure.message);
+        })
     }
 
     render() {
