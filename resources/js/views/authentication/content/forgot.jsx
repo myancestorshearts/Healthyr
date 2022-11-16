@@ -3,7 +3,7 @@ import Text from '../../../common/inputs/text';
 import Button from '../../../common/inputs/button';
 import CommonBrand from '../../../common/brand';
 import ApiAuth from '../../../common/api/auth';
-
+import toastr from 'toastr';
 
 export default class Forgot extends React.Component {
     constructor(props) {
