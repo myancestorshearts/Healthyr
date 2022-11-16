@@ -2,6 +2,7 @@ import React from 'react';
 import Text from '../../../common/inputs/text';
 import Button from '../../../common/inputs/button';
 import CommonBrand from '../../../common/brand';
+import ApiAuth from '../../../common/api/auth';
 
 
 export default class Forgot extends React.Component {
@@ -15,8 +16,14 @@ export default class Forgot extends React.Component {
 
     handleForgot(e) {
         e.preventDefault();
-
-        // this is where we will need the forgot password 
+        
+        ApiAuth.Authenticate.passwordRequest({email: this.state.email}, success => {
+            toastr.success('Sent password reset email');
+            this.props.history.push('/');
+        }, failure => {
+            toastr.error(failure.message);
+        })
+       
     }
 
     render() {
