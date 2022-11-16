@@ -75,10 +75,10 @@ class ApiController extends BaseController
 		$user->save();
 		
 		// send email 
-		//$user->sendVerificationEmail();
+		$user->sendVerificationEmail();
 
 		// send admin new user
-		//$user->sendAdminNewUser();
+		$user->sendAdminNewUser();
 
 		// set user in response
 		$response->set('user', $user);
