@@ -9,7 +9,6 @@ use App\Common\Functions;
 use App\Common\Validator;
 use App\Common\Response;
 
-use App\Models;
 use App\Models\Mysql;
 
 use App\Libraries;
@@ -54,10 +53,10 @@ class ApiController extends BaseController
         if (!isset($validated_phone)) return $response->jsonFailure('Invalid phone', 'INVALID_ARGS');
 
 		// check to see if user exists with email already
-		if (Mysql\User::where('email', '=', $validated_email)->count() > 0) return $response->jsonFailure('User already exists with email', 'DUPLICATE_USER');
+		if (Mysql\Common\User::where('email', '=', $validated_email)->count() > 0) return $response->jsonFailure('User already exists with email', 'DUPLICATE_USER');
 
         // create initial user and set defaults
-		$user = new Mysql\User;
+		$user = new Mysql\Common\User;
 
 		// set credentials
 		$user->name = $validated_name;
@@ -109,7 +108,7 @@ class ApiController extends BaseController
         if (!isset($validated_email)) return $response->jsonFailure('Invalid email', 'INVALID_ARGS');
 
         // get user by email
-        $user = Mysql\User::where('email', '=', $validated_email)->limit(1)->get()->first();
+        $user = Mysql\Common\User::where('email', '=', $validated_email)->limit(1)->get()->first();
 		if (!isset($user)) return $response->jsonFailure('Invalid credentials');
 
 		// check password
@@ -151,7 +150,7 @@ class ApiController extends BaseController
 		$email = decrypt($request->get('key'));
 		
 		// get user
-		$user = Mysql\User::where('email', '=', $email)->limit(1)->get()->first();
+		$user = Mysql\Common\User::where('email', '=', $email)->limit(1)->get()->first();
 		if (!isset($user)) return $response->jsonFailure('User not found');
 
 		// set email is verified
@@ -184,7 +183,7 @@ class ApiController extends BaseController
         if (!isset($validated_email)) return $response->jsonFailure('Invalid email', 'INVALID_ARGS');
 
 		// check to make sure account exists
-		$user = Mysql\User::where('email', '=', $validated_email)->limit(1)->get()->first();
+		$user = Mysql\Common\User::where('email', '=', $validated_email)->limit(1)->get()->first();
 		if (!isset($user)) return $response->jsonFailure('No user found associated with email.');
 
 		// send reset request
@@ -223,7 +222,7 @@ class ApiController extends BaseController
 		if ($time < time()) return $response->jsonFailure('Password reset expired.  Please request another password reset');
 
 		// get user from email
-		$user = Mysql\User::where('email', '=', $email)->limit(1)->get()->first();
+		$user = Mysql\Common\User::where('email', '=', $email)->limit(1)->get()->first();
 		$user->verified = 1;
 		if (!isset($user)) return $response->jsonFailure('Invalid key');
 
@@ -254,7 +253,7 @@ class ApiController extends BaseController
         if (!$response->hasRequired($request, ['id'])) $response->jsonFailure('Missing required fields');
         
         // get all emails linked with id
-        $email_links = Models\EmailLink::where('external_id', '=', $request->get('id'))->get();
+        $email_links = Mysql\Common\EmailLink::where('external_id', '=', $request->get('id'))->get();
 
         $tests_by_email = [];
         foreach ($email_links as $email_link) {
@@ -290,7 +289,7 @@ class ApiController extends BaseController
         $code = Functions::getRandomID(6);
 
         // store code in database with expiring time stamp
-        $email_link_code = new Models\EmailLinkCode;
+        $email_link_code = new Mysql\Common\EmailLinkCode;
         $email_link_code->code = $code;
         $email_link_code->external_id = $request->get('id');
         $email_link_code->email = $request->get('email');
@@ -318,7 +317,7 @@ class ApiController extends BaseController
         if (!$response->hasRequired($request, ['id', 'email', 'code'])) $response->jsonFailure('Missing required fields');
 
         // confirm code with internal code.  '
-        $email_link_code = Models\EmailLinkCode::where([
+        $email_link_code = Mysql\Common\EmailLinkCode::where([
             ['external_id', '=', $request->get('id')],
             ['email', '=', $request->get('email')],
             ['code', '=', $request->get('code')]
@@ -331,12 +330,12 @@ class ApiController extends BaseController
         
         // link email to id so that future calls to get test results are allowed
 
-        $email_link = Models\EmailLink::where([
+        $email_link = Mysql\Common\EmailLink::where([
             ['email', '=', $email_link_code->email],
             ['external_id', '=', $email_link_code->external_id]
         ])->limit(1)->get()->first();
 
-        if (!isset($email_link)) $email_link = new Models\EmailLink;
+        if (!isset($email_link)) $email_link = new Mysql\Common\EmailLink;
 
         $email_link->email = $email_link_code->email;
         $email_link->external_id = $email_link_code->external_id;
@@ -368,7 +367,7 @@ class ApiController extends BaseController
         if (!$response->hasRequired($request, ['first_name', 'last_name', 'email', 'phone', 'date_of_birth', 'gender', 'platform_user_id'])) return $response->jsonFailure('Missing required fields');
 
         // check if platform user already exists
-        $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
+        $platform_user = Mysql\Common\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
         if (isset($platform_user)) return $response->jsonFailure('Platform user already exists');
 
         // validate email
@@ -399,7 +398,7 @@ class ApiController extends BaseController
         $date_of_birth = strtotime($request->get('date_of_birth'));
         if ($date_of_birth > time()) return $response->jsonFailure('Invalid date of birth');
 
-        $platform_user = new Models\PlatformUser;
+        $platform_user = new Mysql\Common\PlatformUser;
         $platform_user->platform_user_id = $platform_user_id_validated;
         $platform_user->first_name = $first_name_validated;
         $platform_user->last_name = $last_name_validated;
@@ -443,7 +442,7 @@ class ApiController extends BaseController
         if (!$response->hasRequired($request, ['platform_user_id'])) return $response->jsonFailure('Missing required fields');
 
         // check for platform user
-        $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
+        $platform_user = Mysql\Common\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
         if (!isset($platform_user)) return $response->jsonFailure('No user exists with platform user id', 'INVALID_PLATFORM_USER_ID', 'INVALID_PLATFORM_USER_ID');
 
         // set platform user
@@ -476,7 +475,7 @@ class ApiController extends BaseController
         $platform_user_id_validated = Validator::validateText($request->get('platform_user_id'), ['clearable' => false]);
         if (!isset($platform_user_id_validated)) return $response->jsonFailure('Invalid platform user id');
 
-        $platform_user = Models\PlatformUser::where([
+        $platform_user = Mysql\Common\PlatformUser::where([
             ['platform_user_id', '=', $platform_user_id_validated],
             ['active', '=', 1]
         ])->limit(1)->get()->first();
@@ -488,7 +487,7 @@ class ApiController extends BaseController
 
         // check to see if kit is registered to someone else then do not allow
         //    I Feel like this will have to be removed one day - Its a check Logan requested
-        $existing_user_kit = Models\PlatformUserKit::where([
+        $existing_user_kit = Mysql\Common\PlatformUserKit::where([
             ['kit_id', '=', $kit_id_validated],
             ['active', '=', 1],
             ['platform_user_id', '!=', $platform_user_id_validated]
@@ -496,7 +495,7 @@ class ApiController extends BaseController
         if (isset($existing_user_kit)) return $response->jsonFailure('Kit already registered to someone else');
 
         // check to see if kit already exists for platform user
-        $platform_user_kit = Models\PlatformUserKit::where([
+        $platform_user_kit = Mysql\Common\PlatformUserKit::where([
             ['platform_user_id', '=', $platform_user_id_validated],
             ['kit_id', '=', $kit_id_validated]
         ])->limit(1)->get()->first();
@@ -514,7 +513,7 @@ class ApiController extends BaseController
             $contains_diabetes = false;
             if (isset($validated_kit->panels)) {
                 foreach($validated_kit->panels as $panel) {
-                    if ($panel == Models\PlatformUserKit::PANEL_DIABETES) $contains_diabetes = true;
+                    if ($panel == Mysql\Common\PlatformUserKit::PANEL_DIABETES) $contains_diabetes = true;
                 }
             }
 
@@ -524,7 +523,7 @@ class ApiController extends BaseController
                 $john_hopkins->register($platform_user);
             }
 
-            $platform_user_kit = new Models\PlatformUserKit;
+            $platform_user_kit = new Mysql\Common\PlatformUserKit;
             $platform_user_kit->platform_user_id = $platform_user_id_validated;
             $platform_user_kit->kit_id = $kit_id_validated;
         }
@@ -556,11 +555,11 @@ class ApiController extends BaseController
         if (!$response->hasRequired($request, ['platform_user_id'])) $response->jsonFailure('Missing required fields');
 
         // check for platform user
-        $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
+        $platform_user = Mysql\Common\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
         if (!isset($platform_user)) return $response->jsonFailure('No user exists with platform user id', 'INVALID_PLATFORM_USER_ID', 'INVALID_PLATFORM_USER_ID');
 
         // get kits
-        $platform_user_kits = Models\PlatformUserKit::where([
+        $platform_user_kits = Mysql\Common\PlatformUserKit::where([
             ['platform_user_id', '=', $platform_user->platform_user_id],
             ['active', '=', 1]
         ])->get();
@@ -585,7 +584,7 @@ class ApiController extends BaseController
                     if ($sample->status == 'resulted') {
                         $filtered_results = [];
                         foreach($sample->report->results as $result) {
-                            $analyte = Models\Analyte::where('key', '=', $result->name)->limit(1)->get()->first();
+                            $analyte = Mysql\Common\Analyte::where('key', '=', $result->name)->limit(1)->get()->first();
 
 
                             
@@ -604,7 +603,7 @@ class ApiController extends BaseController
                             if (isset($analyte)) {
                                 $result->description = $analyte->description;
                                 
-                                $analyte_range = Models\AnalyteRange::where([
+                                $analyte_range = Mysql\Common\AnalyteRange::where([
                                     ['analyte_id', '=', $analyte->id],
                                     ['gender', '=', $filter_gender],
                                     ['age_min_months', '<', $filter_age],
@@ -623,7 +622,7 @@ class ApiController extends BaseController
 
                                     $result_filtered = str_replace('<', '', str_replace('>', '', $result->result));
 
-                                    $analyte_range_effect = Models\AnalyteRangeEffect::where([
+                                    $analyte_range_effect = Mysql\Common\AnalyteRangeEffect::where([
                                         ['analyte_range_id', '=', $analyte_range->id],
                                         ['min', '<=', $result_filtered]
                                     ])->whereRaw('(max > '. $result_filtered . ' OR max IS NULL)')->limit(1)->get()->first();
@@ -677,7 +676,7 @@ class ApiController extends BaseController
         if (!$response->hasRequired($request, ['platform_user_id'])) $response->jsonFailure('Missing required fields');
 
         // check for platform user
-        $platform_user = Models\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
+        $platform_user = Mysql\Common\PlatformUser::where('platform_user_id', '=', $request->get('platform_user_id'))->limit(1)->get()->first();
         if (!isset($platform_user)) return $response->jsonFailure('No user exists with platform user id', 'INVALID_PLATFORM_USER_ID', 'INVALID_PLATFORM_USER_ID');
 
         // call the patient api

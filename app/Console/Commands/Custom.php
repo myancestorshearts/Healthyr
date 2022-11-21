@@ -3,7 +3,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Models;
+use App\Models\Mysql;
 
 use App\Common;
 use App\Libraries;
@@ -59,7 +59,7 @@ class Custom extends Command
         Common\Functions::setMysqlDatabaseConfig($this->DB_HOST, $this->DB_PORT, $this->DB_DATABASE, $this->DB_USERNAME, $this->DB_PASSWORD);
 
         $csv_locations = [  
-            'panels' => 'C:\\Work\\delicious\\Healthier\\imports\\panel-permutations.csv'
+            'panels' => '/Users/kylepaulson/Downloads/healthyr-database.csv'
         ];
 
         $csv_models = [];
@@ -67,6 +67,7 @@ class Custom extends Command
         ini_set('auto_detect_line_endings', TRUE);
 
         foreach ($csv_locations as $key => $location) {
+
             $csv_models[$key] = [];
 
             $handle = fopen($location, 'r');
@@ -112,13 +113,13 @@ class Custom extends Command
                 !Common\Functions::isEmpty($panel['high normal response']) &&
                 !Common\Functions::isEmpty($panel['high response'])) {
 
-                $analyte = Models\Analyte::where('key', '=', $panel['key'])->limit(1)->get()->first();
+                $analyte = Mysql\Common\Analyte::where('key', '=', $panel['key'])->limit(1)->get()->first();
                 if (isset($analyte)) {
 
                     $age_min_months = $panel['age min'] * 12;
                     $age_max_months = $panel['age max'] == 120 ? null : $panel['age max'] * 12;
 
-                    $analyte_range = Models\AnalyteRange::where([
+                    $analyte_range = Mysql\Common\AnalyteRange::where([
                         ['analyte_id', '=', $analyte->id],
                         ['gender', '=', $panel['gender']],
                         ['pregnant', '=', $panel['pregnant'] == '-' ? '0' : $panel['pregnant']],
@@ -133,7 +134,7 @@ class Custom extends Command
                     else {
 
                         echo ' - could not find range - creating';
-                        $analyte_range = new Models\AnalyteRange;
+                        $analyte_range = new Mysql\Common\AnalyteRange;
                         $analyte_range->analyte_id = $analyte->id;
                         $analyte_range->gender = $panel['gender'];
                         $analyte_range->pregnant = $panel['pregnant'] == '-' ? '0' : $panel['pregnant'];
@@ -198,14 +199,14 @@ class Custom extends Command
 
                     foreach ($ranges_effects as $range_effect) {
                         // find analyte range affect
-                        $analyte_range_effect = Models\AnalyteRangeEffect::where([
+                        $analyte_range_effect = Mysql\Common\AnalyteRangeEffect::where([
                             ['analyte_range_id', '=', $analyte_range->id],
                             ['min', '=', $range_effect['min']],
                             ['max', '=', $range_effect['max']]
                         ])->limit(1)->get()->first();
 
                         if (!isset($analyte_range_effect)) {
-                            $analyte_range_effect = new Models\AnalyteRangeEffect;
+                            $analyte_range_effect = new Mysql\Common\AnalyteRangeEffect;
                             $analyte_range_effect->analyte_range_id = $analyte_range->id;
                             $analyte_range_effect->min = $range_effect['min'];
                             $analyte_range_effect->max = $range_effect['max'];
@@ -227,7 +228,7 @@ class Custom extends Command
         
         Common\Functions::setMysqlDatabaseConfig($this->DB_HOST, $this->DB_PORT, $this->DB_DATABASE, $this->DB_USERNAME, $this->DB_PASSWORD);
 
-        $analytes = Models\Analyte::all();
+        $analytes = Mysql\Common\Analyte::all();
 
     
         $index = 0;
@@ -245,7 +246,7 @@ class Custom extends Command
 
                     if ($gender == 'M' && $pregnant == 1) continue;
 
-                    $analyte_range = Models\AnalyteRange::where([
+                    $analyte_range = Mysql\Common\AnalyteRange::where([
                         ['gender', '=', $gender],
                         ['analyte_id', '=', $analyte->id],
                         ['pregnant', '=', $pregnant]
@@ -254,7 +255,7 @@ class Custom extends Command
                     if (!isset($analyte_range)) {
 
                         echo ' creating default for ' . $gender . ' - ' . $pregnant;
-                        $analyte_range = new Models\AnalyteRange;
+                        $analyte_range = new Mysql\Common\AnalyteRange;
 
                         $analyte_range->analyte_id = $analyte->id;
                         $analyte_range->pregnant = $pregnant;
@@ -281,7 +282,7 @@ class Custom extends Command
         
         Common\Functions::setMysqlDatabaseConfig($this->DB_HOST, $this->DB_PORT, $this->DB_DATABASE, $this->DB_USERNAME, $this->DB_PASSWORD);
 
-        $kits = Models\PlatformUserKit::where('active', '=', 1)->get();
+        $kits = Mysql\Common\PlatformUserKit::where('active', '=', 1)->get();
 
         $kit_types = [];
         $resulted_kits_of_each_type = [];
@@ -347,11 +348,11 @@ class Custom extends Command
         dd($kit_types);
 
         foreach ($kit_types as $key => $kit_type) {
-            $test = Models\Test::where('key', '=', $key)->limit(1)->get()->first();
+            $test = Mysql\Common\Test::where('key', '=', $key)->limit(1)->get()->first();
             echo ' - finding test';
             if (!isset($test)) {
                 echo ' - created test';
-                $test = new Models\Test;
+                $test = new Mysql\Common\Test;
             }
 
             $test->key = $key;
@@ -361,10 +362,10 @@ class Custom extends Command
             foreach($kit_type['analytes'] as $analyte_key => $unit_array) {
 
                 echo ' - finding analyte';
-                $analyte = Models\Analyte::where('key', '=', $analyte_key)->limit(1)->get()->first();
+                $analyte = Mysql\Common\Analyte::where('key', '=', $analyte_key)->limit(1)->get()->first();
                 if (!isset($analyte)) {
                     echo ' - creating analyte';
-                    $analyte = new Models\Analyte;
+                    $analyte = new Mysql\Common\Analyte;
                     $analyte->description = '';
                 }
 
@@ -375,14 +376,14 @@ class Custom extends Command
 
                 // create the analyte test
                 echo ' - finding test analyte';
-                $test_analyte = Models\TestAnalyte::where([
+                $test_analyte = Mysql\Common\TestAnalyte::where([
                     ['analyte_id', '=', $analyte->id],
                     ['test_id', '=', $test->id]
                 ])->limit(1)->get()->first();
 
                 if (!isset($test_analyte)) {
                     echo ' - creating test analyte';
-                    $test_analyte = new Models\TestAnalyte;
+                    $test_analyte = new Mysql\Common\TestAnalyte;
                 }
 
                 $test_analyte->test_id = $test->id;
@@ -400,13 +401,13 @@ class Custom extends Command
 
         foreach ($platform_user_ids as $platform_user_id) {
             foreach($resulted_kits_of_each_type as $key => $resulted_kit) {
-                $platform_user_kit = Models\PlatformUserKit::where([
+                $platform_user_kit = Mysql\Common\PlatformUserKit::where([
                     ['platform_user_id', '=', $platform_user_id],
                     ['kit_id', '=', $resulted_kit]
                 ])->limit(1)->get()->first();
 
                 if (!isset($platform_user_kit)) {
-                    $platform_user_kit = new Models\PlatformUserKit;
+                    $platform_user_kit = new Mysql\Common\PlatformUserKit;
                 }
 
                 $platform_user_kit->platform_user_id = $platform_user_id;

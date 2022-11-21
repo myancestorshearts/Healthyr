@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Models;
-use Illuminate\Database\Eloquent\Model;
+namespace App\Models\Mysql\Common;
 
 use Auth;
 
-class PlatformUserKit extends Model 
+class PlatformUserKit extends Base 
 {
     public $table = 'platform_user_kits';
 

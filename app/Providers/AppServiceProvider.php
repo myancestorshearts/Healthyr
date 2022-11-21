@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use App\Services;
+
+use App;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -14,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+
+        App::bind('apiauth', function() {
+            return new Services\ApiAuth;
+        });
     }
 
     /**

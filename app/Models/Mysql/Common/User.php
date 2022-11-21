@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Mysql;
+namespace App\Models\Mysql\Common;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;

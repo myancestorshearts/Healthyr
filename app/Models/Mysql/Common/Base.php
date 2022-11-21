@@ -1,5 +1,5 @@
 <?php
-namespace App\Models\Mysql;
+namespace App\Models\Mysql\Common;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Common\Functions;
@@ -7,32 +7,30 @@ use App\Common\Validator;
 
 use App\Http\Controllers\Response;
 
+use Formatter;
 use ApiAuth;
 
 class Base extends Model {
 
-    // enabled uuid as primary key
-    protected $keyType = 'string';
-    public $incrementing = false;
-
 	// links to the database table. Should be named the same as the table in database
     public $table = '';
-    public static $properties = [];
-    public static $search_parameters = [];
-    public static $method_sets = [];
+    const PROPERTIES = [];
+    const SEARCH_PARAMETERS = [];
+    //const METHOD_SETS = [];
 
     // class map to specify which class to manipulate through the api
-	static $CLASS_MAP = [
+	const CLASS_MAP = [
+        'orderitem' => OrderItem::class
 	];
 
     // override default input validator and check inputs myself
- 	protected function validateInputs($request)
+ /*	protected function validateInputs($request)
     {
         return true;
-    }
+    }*/
 
     // generic add for models
-    public function add($request)
+    /*public function add($request)
     {
         $validate_result = $this->validateInputs($request);
         if ($validate_result !== true) return $validate_result;
@@ -48,33 +46,19 @@ class Base extends Model {
         if ($validate_result !== true) return $validate_result;
         $this->save();
         return $response->setSuccess();
-    }
+    }*/
 
-    // generic search method
-    public static function search($models_query, $request) {
-
-        $class = get_called_class();
-        $temp_model = new $class;
-        $models_query->select($temp_model->table . '.*')
-            ->groupBy($temp_model->table . '.id');
-
+    // generic search methoxd
+    public static function search($request, &$query) {
+        $query->select($query->from . '.*')
+              ->groupBy($query->from . '.id');
         return true;
     }
-
-    
-    // generic admin search method
-    public static function adminSearch($models_query, $request) {
-        $class = get_called_class();
-        $temp_model = new $class;
-        $models_query->select($temp_model->table . '.*');
-
-        return true;
-    }
-
 
 	// get class from class key
 	public static function getClassFromClassKey($class_key) {
-		if (isset(Base::$CLASS_MAP[$class_key])) return Base::$CLASS_MAP[$class_key];
+        $class = get_called_class();
+		if (isset($class::CLASS_MAP[$class_key])) return $class::CLASS_MAP[$class_key];
 		return null;
 	}
 
@@ -94,6 +78,8 @@ class Base extends Model {
 
     public static function getModels($collection, $request = null, $ignore_classes = [])
     {
+        $class = get_called_class();
+
         $new_ignore_classes = $ignore_classes;
         $new_ignore_classes[] = get_called_class();
         $include_classes = [];
@@ -102,8 +88,8 @@ class Base extends Model {
         if (isset($request))
         {
             $exploded_include_classes = explode(',', $request->get('include_classes', ''));
-            foreach ($exploded_include_classes as $include_class) {
-                $include_class = Base::getClassFromClassKey($include_class);
+            foreach ($exploded_include_classes as $include_class_request) {
+                $include_class = $class::getClassFromClassKey($include_class_request);
                 if (isset($include_class)) $include_classes[] = $include_class;
             }
         }
@@ -141,7 +127,7 @@ class Base extends Model {
 
             // for where
             foreach ($collection as $element) {
-                foreach ($element->getModelWherePairs() as $model_pair_where) {  
+                foreach ($element->getModelWherePairs() as $model_pair_where) {
                     $class = $model_pair_where[2];
                     if (in_array($class, $ignore_classes) && (!isset($model_pair_where[3]) || !$model_pair_where[3])) continue;
                     if (!in_array($class, $include_classes)) continue;
@@ -183,14 +169,6 @@ class Base extends Model {
                 $models[] = $element;
             }
 
-        }
-
-		// get user
-		$user = ApiAuth::user();
-        if (Validator::validateBoolean($user->admin)) {
-            foreach ($models as $model) {
-                $model->hidden = [];
-            }
         }
 
         return $models;
@@ -276,16 +254,18 @@ class Base extends Model {
 	 *   apply filters to search query)
 	 * args
 	 *   request
-	 *   $class
-	 *   $models_query (reference)
+	 *   $query (reference)
 	 * returns
 	 *   search_applied
 	 */
-    public static function applyFilters($request, $class, &$models_query, $admin = false)
+    public static function applyFilters($request, &$query)
     {
-        // iterate through the search parameters and apoly search to models_query
-        foreach ($class::$search_parameters as $search_parameter) {
+        // get class from called class
+        $class = get_called_class();
 
+        // iterate through the search parameters and apoly search to query
+        foreach ($class::SEARCH_PARAMETERS as $search_parameter) {
+            
         	// check to see if argument exists in the request otherwise continue
             if (!$request->has($search_parameter['argument']) && !isset($search_parameter['default'])) continue;
 
@@ -306,7 +286,7 @@ class Base extends Model {
             switch ($search_parameter['type'])
             {
                 case 'EQUAL':
-                    $models_query->where($get_column_path($search_parameter['column']), '=', $argument);
+                    $query->where($get_column_path($search_parameter['column']), '=', $argument);
                     break;
                 case 'SEARCH':
                 	// check if there is sequal injection possibility here ---------------------------- **********************
@@ -316,26 +296,27 @@ class Base extends Model {
                         foreach ($search_parameter['columns'] as $column) $columnQueries[] = $get_column_path($column) . " LIKE \"%$query%\"";
                         $where_raw[] = '(' . implode(' OR ', $columnQueries) . ')';
                     }
-                    $models_query->whereRaw(implode(' AND ', $where_raw));
+                    $query->whereRaw(implode(' AND ', $where_raw));
                     break;
                 	// check if there is sequal injection possibility here --------------------------- **********************
                 case 'IN':
-                    $models_query->whereIn($get_column_path($search_parameter['column']), explode(',', $argument));
+                    $query->whereIn($get_column_path($search_parameter['column']), explode(',', $argument));
                     break;
                 case 'NOTIN': 
-                    $models_query->whereNotIn($get_column_path($search_parameter['column']), explode(',', $argument));
+                    $query->whereNotIn($get_column_path($search_parameter['column']), explode(',', $argument));
                     break;
                 case 'GREATER':
-                    $models_query->where($get_column_path($search_parameter['column']), '>=', $argument);
+                    $query->where($get_column_path($search_parameter['column']), '>=', $argument);
                     break;
                 case 'LESSER':
-                    $models_query->where($get_column_path($search_parameter['column']), '<=', $argument);
+                    $query->where($get_column_path($search_parameter['column']), '<=', $argument);
                     break;
                 default:
                     return 'Invalid type set in model configuration - ' . $search_parameter['type'];
             }
         }
-        return ($admin) ? $class::adminSearch($models_query, $request) : $class::search($models_query, $request);
+
+        return $class::search($request, $query);
     }
 
 
@@ -348,10 +329,8 @@ class Base extends Model {
      * returns
      *   order by applied
      */
-    public static function applyOrderBy($request, $class, &$models_query)
+    public static function applyOrderBy($request, &$query)
     {
-        $temp_model = new $class;
-
         $order_bys = json_decode($request->get('order_by', json_encode([
             [
                 'column' => 'created_at',
@@ -359,30 +338,50 @@ class Base extends Model {
             ]
         ])));
 
-        $get_column_path = function ($path) use ($temp_model) {
+        $get_column_path = function ($path) use ($query) {
             if (strpos($path, '.') === false) {
-                return $temp_model->table . '.' . $path;
+                return $query->from . '.' . $path;
             } 
             else return $path;
         };
 
         foreach ($order_bys as $key => $order_by) {
-
             if (!isset($order_by->direction) || !isset($order_by->column)) continue;
-            $models_query->orderBy($get_column_path($order_by->column), $order_by->direction);
-            $models_query->addSelect($get_column_path($order_by->column));
+            $query->orderBy($get_column_path($order_by->column), $order_by->direction);
+            $query->addSelect($get_column_path($order_by->column));
         }
     }
 
     
-
+/*
     public function deactivate() {
         $response = new Response;
         return $response->setFailure('Deactivate not implemented on model');
-    }
+    }*/
+
+    /*
 
     public function hasPermissionSet() { 
         return false;
-    }
+    }*/
 
+    /**purpose 
+     *   generic method to get properties
+     * args
+     *   (none)
+     * returns
+     *   properties
+     */
+    public static function getProperties() {
+
+        $class = get_called_class();
+
+        $properties = [];
+        foreach($class::PROPERTIES as $key => $property) {
+            if (isset($property['label'])) $properties[$key] = $property;
+        }
+
+        return $properties;
+
+    }
 }

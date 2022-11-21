@@ -17,6 +17,7 @@ class Response
     public $message = "";
     public $result = Response::RESULT_FAILURE;
     public $logged_timers = [];
+    public $status_code = 200;
 
     public function set($key, $value)
     {
@@ -38,10 +39,10 @@ class Response
         $this->logged_timers = Response::$timers;
     	$this->setResult($result, $message, $error_code, $error_code_unique);
         if (isset($_SERVER) && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
-            return response(gzencode(json_encode($this)))->header('Content-Type', 'application/json')->header('Content-Encoding', 'gzip');
+            return response(gzencode(json_encode($this)), $this->status_code)->header('Content-Type', 'application/json')->header('Content-Encoding', 'gzip');
         }
         if (isset($_SERVER) && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'deflate')) {
-            return response(gzdeflate(json_encode($this)))->header('Content-Type', 'application/json')->header('Content-Encoding', 'deflate');
+            return response(gzdeflate(json_encode($this)), $this->status_code)->header('Content-Type', 'application/json')->header('Content-Encoding', 'deflate');
         }
         return response()->json($this);
     }
@@ -127,5 +128,9 @@ class Response
         Response::$timers[] = $new_timer;
 
         Response::$previousTimer = $new_timer;
+    }
+
+    public function setStatusCode($code) {
+        $this->status_code = $code;
     }
 }
