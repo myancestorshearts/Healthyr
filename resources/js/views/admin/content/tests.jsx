@@ -11,6 +11,8 @@ import PortalPanelTable from '../../../common/portal/panel/table'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
 
+import ApiAdmin from '../../../common/api/admin';
+
 const FILTER_TIME_FRAME = [
   {
     name: 'Week To Date',
@@ -52,6 +54,12 @@ export default class Orders extends React.Component {
     }
 
     this.handleSelectModel.bind(this)
+  }
+
+  componentDidMount() {
+    ApiAdmin.Generic.search({classkey: 'test', page: 1}, success => {
+      console.log(success);
+    })
   }
 
   handleSelectModel(x) { 
