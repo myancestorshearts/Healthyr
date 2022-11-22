@@ -225,8 +225,6 @@ class Base extends Model {
             if ($value === 'NULL') $this->$key = null;
         }
 
-        if (!isset($this->id)) $this->id = Functions::getUUID();
-        
         parent::save($options);
         foreach ($this->added_attributes as $added_attribute) {
             $this->attributes[$added_attribute] = $temp_attributes[$added_attribute];

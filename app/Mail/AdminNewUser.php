@@ -18,7 +18,7 @@ class AdminNewUser extends Mailable
      *
      * @return void
      */
-    public function __construct(Mysql\User $user)
+    public function __construct(Mysql\Common\User $user)
     {
 
         $this->content = '<p>Name: ' . $user->name . '</p><p>Company: ' . $user->company . '</p><p>Email: ' . $user->email . '</p><p>Phone: ' . $user->phone . '</p>';

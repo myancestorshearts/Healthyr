@@ -20,7 +20,7 @@ class EmailVerification extends Mailable
      *
      * @return void
      */
-    public function __construct(Mysql\User $user)
+    public function __construct(Mysql\Common\User $user)
     {
         // create encrypted email
         $encrypted_string = encrypt($user->email);
