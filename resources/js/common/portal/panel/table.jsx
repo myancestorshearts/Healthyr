@@ -422,54 +422,7 @@ const Row = (props) => {
     )
 }
 
-const HeaderComponent = (props) => {
-
-    let headers = (props.activeProperties) ? props.activeProperties.map((key, index) => {
-        if (!props.properties[key]) return null;
-        return <HeaderTitle
-            onSort={() => {
-                if (props.onSort) props.onSort(props.properties[key])
-            }}
-            key={key}
-            index={index}
-            title={props.properties[key].title}
-            sortableColumn={props.properties[key].sortableColumn}
-            sort={props.sort}
-        />
-    }) : null
-
-
-    // if on select models then we need to show an empty header at the beginning
-    if (props.onSelectModels) {
-
-        let icon = props.allSelected ? 'fa fa-check-square-o' : 'fa fa-square-o';
-
-        headers.unshift(
-            <th
-                key='massselection'
-                style={STYLES.tableHeader}
-                onClick={props.onSelectAll}
-            >
-                <i className={icon} />
-            </th>
-        )
-    }
-
-    // add delete header if we have the delete event
-    if (props.onDelete || props.onRefresh || props.onApprove || props.onCancel || props.onUndo) {
-        headers.push(<th
-            key='actions'
-            style={STYLES.tableHeader}
-        />)
-    }
-
-    return (
-        <tr>
-            {headers}
-        </tr>
-    )
-}
-
+ 
 const HeaderTitle = (props) => {
 
     let carat = undefined;

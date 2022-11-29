@@ -1,5 +1,4 @@
 
-
 import React from 'react'
 import Functions from '../../functions';
 import GoaState from '../../goa-state';

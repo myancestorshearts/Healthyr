@@ -7,10 +7,9 @@ import InputSelectModel from '../../../common/inputs/select-model'
 import PortalPanelTotal from '../../../common/portal/panel/total'
 import PortalTitle from '../../../common/portal/title'
 
-import PortalPanelTable from '../../../common/portal/panel/table'
+import PortalPanelTable from '../../../common/portal/panel/table/index'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
-
 import ApiAdmin from '../../../common/api/admin';
 
 const FILTER_TIME_FRAME = [
@@ -57,7 +56,7 @@ export default class Orders extends React.Component {
   }
 
   componentDidMount() {
-    ApiAdmin.Generic.search({classkey: 'test', page: 1}, success => {
+    ApiAdmin.Generic.search({classkey: 'analyte', page: 1}, success => {
       console.log(success);
     })
   }
@@ -125,7 +124,6 @@ export default class Orders extends React.Component {
         ) : null}
         {this.state.view == VIEW_TABLE ? (
           <PortalPanelTable
-            onSelectModel={this.handleSelectModel}
             ref={(e) => (this.table = e)}
             properties={{
               name: {
@@ -188,9 +186,6 @@ export default class Orders extends React.Component {
                 id: '9',
               },
             ]}
-            tableKey="Tests"
-            headerTitle="Tests"
-            headerIcon="fa fa-tags"
           />
         ) : null}
       </FlexContainer>
