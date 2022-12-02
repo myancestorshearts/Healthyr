@@ -126,7 +126,9 @@ const STYLES = {
         background: 'white',
         borderRadius: '20px',
         padding: '20px',
-        boxShadow: '2px 2px 5px #e7e4e9'
+        boxShadow: '2px 2px 5px #e7e4e9',
+        width: '100%',
+        
     },
     headerContainer: {
         marginLeft: '-20px',

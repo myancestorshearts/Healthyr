@@ -7,10 +7,11 @@ import InputSelectModel from '../../../common/inputs/select-model'
 import PortalPanelTotal from '../../../common/portal/panel/total'
 import PortalTitle from '../../../common/portal/title'
 
-import PortalPanelTable from '../../../common/portal/panel/table/index'
+import TableSearch from '../../../common/portal/panel/table/search'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
-import ApiAdmin from '../../../common/api/admin';
+import Test from '../../../common/models/test/index';
+
 
 const FILTER_TIME_FRAME = [
   {
@@ -55,22 +56,14 @@ export default class Orders extends React.Component {
     this.handleSelectModel.bind(this)
   }
 
-  componentDidMount() {
-    ApiAdmin.Generic.search({classkey: 'analyte', page: 1}, success => {
-      console.log(success);
-    })
-  }
+  
 
   handleSelectModel(x) { 
-    SidePanel.pushStart('First Slideout', 
-    <React.Fragment>
-      <div onClick={() => {
-        SidePanel.pushStart('Second Slideout', 
-        <React.Fragment>
-          This is a second slide out
-        </React.Fragment>, 1)
-      }}>{x.name} - {x.value} - {x.id}</div>
-    </React.Fragment>)
+    SidePanel.pushStart('Test Details', 
+       <Test
+        model={x}
+       />
+    )
   }
 
   render() {
@@ -123,7 +116,8 @@ export default class Orders extends React.Component {
           </React.Fragment>
         ) : null}
         {this.state.view == VIEW_TABLE ? (
-          <PortalPanelTable
+          <TableSearch
+            classkey='test'
             ref={(e) => (this.table = e)}
             properties={{
               name: {
@@ -132,60 +126,15 @@ export default class Orders extends React.Component {
                 type: 'TEXT',
                 default: true,
               },
-              value: {
-                title: 'Value',
-                property: 'value',
+              key: {
+                title: 'Key',
+                property: 'key',
                 type: 'TEXT',
                 default: true,
               },
             }}
-            models={[
-              {
-                name: 'test',
-                value: 'wow',
-                id: '1',
-              },
-              {
-                name: 'test 2',
-                value: 'wow 2',
-                id: '2',
-              },
-              {
-                name: 'test 3',
-                value: 'wow 3',
-                id: '3',
-              },
-              {
-                name: 'test 4',
-                value: 'wow 4',
-                id: '4',
-              },
-              {
-                name: 'test 5',
-                value: 'wow 5',
-                id: '5',
-              },
-              {
-                name: 'test 6',
-                value: 'wow 6',
-                id: '6',
-              },
-              {
-                name: 'test 7',
-                value: 'wow 7',
-                id: '7',
-              },
-              {
-                name: 'test 8',
-                value: 'wow 8',
-                id: '8',
-              },
-              {
-                name: 'test 9',
-                value: 'wow 9',
-                id: '9',
-              },
-            ]}
+            onSelectModel={this.handleSelectModel}
+           
           />
         ) : null}
       </FlexContainer>

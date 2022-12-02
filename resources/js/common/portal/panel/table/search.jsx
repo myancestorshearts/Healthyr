@@ -1,76 +1,164 @@
 //calling the api call and pagination here
 import React from "react";
+import ApiAdmin from '../../../api/admin'
+import Table from '../../panel/table/index';
+import FlexContainer from "../../../components/flex-container";
+import Button from "../../../inputs/button";
 
-import Table from '../../';
+
+const OPTIONS_TAKE = [
+    {
+        label: '10',
+        value: 10
+    },
+    {
+        label: '25',
+        value: 25
+    },
+    {
+        label: '50',
+        value: 50
+    },
+    {
+        label: '100',
+        value: 100
+    }
+]
+
 export  default class SearchTable extends React.Component{
     constructor(props) {
         super(props)
         this.state = {
-            results: [],
+            models: [],
+            page: 1,
+            pageCount: 1
+            
         }
+        this.handlePaginate = this.handlePaginate.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     componentDidMount() {
-
+        this.handleSearch();
     }
+
+    handleSearch() {
+        ApiAdmin.Generic.search({classkey: this.props.classkey, page: this.state.page, take: 1, include_meta: true}, success => {
+            this.setState({
+                models: success.data.models,
+                pageCount: success.data.page_count
+                
+            })
+          })
+    }
+
+    handlePaginate(page) {
+        this.setState({page: page}, this.handleSearch) 
+    }
+
     render() {
+
+        const pageNumbers = [];
+
+
+        pageNumbers.push(1);
+
+        if (this.state.page > 4) pageNumbers.push(<a>...</a>);
+
+        for (let i = this.state.page - 2; i <= this.state.page + 2; i++) {
+            if (i > 1&& i < this.state.pageCount) pageNumbers.push(i)
+        }
+
+        if (this.state.page < this.state.pageCount - 3) pageNumbers.push(<a>...</a>)
+
+        if (this.state.pageCount > 1) pageNumbers.push(this.state.pageCount);
+        
         return (
 
-            
-
-            <div style={STYLES.paginationContainer}>
-
-            {/*Rows Per Page AKA: Take*/}
-            <FlexContainer style={STYLES.paginationTakeContainer}>
-                <div style={STYLES.rowsPerContainer}>
-                    <span>Rows Per Page</span>
-                    <Select
-                        stylescontainer={STYLES.paginationTakeSelectContainer}
-                        stylesselect={STYLES.paginationTakeSelect}
-                        color='#aaa'
-                        options={OPTIONS_TAKE}
-                        value={this.props.take}
-                        onChange={e => this.props.onTake(e.target.value)}
+                
+             <React.Fragment>
+                    <Table
+                    properties={this.props.properties}
+                    models={this.state.models} 
+                    onSelectModel = {this.props.onSelectModel}
                     />
-                </div>
-                <div>{rangeLow}-{rangeHigh} of {this.props.count}</div>
+                
+                    <div style={STYLES.pageContainer}>
 
-                {/* Pages and next prev */}
-                <div style={STYLES.paginationNextPrevContainer}>
-                    {
-                        showPrevPage ?
-                            <StyledComponent
-                                tagName='div'
-                                style={STYLES.paginationCaret}
-                                styleHover={STYLES.paginationCaretHover}
+                        {this.state.page > 1 ?
+                            <button
+                                stylesbuttonhover={STYLES.balanceButtonHover}
+                                className="fa fa-angle-left" style={STYLES.iconArrow}
+                                onClick={() => {
+                                    this.handlePaginate(this.state.page - 1);
+                                } } /> : null}
+
+                        {pageNumbers.map((number, i) => (
+                            <Button
+                                key={i}
+                                stylesbuttonhover={STYLES.balanceButtonHover}
+                                stylesbuttonactive={STYLES.balanceButtonHover}
+                                active={number == this.state.page}
+                                stylesbutton={STYLES.listNumbers}
                                 props={{
-                                    onClick: () => this.props.onPage(this.props.page - 1)
-                                }}
-                            >
-                                <i className='fa fa-chevron-left' />
-                            </StyledComponent> : <div
-                                style={STYLES.paginationCaret}
-                            />
-                    }
-                    {
-                        showNextPage ?
-                            <StyledComponent
-                                tagName='div'
-                                style={STYLES.paginationCaret}
-                                styleHover={STYLES.paginationCaretHover}
-                                props={{
-                                    onClick: () => this.props.onPage(this.props.page + 1)
-                                }}
-                            >
-                                <i className='fa fa-chevron-right' />
-                            </StyledComponent> : <div
-                                style={STYLES.paginationCaret}
-                            />
-                    }
-                </div>
-            </FlexContainer>
-            </div>
+                                    onClick: () => {
+                                        if (!isNaN(number))
+                                            this.handlePaginate(number);
+                                    }
+                                }}>
+                                {number}
+
+                            </Button>
+                        ))}
+                        {this.state.page < this.state.pageCount - 1 ?
+                            <button
+                                stylesbuttonhover={STYLES.balanceButtonHover}
+                                className="fa fa-angle-right" style={STYLES.iconArrow}
+                                onClick={() => this.handlePaginate(this.state.page + 1)} /> : null}
+                    </div>
+
+               </React.Fragment>
+                    
+                 
+                
 
         )
     }
+}
+
+const STYLES = {
+    
+
+    pageContainer: {
+        margin: '0px',
+        listStyleType: 'none',
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+    },
+    listNumbers: {
+        marginLeft: '5px',
+        marginRight: '5px',
+        marginTop: '5px',
+        textDecoration: 'none',
+        color: 'grey',
+        fontFamily: 'Poppins',
+        fontSize: '14px',
+        width: '40px',
+        marginBottom: '0px',
+        border: 'none'
+    },
+    iconArrow: {
+        border: 'none',
+        backgroundColor: 'transparent',
+        fontSize: '20px',
+        cursor: 'pointer'
+    },
+
+    balanceButtonHover: {
+        backgroundColor: 'rgb(32, 20, 94)',
+        borderRadius: '40px',
+        border: 'none'
+    },
+
 }

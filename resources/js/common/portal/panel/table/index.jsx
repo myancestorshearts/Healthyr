@@ -18,12 +18,12 @@ class Table extends React.Component {
             key={x.id}
             model={x}
             properties={this.props.properties}
+            onClick = {() => {
+                if (this.props.onSelectModel) this.props.onSelectModel(x)
+            }}
         />)
         return (
-            <div>
-                <Panel
-                    style={this.props.style}
-                >
+            
                     <div style={STYLES.tableContainer}>
                         <Loading loading={(this.props.loading) ? this.props.loading : false}>
                             <table
@@ -42,8 +42,6 @@ class Table extends React.Component {
                             </table>
                         </Loading>
                     </div>
-                </Panel>
-            </div>
         )
     }
 }
@@ -90,7 +88,8 @@ const Row = (props) => {
     }) : null
 
     return (
-        <tr>
+
+        <tr onClick={props.onClick}>
             {columns}
         </tr>
     )
@@ -142,17 +141,18 @@ const HeaderTitle = (props) => {
 export default Table;
 
 const STYLES = {
+   
     tableContainer: {
-        width: 'calc(100% + 40px)',
-        marginTop: '-10px',
-        marginLeft: '-22px',
-        marginRight: '-22px',
-        overflowY: 'auto'
+        width: '100%',
+        overflowY: 'auto',
+        background: '#ffffff',
+        borderRadius: '20px',
+        paddingTop: '10px'
     },
     table: {
         width: '100%',
         textAlign: 'center',
-        cellspacing: 0
+        cellspacing: 0, 
     },
     tableHeader: {
         paddingLeft: '5px',
@@ -172,10 +172,11 @@ const STYLES = {
         borderBottom: '1px solid #f1f4f9',
         color: '#555',
         fontWeight: 'bold',
-        paddingLeft: '15px',
-        paddingRight: '15px',
-        fontSize: '12px'
-    },
+        paddingLeft: '10px',
+        paddingRight: '10px',
+        fontSize: '12px',
+        
+   },
     loading: {
         display: 'table-cell',
         verticalAlign: 'middle'
