@@ -18,5 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('search', 'AdminController@getSearch');
 //Route::get('properties', 'Controller@getProperties');
 
+
 // report apis
 //Route::get('counts', 'Controller@getCounts');
