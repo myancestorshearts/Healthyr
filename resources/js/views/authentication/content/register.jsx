@@ -48,6 +48,8 @@ export default class Register extends React.Component {
         }
 
         return (
+           <div>
+            
             <form onSubmit={this.handleRegister}>
                 {message}
                 <Text
@@ -109,7 +111,16 @@ export default class Register extends React.Component {
                 >
                     Register
                 </Button>
+                <Button
+                    stylesbuttonhover={STYLES.buttonHover}
+                    stylesbutton={STYLES.button}
+                >
+
+                    Back to login page
+                </Button>
             </form>
+
+            </div>
         )
     }
 }
