@@ -48,8 +48,7 @@ export default class Register extends React.Component {
         }
 
         return (
-           <div>
-            
+         
             <form onSubmit={this.handleRegister}>
                 {message}
                 <Text
@@ -111,16 +110,14 @@ export default class Register extends React.Component {
                 >
                     Register
                 </Button>
-                <Button
-                    stylesbuttonhover={STYLES.buttonHover}
-                    stylesbutton={STYLES.button}
-                >
-
+                <div style={STYLES.backAccount}>
+                <a style={STYLES.back} href='/'>
                     Back to login page
-                </Button>
+                </a>
+                </div>
             </form>
 
-            </div>
+           
         )
     }
 }
@@ -165,5 +162,20 @@ const STYLES = {
         fontSize: '20px',
         color: 'white',
         fontFamily: 'poppins'
-    }
+    },
+    back: {
+       
+        color: 'black',
+        textAlign: 'center',
+        textDecoration: 'none',
+    
+        fontFamily: 'poppins',
+      },
+      backAccount: {
+        color: '#96A0AF',
+        marginTop: '5px',
+        textAlign: 'center',
+        fontFamily: 'poppins',
+        
+      }
 }
