@@ -66,4 +66,55 @@ class AdminController extends BaseController
 		// return successful response
 		return $response->jsonSuccess();
     }
+
+
+	/**purpose
+	 *   upload a file
+	 * args
+	 *   file
+	 *   order_id (required)
+	 * returns
+	 *   (file)
+	 */
+	public function doFileUpload(Request $request) {
+		
+		$response = new Response;
+
+		// set some server limits
+		set_time_limit(6000);
+		ini_set('memory_limit','1024M');
+
+		// make sure we have a file upload 
+		if (!$request->hasFile('file') || !$request->file('file')->isValid()) return $response->jsonFailure('Failed to upload file');
+
+		// upload file to s3
+		$uploaded_file = $request->file('file');
+        $file_contents = file_get_contents($uploaded_file->path());
+
+		// create file 
+		$file = new Mysql\Common\File;
+		$file->mime_type = $uploaded_file->getMimeType();
+		$file->setType();
+		$file->save();
+
+		// create s3 client and put object to s3
+		$s3_client = S3Client::factory(array(
+			'credentials' => array(
+				'key'    => env('AWS_ACCESS_KEY_ID'),
+				'secret' => env('AWS_SECRET_ACCESS_KEY')
+			),
+			'region' => env('AWS_DEFAULT_REGION'),
+			'version' => 'latest',
+		));
+		
+		// save object to s3 storage
+		$s3_client->putObject(array(
+            'Bucket'            => env('AWS_BUCKET'),
+            'Key'               => $file->id,
+            'Body'              => $file_contents
+        ));
+
+		$response->set('model', $file);
+		return $response->jsonSuccess();
+	}
 }
