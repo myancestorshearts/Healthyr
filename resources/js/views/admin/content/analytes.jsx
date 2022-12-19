@@ -6,7 +6,7 @@ import PortalTitle from '../../../common/portal/title'
 import TableSearch from '../../../common/portal/panel/table/search'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
-import Test from '../../../common/models/test/index';
+import Analyte from '../../../common/models/analyte/index';
 
 
 const FILTER_TIME_FRAME = [
@@ -50,8 +50,8 @@ export default class Shipments extends React.Component {
     this.handleSelectModel.bind(this)
   }
   handleSelectModel(x) { 
-    SidePanel.pushStart('Test Details', 
-       <Test
+    SidePanel.pushStart('Analytes Details', 
+       <Analyte
         model={x}
        />
     )
