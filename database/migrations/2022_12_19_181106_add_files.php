@@ -16,7 +16,7 @@ return new class extends Migration
         //
         Schema::create('files', function(Blueprint $table)
         {
-            $table->id('id')->primary();
+            $table->id('id');
             $table->string('type')->index();
             $table->string('mime_type');
             $table->timestamps();
