@@ -12,5 +12,6 @@ class Base extends Mysql\Common\Base
         'analyte' => Mysql\Common\Analyte::class,
         'analyterange' => Mysql\Common\AnalyteRange::class,
         'analyterangeaffect' => Mysql\Common\AnalyteRangeAffect::class,
+        'advertisment' => Mysql\Common\Advertisment::class,
 	];
 }   
