@@ -51,7 +51,7 @@ class Custom extends Command
 
         //$this->createAnalyteRanges();
 
-        $this->seedPanels();
+        //$this->seedPanels();
     }
 
     private function seedPanels() {

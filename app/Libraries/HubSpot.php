@@ -6,7 +6,7 @@ use App\Http\Controllers\Response;
 
 use App\Models\Mysql;
 
-class Hubspot {
+class HubSpot {
 
 
 	private $endpoint;
@@ -24,7 +24,7 @@ class Hubspot {
 	function __construct() {
 		$this->endpoint = 'https://api.hubapi.com';
         $this->token = $this->getAccessToken();
-	}
+    }
 
 
 
@@ -38,7 +38,7 @@ class Hubspot {
     private function getAccessToken() {
         
         $key = Mysql\Common\Key::where('type', '=', Mysql\Common\Key::TYPE_HUBSPOT)->limit(1)->get()->first();
-
+     
 		$curl = curl_init();
 
 		curl_setopt($curl, CURLOPT_URL, $this->endpoint . '/oauth/v1/token');
@@ -56,17 +56,21 @@ class Hubspot {
             'client_id' => 'ada14290-0057-4ff9-ab66-ca91c4db4a5d',
             'client_secret' => '9974690d-e68d-4feb-97b7-8392d0f3a124',
             'redirect_uri' => 'https://api.behealthyr.com',
-            'refresh_token' => $key->refresh_token
+            'refresh_token' => decrypt($key->refresh_token)
         ])); 
 		
 		$server_output = curl_exec($curl);
 
 		$server_decoded = json_decode($server_output);
-    
-        return isset($server_decoded->access_token) ? $server_decoded->access_token : '';
-		curl_close($curl);
-    }
 
+        if (isset($server_decoded->refresh_token)) {
+            $key->refresh_token = encrypt($server_decoded->refresh_token);
+            $key->save();
+        }
+		curl_close($curl);
+
+        return isset($server_decoded->access_token) ? $server_decoded->access_token : '';
+    }
 
 	/**purpose
 	 *   create curl for john hopkins call includes access token
@@ -161,7 +165,42 @@ class Hubspot {
             ]
         ]);
 
-        dd($response);
+        if ($response->total > 0) {
+            return $response->results[0];
+        }
+
+        $first_name = '';
+        $last_name = '';
+
+        if (isset($user->name)) {
+
+            $parts = explode(" ", $user->name);
+            if(count($parts) > 1) {
+                $last_name = array_pop($parts);
+                $first_name = implode(" ", $parts);
+            }
+            else
+            {
+                $first_name = $name;
+                $last_name = "-";
+            }
+        }
+        else {
+            $first_name = $user->first_name;
+            $last_name = $user->last_name;
+        }
+
+
+        $add_response = $this->callPost('/crm/v3/objects/contacts', [
+            'properties' => [
+                'firstname' => $first_name,
+                'lastname' => $last_name,
+                'phone' => $user->phone,
+                'email' => $user->email
+            ]
+        ]);
+
+        return $add_response;
     }
 
     /**purpose
@@ -173,10 +212,21 @@ class Hubspot {
      * returns
      *   timeline_event
      */
-    public function addKitRegistrationEvent($kit_id, $kit_type, $vendor) {  
+    public function addKitRegistrationEvent($email, $kit_id, $kit_type, $vendor, $time) {  
 
         
+        
+        $add_response = $this->callPost('/crm/v3/timeline/events', [
+            'eventTemplateId' => 1196762,
+            'email' => $email,
+            'tokens' => [
+                'kit_type' => $first_name,
+                'kit_id' => $last_name,
+                'vendor' => $user->phone
+            ],
+            'timestamp' => date("Y-m-d", $time) . 'T' . date("H:i:s", $time) . 'Z'
+        ]);
 
-
+        dd($add_response);
     }
 }
