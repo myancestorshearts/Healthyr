@@ -215,18 +215,19 @@ class HubSpot {
     public function addKitRegistrationEvent($email, $kit_id, $kit_type, $vendor, $time) {  
 
         
-        
-        $add_response = $this->callPost('/crm/v3/timeline/events', [
+        $args = [
             'eventTemplateId' => 1196762,
             'email' => $email,
             'tokens' => [
-                'kit_type' => $first_name,
-                'kit_id' => $last_name,
-                'vendor' => $user->phone
+                'kit_type' => $kit_type,
+                'kit_id' => $kit_id,
+                'vendor' => $vendor
             ],
             'timestamp' => date("Y-m-d", $time) . 'T' . date("H:i:s", $time) . 'Z'
-        ]);
+        ];
 
-        dd($add_response);
+        $add_response = $this->callPost('/crm/v3/timeline/events', $args);
+
+        return $add_response;
     }
 }
