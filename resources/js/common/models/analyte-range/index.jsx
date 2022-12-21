@@ -4,6 +4,7 @@ import FlexContainer from "../../components/flex-container";
 import InputSelectModel from "../../../common/inputs/select-model";
 import InputText from '../../inputs/text';
 import TableSearch from '../../../common/portal/panel/table/search'
+import Button from "../../inputs/button";
 
 
 const GENDER_OPTIONS = [
@@ -27,31 +28,38 @@ export default class AnalyteRange extends React.Component {
 
         this.state = {
             genderOptions: GENDER_OPTIONS[0],
-            isToggle: false
+            isPregnant: false
         }
-        this.handleClick = this.handleClick.bind(this);
+        this.toggleClick = this.toggleClick.bind(this);
     }
 
-    handleClick() {
-        this.setState(state => ({
-            isToggle: !state.isToggle
-        }))
+   toggleClick() {
+        this.setState({
+            isPregnant: !this.state.isPregnant
+        })
     }
 
     render() {
+        let options = this.state.isPregnant? "Pregnant" : "Not Pregnant"
         return (
         <React.Fragment>
-            <FlexContainer>
+               <FlexContainer>
                 <InputSelectModel
                     models={GENDER_OPTIONS}
                     value={this.state.genderOptions}
                     onChange={(x) => this.setState({ genderOptions: x })}
                     stylesselect={STYLES.selectInput}
-                    stylescontainer={STYLES.selectContainer} />
+                    stylescontainer={STYLES.selectContainer}
+                 />
                 
-            </FlexContainer>
+               
+                <p>here</p>
+                 <Button onClick={this.togglebtn} styleinput={STYLES.sliderinput} style={STYLES.slider}>{options}</Button>
+              
+            
+               </FlexContainer>
             <div style={STYLES.inputbox}>
-                <FlexContainer>
+               
                     <InputText
                         title='Age Min Months'
                         value={this.props.model.age_min_months}
@@ -89,7 +97,7 @@ export default class AnalyteRange extends React.Component {
                     />
                     
 
-                </FlexContainer>
+               
                 <TableSearch
                 classkey='analyterangeaffect'
                 ref={(e) => (this.table = e)}
@@ -134,9 +142,10 @@ const STYLES = {
       fontSize: '20px',
       textAlign: 'center',
       border: 'none',
+      background: 'white',
     },
     selectContainer: {
-      backgroundColor: 'white',
+      
       border: 'solid #f1f4f9',
       borderRadius: '20px',
       maxWidth: '100px',
@@ -147,7 +156,7 @@ const STYLES = {
     },
     sliderinput: {
         position: 'relative',
-        display: 'inline-block',
+        //display: 'inline-block',
         width: '50px',
         height: '25px'
       
@@ -155,7 +164,7 @@ const STYLES = {
     slider: {
         position: 'absolute',
         cursor:' pointer',
-        backgroundColor: '#ccc',
+        background: '#ffffff',
         //webkitTransition:' .4s',
         //transition: '.4s'
     }
