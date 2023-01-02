@@ -139,7 +139,8 @@ const STYLES = {
     position: 'fixed'
   },
   contentContainer: {
-    padding: '20px'
+    padding: '20px',
+    color:  Brand.getActiveColor()
   },
   icon: {
     cursor: 'pointer'

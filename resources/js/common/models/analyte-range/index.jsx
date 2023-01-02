@@ -2,9 +2,14 @@
 import React from "react";
 import FlexContainer from "../../components/flex-container";
 import InputSelectModel from "../../../common/inputs/select-model";
-import InputText from '../../inputs/text';
+import Input from '../../inputs/field';
 import TableSearch from '../../../common/portal/panel/table/search'
-import Button from "../../inputs/button";
+import Switch from "react-switch";
+import SidePanel from '../../portal/panel/side-panel';
+import AnalyteRangeAffect from "../analyte-range-effect";
+import Brand from "../../brand"
+
+
 
 
 const GENDER_OPTIONS = [
@@ -22,115 +27,135 @@ const GENDER_OPTIONS = [
     }
   ]
 
+
 export default class AnalyteRange extends React.Component {
     constructor(props){
         super(props)
 
         this.state = {
             genderOptions: GENDER_OPTIONS[0],
-            isPregnant: false
+            checked: false
         }
         this.toggleClick = this.toggleClick.bind(this);
+        this.handleSelectModel = this.handleSelectModel.bind(this)
     }
 
-   toggleClick() {
+    handleSelectModel(x) {
+        SidePanel.pushStart('Analyte Range Affect Details', 
+        <AnalyteRangeAffect
+         model={x}
+        />,
+         2
+     )
+    }
+
+   toggleClick(checked) {
         this.setState({
-            isPregnant: !this.state.isPregnant
+           checked
         })
     }
 
     render() {
-        let options = this.state.isPregnant? "Pregnant" : "Not Pregnant"
-        return (
-        <React.Fragment>
-               <FlexContainer>
+        return(
+            <React.Fragment>
+            <FlexContainer>
+                <div>
                 <InputSelectModel
                     models={GENDER_OPTIONS}
                     value={this.state.genderOptions}
                     onChange={(x) => this.setState({ genderOptions: x })}
                     stylesselect={STYLES.selectInput}
                     stylescontainer={STYLES.selectContainer}
-                 />
+                />
                 
+
+                </div>
                
-                <p>here</p>
-                 <Button onClick={this.togglebtn} styleinput={STYLES.sliderinput} style={STYLES.slider}>{options}</Button>
-              
-            
-               </FlexContainer>
-            <div style={STYLES.inputbox}>
+                <div style={STYLES.styleswitch}>
+                <Switch onChange={this.toggleClick} checked={this.state.checked}/>
+                </div>
+                
+
+
+            </FlexContainer>
+                
+                <div style={STYLES.inputbox}>
+                    <FlexContainer>
+                
+                        <Input
+                            title='Age Min Months'
+                            value={this.props.model.age_min_months}
+                        />
+
+                        <Input
+                            title='Age Max Months'
+                            value={this.props.model.age_max_months}
+                        
+                        />
+
+                        <Input
+                            title='Report Min'
+                            value={this.props.model.report_min}
+                        />
+                        <Input
+                            title='Low Min'
+                            value={this.props.model.low_min}
+                        />
+                        <Input
+                            title='Healthy Min'
+                            value={this.props.model.report_min}
+                        />
+                        <Input
+                            title='Healthy Max'
+                            value={this.props.model.report_min}
+                        />
+
+                        <Input
+                            title='High Max'
+                            value={this.props.model.report_min}
+                        />
+                        <Input
+                            title='Report Max'
+                            value={this.props.model.report_min}
+                        />
+                        
+                        </FlexContainer>
+                
+                       
+                        <TableSearch
+                    classkey='analyterangeaffect'
+                    ref={(e) => (this.table = e)}
+                    properties={{
+                    analyteId: {
+                        title: 'Analyte Id',
+                        property: 'id',
+                        type: 'TEXT',
+                        default: true,
+                    },
+                    min: {
+                        title: 'Min',
+                        property: 'min',
+                        type: 'TEXT',
+                        default: true,
+                    },
+                    max: {
+                        title: 'Max',
+                        property: 'max',
+                        type: 'TEXT',
+                        default: true,
+                    },
+                    affect: {
+                        title: 'Affect',
+                        property: 'affect',
+                        type: 'TEXT',
+                        default: true
+                    },
+                    }}
+                    onSelectModel={this.handleSelectModel}
+                />
                
-                    <InputText
-                        title='Age Min Months'
-                        value={this.props.model.age_min_months}
-                    />
-
-                    <InputText
-                        title='Age Max Months'
-                        value={this.props.model.age_max_months}
-                    />
-
-                    <InputText
-                        title='Report Min'
-                        value={this.props.model.report_min}
-                    />
-                    <InputText
-                        title='Low Min'
-                        value={this.props.model.low_min}
-                    />
-                    <InputText
-                        title='Healthy Min'
-                        value={this.props.model.report_min}
-                    />
-                    <InputText
-                        title='Healthy Max'
-                        value={this.props.model.report_min}
-                    />
-
-                    <InputText
-                        title='High Max'
-                        value={this.props.model.report_min}
-                    />
-                     <InputText
-                        title='Report Max'
-                        value={this.props.model.report_min}
-                    />
-                    
-
-               
-                <TableSearch
-                classkey='analyterangeaffect'
-                ref={(e) => (this.table = e)}
-                properties={{
-                analyteId: {
-                    title: 'Analyte Id',
-                    property: 'id',
-                    type: 'TEXT',
-                    default: true,
-                },
-                min: {
-                    title: 'Min',
-                    property: 'min',
-                    type: 'TEXT',
-                    default: true,
-                },
-               max: {
-                    title: 'Max',
-                    property: 'max',
-                    type: 'TEXT',
-                    default: true,
-                },
-                affect: {
-                    title: 'Affect',
-                    property: 'affect',
-                    type: 'TEXT',
-                    default: true
-                },
-                }}
-                onSelectModel={this.handleSelectModel}
-            />
-          </div>
-        </React.Fragment>
+            </div>
+            </React.Fragment>
         )
     }
 }
@@ -138,36 +163,32 @@ export default class AnalyteRange extends React.Component {
 const STYLES = {
     
     selectInput: {
-      height: '50px',
+      height: '60px',
       fontSize: '20px',
       textAlign: 'center',
       border: 'none',
-      background: 'white',
+      
     },
     selectContainer: {
       
       border: 'solid #f1f4f9',
       borderRadius: '20px',
       maxWidth: '100px',
+      margin:'10px',
       paddingRight: '20px',
     },
     inputbox: {
-        padding: '10px'
+        padding: '10px',
+        margin: '10px',
+        color: Brand.getActiveColor()
+
     },
-    sliderinput: {
-        position: 'relative',
-        //display: 'inline-block',
-        width: '50px',
-        height: '25px'
-      
-    },
-    slider: {
-        position: 'absolute',
-        cursor:' pointer',
-        background: '#ffffff',
-        //webkitTransition:' .4s',
-        //transition: '.4s'
+    styleswitch: {
+        padding: '10px',
+        margin: '10px',
+        color: Brand.getActiveColor()
     }
+    
     
   }
   

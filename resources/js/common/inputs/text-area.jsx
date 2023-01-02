@@ -67,7 +67,7 @@ const STYLES = {
         backgroundColor: 'transparent',
         height: '100px',
         borderRadius: '5px',
-        border: '2px solid',
+        border: '2px solid #f1f4f9',
         padding: '10px',
         fontSize: '16px',
         resize: 'none'

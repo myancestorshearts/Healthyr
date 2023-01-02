@@ -88,6 +88,7 @@ export  default class SearchTable extends React.Component{
                         {this.state.page > 1 ?
                             <button
                                 stylesbuttonhover={STYLES.balanceButtonHover}
+                                stylesbuttonactive={STYLES.balanceButtonActive}
                                 className="fa fa-angle-left" style={STYLES.iconArrow}
                                 onClick={() => {
                                     this.handlePaginate(this.state.page - 1);
@@ -97,7 +98,7 @@ export  default class SearchTable extends React.Component{
                             <Button
                                 key={i}
                                 stylesbuttonhover={STYLES.balanceButtonHover}
-                                stylesbuttonactive={STYLES.balanceButtonHover}
+                                stylesbuttonactive={STYLES.balanceButtonActive}
                                 active={number == this.state.page}
                                 stylesbutton={STYLES.listNumbers}
                                 props={{
@@ -158,7 +159,11 @@ const STYLES = {
     balanceButtonHover: {
         backgroundColor: 'rgb(32, 20, 94)',
         borderRadius: '40px',
-        border: 'none'
+        
     },
+    balanceButtonActive: {
+        
+        color: '#fffff'
+    }
 
 }

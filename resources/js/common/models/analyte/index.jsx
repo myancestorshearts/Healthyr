@@ -1,8 +1,11 @@
 import React from 'react';
-import InputText from '../../inputs/text';
+import Input from '../../inputs/field';
 import TableSearch from '../../../common/portal/panel/table/search'
 import AnalyteRange from '../analyte-range/index'
 import SidePanel from '../../portal/panel/side-panel';
+import TextArea from '../../inputs/text-area'
+import FlexContainer from "../../components/flex-container";
+
 
 export default class Analytes extends React.Component{
   constructor(props) {
@@ -22,17 +25,24 @@ export default class Analytes extends React.Component{
  render() {
     return(
         <div>
-            <InputText
-              title='Key'
-              value={this.props.model.key}
-            />
-             <InputText
-              title='Name'
-              value={this.props.model.name}
-            />
-            <InputText
-              title='Unit of Measure'
-              value={this.props.model.unit_of_measure}
+          <FlexContainer>
+            <Input
+                title='Key'
+                value={this.props.model.key}
+              />
+              <Input
+                title='Name'
+                value={this.props.model.name}
+              />
+              <Input
+                title='Unit of Measure'
+                value={this.props.model.unit_of_measure}
+              />
+          </FlexContainer>
+            <TextArea 
+             title='Description'
+             value={this.props.model.description}
+             style={STYLES.area}
             />
             <TableSearch
             classkey='analyterange'
@@ -107,4 +117,10 @@ export default class Analytes extends React.Component{
         </div>
     )
  }
+}
+
+const STYLES = {
+   area: {
+     border: 'none'
+   }
 }
