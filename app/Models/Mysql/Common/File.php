@@ -79,7 +79,6 @@ class File extends Base
             'Bucket'            => env('AWS_BUCKET'),
             'Key'               => $this->id
         ));
-
-		//return response($file_data['Body'])->header('Content-Type', $this->mime_type);
+        return $file_data['Body'];
     }
 }

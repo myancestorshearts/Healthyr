@@ -687,4 +687,30 @@ class ApiController extends BaseController
         // return successful response
         return $token_response->jsonSuccess();
     }
+
+    /**purpose
+     *   get a result pdf
+     * args
+     *   kit_id (in url)
+     *   platform_user_id (in url)
+     * returns
+     *   pdf
+     */
+    public function getPlatformUserKitResult($platform_user_id, $kit_id) {
+        $response = new Response;
+
+        // check for kit existance
+        $kit = Mysql\Common\PlatformUserKit::find($kit_id);
+        if (!isset($kit)) return $response->jsonFailure('Invalid kit id');
+        if ($kit->platform_user_id != $platform_user_id) return $response->jsonFailure('Invalid kit id');
+
+        // check to see if the pdf result is available
+        if (!isset($kit->result_file_id)) return $response->jsonFailure(('Not authorized'));
+        $file = Mysql\Common\File::find($kit->result_file_id);
+        if (!isset($file)) return $response->jsonFailure(('Invalid file'));
+
+        // resturn file response
+        $contents = $file->download();
+		return response($contents)->header('Content-Type', $file->mime_type);
+    }
 }
