@@ -74,15 +74,6 @@ const STYLES = {
     maxWidth: '100%',
     margin: '10px',
   },
-  contentContainer: {
-    width: '100%',
-    height: '100%',
-    marginTop: '-113px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: '20px',
-  },
   innerContainer: {
     maxWidth: '560px',
     width: '100%',

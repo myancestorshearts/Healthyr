@@ -1,6 +1,8 @@
 <?php
 namespace App\Common;
 
+use Exception;
+
 class Validator {
 
 //////////////////////////

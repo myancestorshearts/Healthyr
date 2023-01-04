@@ -214,7 +214,7 @@ class ApiController extends BaseController
 
 		// get email and expire
 		$decrypted_parts = explode('#', $decrypted_key);
-		if (count($decrypted_parts) != 2) return $rseponse->jsonFailure('Invalid key');
+		if (count($decrypted_parts) != 2) return $response->jsonFailure('Invalid key');
 		$email = $decrypted_parts[0];
 		$time = $decrypted_parts[1];
 
