@@ -701,6 +701,7 @@ class ApiController extends BaseController
      *   pdf
      */
     public function getPlatformUserKitResult($platform_user_id, $kit_id) {
+        header('Access-Control-Allow-Origin: *');
         $response = new Response;
 
         // check for kit existance
