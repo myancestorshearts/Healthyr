@@ -8,7 +8,6 @@ use App\Models\Mysql;
 use App\Common;
 use App\Libraries;
 
-new \Com\Tecnick\Pdf\Parser\Parser;
 
 
 use App\Libraries\FPDI\Fpdi;
@@ -79,22 +78,6 @@ class Custom extends Command
 
 
 
-
-        $contents = file_get_contents('/Users/kylepaulson/Downloads/healthyrtest.pdf');
-
-        // configuration parameters for parser
-        $cfg = array('ignore_filter_errors' => true);
-        // parse PDF data
-        $pdf = new \Com\Tecnick\Pdf\Parser\Parser($cfg);
-        $data = $pdf->parse($contents);
-        
-
-        $test = [];
-        foreach ($data[1] as $key => $object) {
-            $test[] = $object[0][1];
-        }
-        dd($test);
-        dd('test');
 
 
 
