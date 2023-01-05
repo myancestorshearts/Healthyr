@@ -646,6 +646,10 @@ class ApiController extends BaseController
                     }
                 }
 
+                if (isset($platform_user_kit->result_file_id)) {
+                    $spot_kit->result_pdf_url = $platform_user_kit->getResultPdfUrl();
+                }
+
                 $spot_kits[] = $spot_kit;
             }
         }

@@ -11,7 +11,7 @@ class Base extends Mysql\Common\Base
         'testanalyte' => Mysql\Common\TestAnalyte::class,
         'analyte' => Mysql\Common\Analyte::class,
         'analyterange' => Mysql\Common\AnalyteRange::class,
-        'analyterangeaffect' => Mysql\Common\AnalyteRangeAffect::class,
+        'analyterangeeffect' => Mysql\Common\AnalyteRangeEffect::class,
         'advertisment' => Mysql\Common\Advertisment::class,
 	];
 }   
