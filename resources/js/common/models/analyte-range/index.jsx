@@ -123,7 +123,7 @@ export default class AnalyteRange extends React.Component {
                 
                        
                         <TableSearch
-                    classkey='analyterangeaffect'
+                    classkey='analyterangeeffect'
                     ref={(e) => (this.table = e)}
                     properties={{
                     analyteId: {
