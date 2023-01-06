@@ -42,7 +42,7 @@ const FILTER_FULFILLED = [
 const VIEW_DASHBOARD = 'dashboard'
 const VIEW_TABLE = 'table'
 
-export default class Orders extends React.Component {
+export default class Tests extends React.Component {
   constructor(props) {
     super(props)
 
