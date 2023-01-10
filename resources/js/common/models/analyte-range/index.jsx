@@ -119,42 +119,42 @@ export default class AnalyteRange extends React.Component {
                             value={this.props.model.report_min}
                         />
                         
-                        </FlexContainer>
+                    </FlexContainer>
+            
+                    
+                    <TableSearch
+                        classkey='analyterangeeffect'
+                        ref={(e) => (this.table = e)}
+                        properties={{
+                        analyteId: {
+                            title: 'Analyte Id',
+                            property: 'id',
+                            type: 'TEXT',
+                            default: true,
+                        },
+                        min: {
+                            title: 'Min',
+                            property: 'min',
+                            type: 'TEXT',
+                            default: true,
+                        },
+                        max: {
+                            title: 'Max',
+                            property: 'max',
+                            type: 'TEXT',
+                            default: true,
+                        },
+                        affect: {
+                            title: 'Affect',
+                            property: 'affect',
+                            type: 'TEXT',
+                            default: true
+                        },
+                        }}
+                        onSelectModel={this.handleSelectModel}
+                    />
                 
-                       
-                        <TableSearch
-                    classkey='analyterangeeffect'
-                    ref={(e) => (this.table = e)}
-                    properties={{
-                    analyteId: {
-                        title: 'Analyte Id',
-                        property: 'id',
-                        type: 'TEXT',
-                        default: true,
-                    },
-                    min: {
-                        title: 'Min',
-                        property: 'min',
-                        type: 'TEXT',
-                        default: true,
-                    },
-                    max: {
-                        title: 'Max',
-                        property: 'max',
-                        type: 'TEXT',
-                        default: true,
-                    },
-                    affect: {
-                        title: 'Affect',
-                        property: 'affect',
-                        type: 'TEXT',
-                        default: true
-                    },
-                    }}
-                    onSelectModel={this.handleSelectModel}
-                />
-               
-            </div>
+                </div>
             </React.Fragment>
         )
     }
