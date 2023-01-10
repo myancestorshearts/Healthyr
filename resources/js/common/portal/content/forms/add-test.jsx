@@ -2,7 +2,6 @@ import React from 'react';
 import InputText from "../../../../common/inputs/field"
 import FlexContainer from '../../../components/flex-container';
 import Spacer from '../../../../common/components/spacer';
-import TextArea from '../../../../common/inputs/text-area'
 import CommonBrand from '../../../../common/brand'
 import toastr from 'toastr';
 
@@ -11,10 +10,9 @@ export default class AddAnalyte extends React.Component{
         constructor(props) {
             super(props);
             this.state = {
-                key: '',
                 name: '',
-                unit_of_measure: '',
-                description: '',
+                key: '',
+                
             }
             this.handleSubmit = this.handleSubmit.bind(this)
         }
@@ -31,31 +29,18 @@ export default class AddAnalyte extends React.Component{
                     <FlexContainer>
                        <InputText 
                         autoFocus={true}
-                        title='Key'
+                        title='Name'
                         onChange={e => this.setState({ key: e.target.value })}
                         value={this.state.key}
                        />
                         <Spacer space='15px' />
                         <InputText 
                         autoFocus={true}
-                        title='Name'
+                        title='Key'
                         onChange={e => this.setState({ name: e.target.value })}
                         value={this.state.name}
                        />
-                       <Spacer space='15px' />
-                       <InputText 
-                        autoFocus={true}
-                        title='Unit of Measure'
-                        onChange={e => this.setState({ unit_of_measure: e.target.value })}
-                        value={this.state.unit_of_measure}
-                       />
                     </FlexContainer>
-                    <TextArea 
-                    autoFocus={true}
-                    title='Description'
-                    onChange={e => this.setState({ description: e.target.value })}
-                    value={this.state.description}
-                    />
                 </div>
                 <div>
                     <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
