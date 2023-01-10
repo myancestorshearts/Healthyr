@@ -14,7 +14,11 @@ class Base extends Model {
 
 	// links to the database table. Should be named the same as the table in database
     public $table = '';
+    
+    // managed properties for each model
     const PROPERTIES = [];
+
+
     const SEARCH_PARAMETERS = [];
     //const METHOD_SETS = [];
 
@@ -381,5 +385,81 @@ class Base extends Model {
 
         return $properties;
 
+    }
+
+
+    public static function create($request) {
+
+        $response = new Response;
+
+        // create the model
+        $class = get_called_class();
+        $model = new $class;
+
+        // loop through properties of model
+        $properties = $class::PROPERTIES;
+
+        // required keys
+        $required_keys = [];
+        foreach($properties as $property) {
+            // if property is nullable we do not need to add to required properties
+            if (isset($property['nullable']) && $property['nullable']) continue;
+
+            // if property has a default value we do not need to add to quired properties
+            if (isset($property['default'])) continue;
+
+            // add to required properties
+            $required_keys[] = $property['key'];
+        }
+        if (!$response->hasRequired($request, $required_keys)) {
+            return $response->setFailure(('Missing required fields'));
+        }
+        
+        foreach($properties as $property) {
+
+            $value = trim($request->get($property['key']));
+            switch($property['type']) {
+                case 'TEXT':
+                    if (Functions::isEmpty($value)) return $response->setFailure(('Invalid ' . $property['key']));
+                    $model->{$property['key']} = $value;
+                    break;
+                case 'MODEL_ID':
+                    if (!isset($property['class'])) return $response->setFailure('Class must be set for type MODEL_ID');
+                    $class_model = $property['class']::find($value);
+                    if (!isset($class_model)) return $response->setFailure(('Invalid ' . $property['key']));
+                    $model->{$property['key']} = $value;
+                    break;
+                case 'ENUM': 
+                    if (!isset($property['options'])) return $response->setFailure('Options must be set for type ENUM');
+                    if (!in_array($value, $property['options'])) return $response->setFailure(('Invalid ' . $property['key']));
+                    $model->{$property['key']} = $value;
+                    break;
+                case 'BOOLEAN':
+                    $model->{$property['key']} = Validator::validateBoolean($value);
+                    break;
+                case 'INTEGER':
+                    $value = (int) $value;
+                    if (isset($property['min']) && $value < $property['min']) return $response->setFailure(('Value is below minimum - ' . $property['key']));
+                    if (isset($property['max']) && $value > $property['max']) return $response->setFailure(('Value is above maximum - ' . $property['key']));
+                    $model->{$property['key']} = $value;
+                    break;
+                case 'FLOAT':
+                    $value = (float) $value;
+                    if (isset($property['min']) && $value < $property['min']) return $response->setFailure(('Value is below minimum - ' . $property['key']));
+                    if (isset($property['max']) && $value > $property['max']) return $response->setFailure(('Value is above maximum - ' . $property['key']));
+                    $model->{$property['key']} = $value;
+                    break;
+                default:
+                    return $response->setFailure('Type not implemented ' . $property['type'] . ' for ' . $property['key']);
+            }
+        }
+
+
+        // save the model
+        $model->save();
+        $response->set('model', $model);
+
+        // return success
+        return $response->setSuccess();
     }
 }

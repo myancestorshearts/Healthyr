@@ -26,6 +26,18 @@ class Generic {
     static search(parameters, successCallback, failureCallback) {
         WebClient.basicGet(parameters, '/api/admin/search', successCallback, failureCallback);
     }
+
+
+	/**purpose
+	 *   generic add for admins to be able to add any type of model
+	 * args
+	 *   classkey (required) - specifies what type of model we are adding
+	 * returns
+	 *   model - added model
+	 */
+    static add(parameters, successCallback, failureCallback) {
+        WebClient.basicPost(parameters, '/api/admin/add', successCallback, failureCallback);
+    }
 }
 
 export default class Brand {

@@ -6,6 +6,8 @@ import TextArea from '../../../../common/inputs/text-area'
 import CommonBrand from '../../../../common/brand'
 import toastr from 'toastr';
 
+import ApiAdmin from '../../../api/admin';
+
 
 export default class AddAnalyte extends React.Component{
         constructor(props) {
@@ -22,7 +24,11 @@ export default class AddAnalyte extends React.Component{
         handleSubmit(e) {
             e.preventDefault()
             this.loading = true;
-            toastr.warning('Needs Implementing')
+            ApiAdmin.Generic.add({classkey: 'analyte', ...this.state}, success => {
+                if (this.props.onAdd) this.props.onAdd(success.data.model);
+            }, failure => {
+                toastr.error(failure.message);
+            })
         }
         render() {
             return(
@@ -51,10 +57,10 @@ export default class AddAnalyte extends React.Component{
                        />
                     </FlexContainer>
                     <TextArea 
-                    autoFocus={true}
-                    title='Description'
-                    onChange={e => this.setState({ description: e.target.value })}
-                    value={this.state.description}
+                        autoFocus={true}
+                        title='Description'
+                        onChange={x => this.setState({ description: x})}
+                        value={this.state.description}
                     />
                 </div>
                 <div>

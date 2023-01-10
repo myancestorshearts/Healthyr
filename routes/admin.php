@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 // search apis 
 Route::get('search', 'AdminController@getSearch');
+
+// generic add
+Route::post('add', 'AdminController@doAdd');
+
 //Route::get('properties', 'Controller@getProperties');
 
 

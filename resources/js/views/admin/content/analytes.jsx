@@ -50,6 +50,7 @@ export default class Analytes extends React.Component {
       view: VIEW_DASHBOARD,
     }
     
+    this.handleAdd = this.handleAdd.bind(this);
   }
   handleSelectModel(x) { 
     SidePanel.pushStart('Analytes Details', 
@@ -61,7 +62,12 @@ export default class Analytes extends React.Component {
 
   handleAdd() {
      SidePanel.pushStart( 'Add Analyte',
-      <AddAnalyte />
+      <AddAnalyte 
+        onAdd={() => {
+          SidePanel.pop();
+          if (this.table) this.table.handleSearch();
+        }}
+      />
 
      )
   }

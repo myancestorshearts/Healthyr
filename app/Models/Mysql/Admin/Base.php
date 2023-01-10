@@ -14,4 +14,4 @@ class Base extends Mysql\Common\Base
         'analyterangeeffect' => Mysql\Common\AnalyteRangeEffect::class,
         'advertisment' => Mysql\Common\Advertisment::class,
 	];
-}   
+}
