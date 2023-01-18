@@ -53,7 +53,7 @@ export default class Analytes extends React.Component {
     this.handleAdd = this.handleAdd.bind(this);
   }
   handleSelectModel(x) { 
-    SidePanel.pushStart('Analytes Details', 
+    SidePanel.pushStart('Analyte Details', 
        <Analyte
         model={x}
        />

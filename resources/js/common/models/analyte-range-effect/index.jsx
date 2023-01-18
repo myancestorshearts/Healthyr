@@ -11,26 +11,30 @@ export default class AnalyteRangeAffect extends React.Component {
     }
     render(){
         return(
-            <div style={STYLES.inputbox}>
-            <FlexContainer>
+            <React.Component>
+
+             <FlexContainer direction="column" gap="15px">
         
-                <Input
-                    title='Min'
-                    value={this.props.model.min}
-                />
+                    <Input
+                        title='Min'
+                        value={this.props.model.min}
+                    />
 
-                <Input
-                    title='Max'
-                    value={this.props.model.max}
-                />
-                </FlexContainer>
+                    <Input
+                        title='Max'
+                        value={this.props.model.max}
+                    />
+                    
+                    <TextArea 
+                    title='Affect'
+                    value={this.props.affect}
+                    />
+            </FlexContainer>
+  
 
-                <TextArea 
-                 title='Affect'
-                 value={this.props.affect}
-                />
-            </div>
-        )
+            </React.Component>
+            
+      )
     }
 }
 

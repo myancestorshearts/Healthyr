@@ -4,6 +4,8 @@ import FlexContainer from '../../../components/flex-container';
 import Spacer from '../../../../common/components/spacer';
 import CommonBrand from '../../../../common/brand'
 import toastr from 'toastr';
+import ApiAdmin from '../../../api/admin';
+
 
 
 export default class AddAnalyte extends React.Component{
@@ -20,20 +22,23 @@ export default class AddAnalyte extends React.Component{
         handleSubmit(e) {
             e.preventDefault()
             this.loading = true;
-            toastr.warning('Needs Implementing')
+            ApiAdmin.Generic.add({classkey: 'analyte', ...this.state}, success => {
+                if (this.props.onAdd) this.props.onAdd(success.data.model);
+            }, failure => {
+                toastr.error(failure.message);
+            })
         }
         render() {
             return(
                <form onSubmit={this.handleSubmit}>
                 <div>
-                    <FlexContainer>
+                    <FlexContainer direction='column' gap='15px'>
                        <InputText 
                         autoFocus={true}
                         title='Name'
                         onChange={e => this.setState({ key: e.target.value })}
                         value={this.state.key}
                        />
-                        <Spacer space='15px' />
                         <InputText 
                         autoFocus={true}
                         title='Key'

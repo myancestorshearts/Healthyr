@@ -1,22 +1,20 @@
 import React from 'react';
-import InputText from "../../../../common/inputs/field"
+import InputText from "../../../inputs/field"
 import FlexContainer from '../../../components/flex-container';
-import Spacer from '../../../../common/components/spacer';
-import TextArea from '../../../../common/inputs/text-area'
-import CommonBrand from '../../../../common/brand'
+import InputTextArea from '../../../inputs/text-area'
+import CommonBrand from '../../../brand'
 import toastr from 'toastr';
-
 import ApiAdmin from '../../../api/admin';
 
 
-export default class AddAnalyte extends React.Component{
+export default class AddAnalyteRangeEffect extends React.Component{
         constructor(props) {
             super(props);
             this.state = {
-                key: '',
-                name: '',
-                unit_of_measure: '',
-                description: '',
+                analyte_range_id: props.analyteRange.id,
+                min: '',
+                max: '',
+                effect: '',
             }
             this.handleSubmit = this.handleSubmit.bind(this)
         }
@@ -24,7 +22,7 @@ export default class AddAnalyte extends React.Component{
         handleSubmit(e) {
             e.preventDefault()
             this.loading = true;
-            ApiAdmin.Generic.add({classkey: 'analyte', ...this.state}, success => {
+            ApiAdmin.Generic.add({classkey: 'analyterangeeffect', ...this.state}, success => {
                 if (this.props.onAdd) this.props.onAdd(success.data.model);
             }, failure => {
                 toastr.error(failure.message);
@@ -33,38 +31,31 @@ export default class AddAnalyte extends React.Component{
         render() {
             return(
                <form onSubmit={this.handleSubmit}>
-                
+             
                     <FlexContainer direction='column' gap='15px'>
-                       <InputText 
-                        autoFocus={true}
-                        title='Key'
-                        onChange={e => this.setState({ key: e.target.value })}
-                        value={this.state.key}
-                       />
-                      
+        
                         <InputText 
                         autoFocus={true}
-                        title='Name'
-                        onChange={e => this.setState({ name: e.target.value })}
-                        value={this.state.name}
+                        title='Min'
+                        onChange={e => this.setState({ min: e.target.value })}
+                        value={this.state.min}
                        />
-                      
+                     
                        <InputText 
                         autoFocus={true}
-                        title='Unit of Measure'
-                        onChange={e => this.setState({ unit_of_measure: e.target.value })}
-                        value={this.state.unit_of_measure}
+                        title='Max'
+                        onChange={e => this.setState({ max: e.target.value })}
+                        value={this.state.max}
                        />
-
-                        <TextArea 
+                      
+                       <InputTextArea
                         autoFocus={true}
-                        title='Description'
-                        onChange={x => this.setState({ description: x})}
-                        value={this.state.description}
-                         />
+                        title='Effect'
+                        onChange={x => this.setState({ effect: x})}
+                        value={this.state.effect}
+                       />
                     </FlexContainer>
-                   
-              
+                
                 <div>
                     <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
 						Save

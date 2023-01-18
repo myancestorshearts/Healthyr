@@ -5,13 +5,16 @@ import AnalyteRange from '../analyte-range/index'
 import SidePanel from '../../portal/panel/side-panel';
 import TextArea from '../../inputs/text-area'
 import FlexContainer from "../../components/flex-container";
-
+import CommonBrand from '../../../common/brand'
+import FlexExpander from '../../components/flex-expander';
+import AddRange from '../../portal/content/forms/add-ranges'
 
 export default class Analytes extends React.Component{
   constructor(props) {
     super(props);
 
     this.handleSelectModel = this.handleSelectModel.bind(this);
+    this.handleAdd= this. handleAdd.bind(this);
   }
 
   handleSelectModel(x) {
@@ -20,12 +23,26 @@ export default class Analytes extends React.Component{
      model={x}
     />,
      1
- )
+   )
   }
+  
+  handleAdd() {
+    SidePanel.pushStart( 'Add Analyte',
+     <AddRange 
+       analyte = {this.props.model}
+       onAdd={() => {
+         SidePanel.pop();
+         if (this.table) this.table.handleSearch();
+       }}
+     />
+
+    )
+ }
+
  render() {
     return(
         <div>
-          <FlexContainer>
+          <FlexContainer direction='column' gap='15px'>
             <Input
                 title='Key'
                 value={this.props.model.key}
@@ -38,12 +55,21 @@ export default class Analytes extends React.Component{
                 title='Unit of Measure'
                 value={this.props.model.unit_of_measure}
               />
+              <TextArea 
+              title='Description'
+              value={this.props.model.description}
+              style={STYLES.area}
+              />
           </FlexContainer>
-            <TextArea 
-             title='Description'
-             value={this.props.model.description}
-             style={STYLES.area}
-            />
+
+          <FlexExpander />
+          <div style={STYLES.button}>
+              <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+                  <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
+                  Add Analytes
+              </button>
+          </div>
+                   
             <TableSearch
             classkey='analyterange'
             ref={(e) => (this.table = e)}
@@ -122,5 +148,27 @@ export default class Analytes extends React.Component{
 const STYLES = {
    area: {
      border: 'none'
-   }
+   },
+   buttonCreate: {
+		paddingRight: '10px',
+        paddingLeft: '10px',
+		height: '50px',
+		backgroundColor: CommonBrand.getSecondaryColor(),
+		border: 'none',
+		borderRadius: '20px',
+		boxShadow: 'rgb(180 204 222 / 20%) 5px 5px 10px',
+		color: '#ffffff',
+		fontWeight: 20,
+		fontSize: '18px',
+		fontFamily: 'Poppins'
+	},
+	createInputIcon: {
+		paddingRight: '10px'
+	},
+  button: {
+      marginTop: '15px',
+      marginBottom: '15px',
+      display: 'flex',
+      justifyContent: 'flex-end'
+  }
 }
