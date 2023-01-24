@@ -38,6 +38,19 @@ class Generic {
     static add(parameters, successCallback, failureCallback) {
         WebClient.basicPost(parameters, '/api/admin/add', successCallback, failureCallback);
     }
+
+
+	/**purpose
+	 *   genrice set for admins to be able to set any type of model 
+	 * args
+	 *   classkey (required) - specifies what type of model we are setting
+	 *   id (required) - the id specific to the row we are setting
+	 * return 
+	 *   model - model after it has been set 
+	 */
+    static set(parameters, successCallback, failureCallback) {
+        WebClient.basicPost(parameters, '/api/admin/set', successCallback, failureCallback);
+    }
 }
 
 export default class Brand {

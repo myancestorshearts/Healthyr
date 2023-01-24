@@ -37,12 +37,6 @@ class AnalyteRange extends Base
             'nullable' => true
         ],
         [
-            'key' => 'age_max_months',
-            'type' => 'INTEGER',
-            'min' => 0,
-            'nullable' => true
-        ],
-        [
             'key' => 'report_min',
             'type' => 'FLOAT',
             'nullable' => true

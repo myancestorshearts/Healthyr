@@ -462,4 +462,73 @@ class Base extends Model {
         // return success
         return $response->setSuccess();
     }
+
+    /**purpose
+     *   set model properties
+     * args
+     *   request with properties
+     * returns
+     *   model
+     */
+
+    public function set($request) {
+
+        // create a response
+        $response = new Response;
+
+        // create the model
+        $class = get_called_class();
+
+        // loop through properties of model
+        $properties = $class::PROPERTIES;
+        
+        foreach($properties as $property) {
+            if ($request->has($property['key'])) {
+                
+                $value = trim($request->get($property['key']));
+                switch($property['type']) {
+                    case 'TEXT':
+                        if (Functions::isEmpty($value)) return $response->setFailure(('Invalid ' . $property['key']));
+                        $this->{$property['key']} = $value;
+                        break;
+                    case 'MODEL_ID':
+                        if (!isset($property['class'])) return $response->setFailure('Class must be set for type MODEL_ID');
+                        $class_model = $property['class']::find($value);
+                        if (!isset($class_model)) return $response->setFailure(('Invalid ' . $property['key']));
+                        $this->{$property['key']} = $value;
+                        break;
+                    case 'ENUM': 
+                        if (!isset($property['options'])) return $response->setFailure('Options must be set for type ENUM');
+                        if (!in_array($value, $property['options'])) return $response->setFailure(('Invalid ' . $property['key']));
+                        $this->{$property['key']} = $value;
+                        break;
+                    case 'BOOLEAN':
+                        $this->{$property['key']} = Validator::validateBoolean($value);
+                        break;
+                    case 'INTEGER':
+                        $value = (int) $value;
+                        if (isset($property['min']) && $value < $property['min']) return $response->setFailure(('Value is below minimum - ' . $property['key']));
+                        if (isset($property['max']) && $value > $property['max']) return $response->setFailure(('Value is above maximum - ' . $property['key']));
+                        $this->{$property['key']} = $value;
+                        break;
+                    case 'FLOAT':
+                        $value = (float) $value;
+                        if (isset($property['min']) && $value < $property['min']) return $response->setFailure(('Value is below minimum - ' . $property['key']));
+                        if (isset($property['max']) && $value > $property['max']) return $response->setFailure(('Value is above maximum - ' . $property['key']));
+                        $this->{$property['key']} = $value;
+                        break;
+                    default:
+                        return $response->setFailure('Type not implemented ' . $property['type'] . ' for ' . $property['key']);
+                }
+            }
+        }
+
+
+        // save the model
+        $this->save();
+        $response->set('model', $this);
+
+        // return success
+        return $response->setSuccess();
+    }
 }
