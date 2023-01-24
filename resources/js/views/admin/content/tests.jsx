@@ -196,8 +196,8 @@ const STYLES = {
     color: 'white',
   },
   buttonCreate: {
-		paddingRight: '10px',
-    paddingLeft: '10px',
+		paddingRight: '20px',
+    paddingLeft: '20px',
 		height: '50px',
 		backgroundColor: CommonBrand.getSecondaryColor(),
 		border: 'none',

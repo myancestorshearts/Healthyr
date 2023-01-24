@@ -3,16 +3,20 @@ import FlexContainer from "../../components/flex-container";
 import Input from '../../inputs/field'
 import CommonBrand from '../../brand'
 import ApiAdmin from '../../api/admin';
+import AddTest from '../../../common/portal/content/forms/add-test';
+import toastr from 'toastr';
+import SidePanel from '../../portal/panel/side-panel';
 
 export default class Test extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             
-            name: '',
-            key: '',
+            name: this.props.model.name,
+            key: this.props.model.key,
           
         }
+        //this.handleAdd = this.handleAdd.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
@@ -25,31 +29,47 @@ export default class Test extends React.Component{
             toastr.error(failure.message);
         })
     }
+
+    // handleAdd() {
+    //     SidePanel.pushStart( 'Add Analyte',
+    //     <AddTest
+    //       analyte = {this.props.model}
+    //       onAdd={() => {
+    //         SidePanel.pop();
+    //         if (this.table) this.table.handleSearch();
+    //       }}
+    //     />
+    //     )
+    //     }
+
  render() {
     return(
         <div>
-              <FlexContainer direction="column" gap="15px">
-            
-            <Input
-                autoFocus={true}
-                title='Name'
-                onChange={e => this.setState({ name: e.target.value })}
-                value={this.props.model.name}
-            />
+             <form onSubmit={this.handleSubmit} direction="column" gap='15px'>
+                    <FlexContainer direction="column" gap="15px">
+                    
+                    <Input
+                        autoFocus={true}
+                        title='Name'
+                        onChange={e => this.setState({ name: e.target.value })}
+                        value={this.state.name}
+                    />
 
-            <Input
-                autoFocus={true}
-                title='Key'
-                onChange={e => this.setState({ name: e.target.value })}
-                value={this.props.model.key}
-            />
-            </FlexContainer>
+                    <Input
+                        autoFocus={true}
+                        title='Key'
+                        onChange={e => this.setState({ name: e.target.value })}
+                        value={this.state.key}
+                    />
+                    </FlexContainer>
 
-            <div>
-                <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
-                    Save
-                </button>
-            </div>
+                    <div>
+                        <button style={STYLES.buttonCreate} onClick={() => this}>
+                            Save
+                        </button>
+                    </div>
+             </form>
+           
         </div>
        
       

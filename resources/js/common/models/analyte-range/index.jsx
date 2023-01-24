@@ -1,12 +1,12 @@
 
 import React from "react";
 import FlexContainer from "../../components/flex-container";
-import InputSelectModel from "../../../common/inputs/select-model";
+import InputSelect from "../../../common/inputs/select";
 import Input from '../../inputs/field';
 import TableSearch from '../../../common/portal/panel/table/search'
 import Switch from "react-switch";
 import SidePanel from '../../portal/panel/side-panel';
-import AnalyteRangeAffect from "../analyte-range-effect";
+import AnalyteRangeEffect from '../analyte-range-effect/index'
 import Brand from "../../brand"
 import FlexExpander from "../../components/flex-expander";
 import CommonBrand from '../../../common/brand'
@@ -16,16 +16,16 @@ import AddAnalyteRangeEffect from "../../portal/content/forms/add-analyte-range-
 
 const GENDER_OPTIONS = [
     {
-        name: 'Female',
-        id: 'FEMALE',
+        label: 'Female',
+        value: 'F',
     },
     {
-        name: 'Male',
-        id: 'MALE',
+        label: 'Male',
+        value: 'M',
     },
     {
-        name: 'Prefer not say',
-        id: 'PREFER NOT SAY'
+        label: 'Prefer not say',
+        value: 'O'
     }
   ]
 
@@ -45,8 +45,10 @@ export default class AnalyteRange extends React.Component {
     }
 
     handleSelectModel(x) {
+        console.log('here')
         SidePanel.pushStart('Analyte Range Affect Details', 
-        <AnalyteRangeAffect
+        //<div>Test</div>,2
+        < AnalyteRangeEffect
          model={x}
         />,
          2
@@ -75,15 +77,27 @@ export default class AnalyteRange extends React.Component {
     render() {
         return(
             <React.Fragment>
+
+              
             <FlexContainer direction='column' gap='15px'>
-            
-                <InputSelectModel
-                    models={GENDER_OPTIONS}
-                    value={this.state.genderOptions}
-                    onChange={(x) => this.setState({ genderOptions: x })}
+              
+            <div style={STYLES.containerButton}>
+
+                <InputSelect
+                    options={GENDER_OPTIONS}
+                    value={this.props.model.gender}
+                    onChange={(e) => { 
+                        this.props.model.gender = e.target.value;
+                        this.forceUpdate();
+                    }}
                     stylesselect={STYLES.selectInput}
                     stylescontainer={STYLES.selectContainer}
                 />
+                <FlexExpander/>
+                <button style={STYLES.buttonCreate} onClick={() => this}>
+                        Save
+                    </button>
+                </div> 
     
                 <div style={STYLES.styleswitch}>
                 <Switch onChange={this.toggleClick} checked={this.state.checked}/>
@@ -133,7 +147,7 @@ export default class AnalyteRange extends React.Component {
                 <div style={STYLES.button}>
                     <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
                         <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
-                        Add Analytes
+                        Add Affect
                     </button>
                 </div>
                    
@@ -141,12 +155,6 @@ export default class AnalyteRange extends React.Component {
                 classkey='analyterangeeffect'
                 ref={(e) => (this.table = e)}
                 properties={{
-                // analyteId: {
-                //     title: 'Analyte Id',
-                //     property: 'id',
-                //     type: 'TEXT',
-                //     default: true,
-                // },
                 min: {
                     title: 'Min',
                     property: 'min',
@@ -176,35 +184,41 @@ export default class AnalyteRange extends React.Component {
 }
 
 const STYLES = {
-    
-    selectInput: {
-      height: '60px',
-      fontSize: '20px',
-      textAlign: 'center',
-      border: 'none',
-      
-    },
-    selectContainer: {
-      
-      border: 'solid #f1f4f9',
-      borderRadius: '20px',
-      maxWidth: '100px',
-      margin:'10px',
-      paddingRight: '20px',
-    },
-    inputbox: {
-        padding: '10px',
-        margin: '10px',
-        color: Brand.getActiveColor()
 
+    containerButton: {
+        paddingRight: '15px',
+        display: 'flex',
+        justifyContent: 'flex-end'
     },
-    styleswitch: {
-        padding: '10px',
+    selectInput: {
+        height: '40px',
+        fontSize: '20px',
+        textAlign: 'center',
+        border: 'none',
         
-    },
-    buttonCreate: {
-		paddingRight: '10px',
-        paddingLeft: '10px',
+      },
+      selectContainer: {
+        
+        border: 'solid #f1f4f9',
+        borderRadius: '20px',
+        maxWidth: '200px',
+       
+        paddingRight: '15px',
+      },
+      inputbox: {
+          padding: '10px',
+          margin: '10px',
+          color: CommonBrand.getActiveColor()
+  
+      },
+      styleswitch: {
+         paddingTop: '10px',
+         paddingBottom: '10px'
+          
+      },
+      buttonCreate: {
+		paddingRight: '20px',
+        paddingLeft: '20px',
 		height: '50px',
 		backgroundColor: CommonBrand.getSecondaryColor(),
 		border: 'none',
@@ -223,8 +237,6 @@ const STYLES = {
         marginBottom: '15px',
         display: 'flex',
         justifyContent: 'flex-end'
-    }
-    
-    
+    } 
   }
   

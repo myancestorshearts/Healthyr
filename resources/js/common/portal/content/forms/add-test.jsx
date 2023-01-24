@@ -49,7 +49,7 @@ export default class AddAnalyte extends React.Component{
                 </div>
                 <div>
                     <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
-						Save
+						Add
 					</button>
                 </div>
                </form>

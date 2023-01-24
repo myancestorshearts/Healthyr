@@ -41,7 +41,13 @@ export default class Analytes extends React.Component{
 
  render() {
     return(
+
         <div>
+              <div style={STYLES.containerButton}>
+                <button style={STYLES.buttonCreate} onClick={() => this}>
+                    Save
+                </button>
+              </div>
           <FlexContainer direction='column' gap='15px'>
             <Input
                 title='Key'
@@ -66,7 +72,7 @@ export default class Analytes extends React.Component{
           <div style={STYLES.button}>
               <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
                   <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
-                  Add Analytes
+                  Add Range
               </button>
           </div>
                    
@@ -146,12 +152,18 @@ export default class Analytes extends React.Component{
 }
 
 const STYLES = {
+   containerButton: {
+      paddingLeft: '15px',
+      paddingBottom: '15px',
+      display: 'flex',
+      justifyContent: 'flex-end'
+   },
    area: {
      border: 'none'
    },
    buttonCreate: {
-		paddingRight: '10px',
-        paddingLeft: '10px',
+		paddingRight: '20px',
+    paddingLeft: '20px',
 		height: '50px',
 		backgroundColor: CommonBrand.getSecondaryColor(),
 		border: 'none',
