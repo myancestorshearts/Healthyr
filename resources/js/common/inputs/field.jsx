@@ -48,7 +48,8 @@ const STYLES = {
         border: '2px solid #f1f4f9',
         paddingLeft: '10px',
         paddingRight: '10px',
-        fontSize: '16px'
+        fontSize: '16px',
+        
     },
     label: {
         marginBottom: '2px',

@@ -1,4 +1,3 @@
-
 import React from "react";
 import FlexContainer from "../../components/flex-container";
 import InputSelect from "../../../common/inputs/select";
@@ -11,6 +10,7 @@ import Brand from "../../brand"
 import FlexExpander from "../../components/flex-expander";
 import CommonBrand from '../../../common/brand'
 import AddAnalyteRangeEffect from "../../portal/content/forms/add-analyte-range-effect";
+
 
 
 
@@ -47,7 +47,7 @@ export default class AnalyteRange extends React.Component {
     handleSelectModel(x) {
         console.log('here')
         SidePanel.pushStart('Analyte Range Affect Details', 
-        //<div>Test</div>,2
+      
         < AnalyteRangeEffect
          model={x}
         />,
@@ -78,9 +78,6 @@ export default class AnalyteRange extends React.Component {
         return(
             <React.Fragment>
 
-              
-            <FlexContainer direction='column' gap='15px'>
-              
             <div style={STYLES.containerButton}>
 
                 <InputSelect
@@ -93,56 +90,65 @@ export default class AnalyteRange extends React.Component {
                     stylesselect={STYLES.selectInput}
                     stylescontainer={STYLES.selectContainer}
                 />
+
+                <div style={STYLES.styleswitch}>
+                <Switch 
+                onChange={this.toggleClick} 
+                checked={this.state.checked}
+                />
+                </div>
                 <FlexExpander/>
+               
                 <button style={STYLES.buttonCreate} onClick={() => this}>
                         Save
-                    </button>
+                </button>
                 </div> 
     
-                <div style={STYLES.styleswitch}>
-                <Switch onChange={this.toggleClick} checked={this.state.checked}/>
+                <div style={STYLES.textarea}>
+                <FlexContainer direction='row' gap='15px'>
+               
+                <Input
+                        title='Age Min Months'
+                        value={this.props.model.age_min_months}
+                    />
+
+                    <Input
+                        title='Age Max Months'
+                        value={this.props.model.age_max_months}
+                    
+                    />
+
+                    <Input
+                        title='Report Min'
+                        value={this.props.model.report_min}
+                    />
+                    <Input
+                        title='Low Min'
+                        value={this.props.model.low_min}
+                    />
+                    <Input
+                        title='Healthy Min'
+                        value={this.props.model.report_min}
+                    />
+                    <Input
+                        title='Healthy Max'
+                        value={this.props.model.report_min}
+                    />
+
+                    <Input
+                        title='High Max'
+                        value={this.props.model.report_min}
+                    />
+                    <Input
+                        title='Report Max'
+                        value={this.props.model.report_min}
+                    />
+                 
+                </FlexContainer>
                 </div>
-                   
-                
-                <Input
-                    title='Age Min Months'
-                    value={this.props.model.age_min_months}
-                />
-
-                <Input
-                    title='Age Max Months'
-                    value={this.props.model.age_max_months}
-                
-                />
-
-                <Input
-                    title='Report Min'
-                    value={this.props.model.report_min}
-                />
-                <Input
-                    title='Low Min'
-                    value={this.props.model.low_min}
-                />
-                <Input
-                    title='Healthy Min'
-                    value={this.props.model.report_min}
-                />
-                <Input
-                    title='Healthy Max'
-                    value={this.props.model.report_min}
-                />
-
-                <Input
-                    title='High Max'
-                    value={this.props.model.report_min}
-                />
-                <Input
-                    title='Report Max'
-                    value={this.props.model.report_min}
-                />
+               
                         
-            </FlexContainer>
-            
+           
             <FlexExpander />
                 <div style={STYLES.button}>
                     <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
@@ -186,7 +192,7 @@ export default class AnalyteRange extends React.Component {
 const STYLES = {
 
     containerButton: {
-        paddingRight: '15px',
+        padding: '15px',
         display: 'flex',
         justifyContent: 'flex-end'
     },
@@ -198,12 +204,10 @@ const STYLES = {
         
       },
       selectContainer: {
-        
         border: 'solid #f1f4f9',
         borderRadius: '20px',
         maxWidth: '200px',
-       
-        paddingRight: '15px',
+        padding: '15px',
       },
       inputbox: {
           padding: '10px',
@@ -212,8 +216,8 @@ const STYLES = {
   
       },
       styleswitch: {
-         paddingTop: '10px',
-         paddingBottom: '10px'
+         padding: '15px',
+         border: 'none'
           
       },
       buttonCreate: {
@@ -237,6 +241,9 @@ const STYLES = {
         marginBottom: '15px',
         display: 'flex',
         justifyContent: 'flex-end'
-    } 
+    },
+    textarea: {
+      padding: '20px',
   }
+}
   

@@ -8,11 +8,11 @@ import ApiAdmin from '../../../api/admin';
 
 
 
-export default class AddAnalyte extends React.Component{
+export default class AddTest extends React.Component{
         constructor(props) {
             super(props);
             this.state = {
-                name: '',
+                name:'',
                 key: '',
                 
             }
@@ -22,7 +22,7 @@ export default class AddAnalyte extends React.Component{
         handleSubmit(e) {
             e.preventDefault()
             this.loading = true;
-            ApiAdmin.Generic.add({classkey: 'analyte', ...this.state}, success => {
+            ApiAdmin.Generic.add({classkey: 'test', ...this.state}, success => {
                 if (this.props.onAdd) this.props.onAdd(success.data.model);
             }, failure => {
                 toastr.error(failure.message);

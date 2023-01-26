@@ -16,31 +16,8 @@ export default class Test extends React.Component{
             key: this.props.model.key,
           
         }
-        //this.handleAdd = this.handleAdd.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+        
     }
-
-    handleSubmit(e) {
-        e.preventDefault()
-        this.loading = true;
-        ApiAdmin.Generic.add({classkey: 'tests', ...this.state}, success => {
-            if (this.props.onAdd) this.props.onAdd(success.data.model);
-        }, failure => {
-            toastr.error(failure.message);
-        })
-    }
-
-    // handleAdd() {
-    //     SidePanel.pushStart( 'Add Analyte',
-    //     <AddTest
-    //       analyte = {this.props.model}
-    //       onAdd={() => {
-    //         SidePanel.pop();
-    //         if (this.table) this.table.handleSearch();
-    //       }}
-    //     />
-    //     )
-    //     }
 
  render() {
     return(
