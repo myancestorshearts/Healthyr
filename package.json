@@ -1,17 +1,24 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch"
     },
     "dependencies": {
         "@babel/plugin-syntax-jsx": "^7.18.6",
         "@babel/preset-react": "^7.18.6",
+        "@fortawesome/free-brands-svg-icons": "^6.2.1",
+        "@fortawesome/free-solid-svg-icons": "^6.2.1",
+        "@fortawesome/react-fontawesome": "^0.2.0",
         "laravel-mix": "^6.0.49",
         "react": "^18.2.0",
+        "react-datepicker": "^4.8.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "5.3",
-        "toastr": "^2.1.4"
+        "react-switch": "^7.0.0",
+        "toastr": "^2.1.4",
+        "webpack": "^5.75.0"
     },
     "babel": {
         "presets": [
