@@ -8,6 +8,11 @@ use App\Models\Mysql;
 use App\Common;
 use App\Libraries;
 
+
+
+use App\Libraries\FPDI\Fpdi;
+use App\Libraries\FPDI\PdfReader;
+
 class Custom extends Command
 {
     /**
@@ -47,15 +52,44 @@ class Custom extends Command
      */
     public function handle()
     {
+        $location = '/Users/kylepaulson/Downloads/healthyrtest.pdf';
+
+        $pdf = new Fpdi();
+        $pdf->setSourceFile($location);
+
+        $tplIdx = $pdf->importPage(1);
+        $result = $pdf->getTemplateSize($tplIdx);
+
+        $pdf->addPage($result['orientation'], $result);
+        $pdf->useTemplate($tplIdx, 0, 0);
+
+       // dd($pdf->getTemplateSize());  
+      //  $pageId = $pdf->importPage(1, PdfReader\PageBoundaries::MEDIA_BOX);
+        $pdf->SetFillColor(255, 255, 255);
+        $pdf->SetDrawColor(255, 255, 255);
+        $pdf->Rect(32, 55, 30, 10, 'FD');
+        
+        $pdf->SetFont('Arial');
+        $pdf->SetFontSize(8);
+        $pdf->SetXY(36.6, 60.3);
+        $pdf->Write(0, 'Healthyr');
+        //$pdf->useImportedPage($pageId, 10, 10, 90);
+        $pdf->Output('F', '/Users/kylepaulson/Downloads/healthyrtest-generated.pdf');
+
+
+
+
+
+
         //$this->checkKits();
 
         //$this->createAnalyteRanges();
 
-        $this->seedPanels();
+        //$this->seedPanels();
     }
 
     private function seedPanels() {
-
+ 
         Common\Functions::setMysqlDatabaseConfig($this->DB_HOST, $this->DB_PORT, $this->DB_DATABASE, $this->DB_USERNAME, $this->DB_PASSWORD);
 
         $csv_locations = [  
@@ -116,7 +150,7 @@ class Custom extends Command
                 $analyte = Mysql\Common\Analyte::where('key', '=', $panel['key'])->limit(1)->get()->first();
                 if (isset($analyte)) {
 
-                    $age_min_months = $panel['age min'] * 12;
+                    $age_min_months = $panel['age min'] * 12;   
                     $age_max_months = $panel['age max'] == 120 ? null : $panel['age max'] * 12;
 
                     $analyte_range = Mysql\Common\AnalyteRange::where([

@@ -11,7 +11,8 @@ import TableSearch from '../../../common/portal/panel/table/search'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
 import Test from '../../../common/models/test/index';
-
+import FlexExpander from '../../../common/components/flex-expander';
+import AddTest from '../../../common/portal/content/forms/add-test'
 
 const FILTER_TIME_FRAME = [
   {
@@ -42,7 +43,7 @@ const FILTER_FULFILLED = [
 const VIEW_DASHBOARD = 'dashboard'
 const VIEW_TABLE = 'table'
 
-export default class Orders extends React.Component {
+export default class Tests extends React.Component {
   constructor(props) {
     super(props)
 
@@ -64,6 +65,13 @@ export default class Orders extends React.Component {
         model={x}
        />
     )
+  }
+
+  handleAdd() {
+    SidePanel.pushStart( 'Add Analyte',
+     <AddTest />
+
+   )
   }
 
   render() {
@@ -106,6 +114,11 @@ export default class Orders extends React.Component {
               stylescontainer={STYLES.selectContainer}
             />
           ) : null}
+          <FlexExpander />
+          <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+						<i className="fa fa-plus" style={STYLES.createInputIcon}></i>
+						Add Tests
+					</button>
         </FlexContainer>
 
         {this.state.view == VIEW_DASHBOARD ? (
@@ -182,4 +195,20 @@ const STYLES = {
     backgroundColor: CommonBrand.getSecondaryColor(),
     color: 'white',
   },
+  buttonCreate: {
+		paddingRight: '20px',
+    paddingLeft: '20px',
+		height: '50px',
+		backgroundColor: CommonBrand.getSecondaryColor(),
+		border: 'none',
+		borderRadius: '20px',
+		boxShadow: 'rgb(180 204 222 / 20%) 5px 5px 10px',
+		color: '#ffffff',
+		fontWeight: 20,
+		fontSize: '18px',
+		fontFamily: 'Poppins'
+	},
+	createInputIcon: {
+		paddingRight: '10px'
+	}
 }

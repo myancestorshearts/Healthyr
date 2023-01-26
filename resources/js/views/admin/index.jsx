@@ -5,6 +5,7 @@ import ContentDashboard from './content/dashboard'
 import ContentTests from './content/tests'
 import ContentAnalytes from './content/analytes'
 import ContentSettings from './content/settings'
+import ContentAdvertisements from './content/advertisement'
 
 const MENUS = [
   {
@@ -24,7 +25,13 @@ const MENUS = [
     title: 'Analytes',
     icon: 'fa fa-thermometer-full',
     component: ContentAnalytes,
-    link: '/analytes',
+    link: '/analytes', 
+  },
+  {
+    title: 'Advertisement',
+    icon: 'fa fa-newspaper-o',
+    component: ContentAdvertisements,
+    link: '/advertisements', 
   },
   {
     title: 'Settings',

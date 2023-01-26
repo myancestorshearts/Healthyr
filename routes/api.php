@@ -37,6 +37,9 @@ Route::post('verify/email', 'ApiController@doVerifyEmail');
 Route::post('password/request', 'ApiController@doPasswordRequest');
 Route::post('password/set', 'ApiController@doPasswordSet');
 
+// get file
+Route::get('/platform/user/{plaform_user_id}/kit/{kit_id}/result.pdf', 'ApiController@getPlatformUserKitResult');
+
 
 
 

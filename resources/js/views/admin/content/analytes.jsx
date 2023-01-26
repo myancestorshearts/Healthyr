@@ -6,7 +6,9 @@ import PortalTitle from '../../../common/portal/title'
 import TableSearch from '../../../common/portal/panel/table/search'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
-import Test from '../../../common/models/test/index';
+import Analyte from '../../../common/models/analyte/index'
+import FlexExpander from '../../../common/components/flex-expander';
+import AddAnalyte from '../../../common/portal/content/forms/add-analyte'
 
 
 const FILTER_TIME_FRAME = [
@@ -38,7 +40,7 @@ const FILTER_FULFILLED = [
 const VIEW_DASHBOARD = 'dashboard'
 const VIEW_TABLE = 'table'
 
-export default class Shipments extends React.Component {
+export default class Analytes extends React.Component {
   constructor(props) {
     super(props)
 
@@ -47,14 +49,27 @@ export default class Shipments extends React.Component {
       filterFulfilled: FILTER_FULFILLED[0],
       view: VIEW_DASHBOARD,
     }
-    this.handleSelectModel.bind(this)
+    
+    this.handleAdd = this.handleAdd.bind(this);
   }
   handleSelectModel(x) { 
-    SidePanel.pushStart('Test Details', 
-       <Test
+    SidePanel.pushStart('Analyte Details', 
+       <Analyte
         model={x}
        />
     )
+  }
+
+  handleAdd() {
+     SidePanel.pushStart( 'Add Analyte',
+      <AddAnalyte 
+        onAdd={() => {
+          SidePanel.pop();
+          if (this.table) this.table.handleSearch();
+        }}
+      />
+
+     )
   }
 
   render() {
@@ -97,8 +112,16 @@ export default class Shipments extends React.Component {
               stylesselect={STYLES.selectInput}
               stylescontainer={STYLES.selectContainer}
             />
-          ) : null}
+          ) : null
+          
+          }
+         <FlexExpander />
+          <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+						<i className="fa fa-plus" style={STYLES.createInputIcon}></i>
+						Add Analytes
+					</button>
         </FlexContainer>
+        
 
         {this.state.view == VIEW_DASHBOARD ? (
           <React.Fragment>
@@ -188,4 +211,20 @@ const STYLES = {
     backgroundColor: CommonBrand.getSecondaryColor(),
     color: 'white',
   },
+  buttonCreate: {
+		paddingRight: '20px',
+    paddingLeft: '20px',
+		height: '50px',
+		backgroundColor: CommonBrand.getSecondaryColor(),
+		border: 'none',
+		borderRadius: '20px',
+		boxShadow: 'rgb(180 204 222 / 20%) 5px 5px 10px',
+		color: '#ffffff',
+		fontWeight: 20,
+		fontSize: '18px',
+		fontFamily: 'Poppins'
+	},
+	createInputIcon: {
+		paddingRight: '10px'
+	}
 }
