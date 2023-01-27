@@ -70,6 +70,7 @@ const STYLES = {
         border: '2px solid #f1f4f9',
         padding: '10px',
         fontSize: '16px',
+        cursor: 'text',
         resize: 'none'
     },
     label: {

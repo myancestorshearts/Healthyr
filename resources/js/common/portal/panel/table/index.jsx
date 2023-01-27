@@ -2,8 +2,10 @@
 import React from 'react';
 import Loading from '../../../components/loading';
 import Panel from '../../panel/index';
+import CommonBrand from '../../../brand'
 import toastr from 'toastr';
 import CommonFunctions from '../../../functions'
+import StyledComponent from '../../../components/styled-component';
 
 class Table extends React.Component {
 
@@ -88,10 +90,20 @@ const Row = (props) => {
     }) : null
 
     return (
+        
+        <StyledComponent
+        props={{onClick: props.onClick}}
+         tagName='tr'
+         styleHover={STYLES.rowHover}
+         style={STYLES.row}
+        >
+       
 
-        <tr onClick={props.onClick}>
-            {columns}
-        </tr>
+        {columns}
+        
+           
+        </StyledComponent>
+        
     )
 
 }
@@ -170,7 +182,6 @@ const STYLES = {
     tableRowCell: {
         padding: '6px',
         borderBottom: '1px solid #f1f4f9',
-        color: '#555',
         fontWeight: 'bold',
         paddingLeft: '10px',
         paddingRight: '10px',
@@ -181,4 +192,12 @@ const STYLES = {
         display: 'table-cell',
         verticalAlign: 'middle'
     },
+    rowHover:{
+        backgroundColor: CommonBrand.getActiveColor(),
+        color: 'white',
+        cursor: 'pointer'
+    },
+    row: {
+        color: '#555'
+    }
 }

@@ -4,6 +4,7 @@ import ApiAdmin from '../../../api/admin'
 import Table from '../../panel/table/index';
 import FlexContainer from "../../../components/flex-container";
 import Button from "../../../inputs/button";
+import CommonBrand from '../../../brand'
 
 
 const OPTIONS_TAKE = [
@@ -87,8 +88,8 @@ export  default class SearchTable extends React.Component{
 
                         {this.state.page > 1 ?
                             <button
-                                stylesbuttonhover={STYLES.balanceButtonHover}
-                                stylesbuttonactive={STYLES.balanceButtonActive}
+                                stylesButtonHover={STYLES.balanceButtonHover}
+                                stylesButtonActive={STYLES.balanceButtonActive}
                                 className="fa fa-angle-left" style={STYLES.iconArrow}
                                 onClick={() => {
                                     this.handlePaginate(this.state.page - 1);
@@ -157,13 +158,15 @@ const STYLES = {
     },
 
     balanceButtonHover: {
-        backgroundColor: 'rgb(32, 20, 94)',
+        backgroundColor: CommonBrand.getActiveColor(),
+        color: 'white',
+        cursor: 'pointer',
         borderRadius: '40px',
         
     },
     balanceButtonActive: {
         
-        color: '#fffff'
+        color: '#555'
     }
 
 }

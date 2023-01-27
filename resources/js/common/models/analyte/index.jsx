@@ -172,7 +172,8 @@ const STYLES = {
 		color: '#ffffff',
 		fontWeight: 20,
 		fontSize: '18px',
-		fontFamily: 'Poppins'
+		fontFamily: 'Poppins',
+    cursor: 'pointer'
 	},
 	createInputIcon: {
 		paddingRight: '10px'

@@ -39,6 +39,7 @@ export default class AnalyteRangeAffect extends React.Component {
                     
                     <TextArea 
                     title='Affect'
+                    style={STYLES.inputField}
                     value={this.props.model.affect}
                     />
             </FlexContainer>
@@ -67,6 +68,10 @@ const STYLES = {
         color: '#ffffff',
         fontWeight: 20,
         fontSize: '18px',
-        fontFamily: 'Poppins'
+        fontFamily: 'Poppins',
+        cursor: 'pointer'
     },
+    inputField: {
+        cursor: 'text'
+    }
 }

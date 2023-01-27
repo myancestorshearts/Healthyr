@@ -6,7 +6,6 @@ import TableSearch from '../../../common/portal/panel/table/search'
 import Switch from "react-switch";
 import SidePanel from '../../portal/panel/side-panel';
 import AnalyteRangeEffect from '../analyte-range-effect/index'
-import Brand from "../../brand"
 import FlexExpander from "../../components/flex-expander";
 import CommonBrand from '../../../common/brand'
 import AddAnalyteRangeEffect from "../../portal/content/forms/add-analyte-range-effect";
@@ -231,7 +230,8 @@ const STYLES = {
 		color: '#ffffff',
 		fontWeight: 20,
 		fontSize: '18px',
-		fontFamily: 'Poppins'
+		fontFamily: 'Poppins',
+        cursor: 'pointer'
 	},
 	createInputIcon: {
 		paddingRight: '10px'
