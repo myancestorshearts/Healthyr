@@ -29,7 +29,7 @@ export default class AddAnalyteRange extends React.Component{
             super(props);
             this.state = {
                 //analyte_id: props.analyte.id,
-                gender: this.props.model.gender,
+                //gender: this.props.model.gender,
                 genderOptions: GENDER_OPTIONS[0],
                 checked: false,
                 age_min_months:this.props.model.age_min_months,
