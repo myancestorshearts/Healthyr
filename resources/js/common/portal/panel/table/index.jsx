@@ -92,7 +92,7 @@ const Row = (props) => {
     return (
         
         <StyledComponent
-        props={{onClick: props.onClick}}
+         props={{onClick: props.onClick}}
          tagName='tr'
          styleHover={STYLES.rowHover}
          style={STYLES.row}

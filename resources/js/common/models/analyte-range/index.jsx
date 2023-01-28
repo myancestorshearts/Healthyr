@@ -9,9 +9,7 @@ import AnalyteRangeEffect from '../analyte-range-effect/index'
 import FlexExpander from "../../components/flex-expander";
 import CommonBrand from '../../../common/brand'
 import AddAnalyteRangeEffect from "../../portal/content/forms/add-analyte-range-effect";
-
-
-
+import ApiAdmin from '../../api/admin'
 
 const GENDER_OPTIONS = [
     {
@@ -34,21 +32,36 @@ export default class AnalyteRange extends React.Component {
         super(props)
 
         this.state = {
+            gender: this.props.model.gender,
             genderOptions: GENDER_OPTIONS[0],
-            checked: false
+            checked: false,
+            age_min_months: this.props.model.age_min_months,
+            age_max_months: this.props.model.age_max_months,
+            report_min: this.props.model.report_min,
+            low_min: this.props.model.low_min,
+            healthy_min: this.props.model.healthy_min,
+            healthy_max: this.props.model.healthy_max,
+            high_max: this.props.model.high_max,
+            report_max: this.props.model.report_max,
         }
         this.toggleClick = this.toggleClick.bind(this);
         this.handleSelectModel = this.handleSelectModel.bind(this)
         this.handleAdd = this.handleAdd.bind(this);
+        this.handleSave = this.handleSave.bind(this)
+
 
     }
 
     handleSelectModel(x) {
-        console.log('here')
+      
         SidePanel.pushStart('Analyte Range Affect Details', 
       
         < AnalyteRangeEffect
          model={x}
+         onSave={() => {
+            SidePanel.pop();
+            if (this.table) this.table.handleSearch();
+          }}
         />,
          2
      )
@@ -67,6 +80,19 @@ export default class AnalyteRange extends React.Component {
         )
      }
 
+     handleSave() {
+        
+        this.loading = true;
+        ApiAdmin.Generic.set({classkey:'analyterange', id: this.props.model.id, ...this.state}, success => {
+            if(this.props.onSave) this.props.onSave(success.data.model);
+        },
+        failure => {
+            toastr.error(failure.message)
+        }
+        )
+        
+     }
+
    toggleClick(checked) {
         this.setState({
            checked
@@ -81,9 +107,9 @@ export default class AnalyteRange extends React.Component {
 
                 <InputSelect
                     options={GENDER_OPTIONS}
-                    value={this.props.model.gender}
+                    value={this.state.gender}
                     onChange={(e) => { 
-                        this.props.model.gender = e.target.value;
+                        this.state.gender = e.target.value;
                         this.forceUpdate();
                     }}
                     stylesselect={STYLES.selectInput}
@@ -98,7 +124,7 @@ export default class AnalyteRange extends React.Component {
                 </div>
                 <FlexExpander/>
                
-                <button style={STYLES.buttonCreate} onClick={() => this}>
+                <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
                         Save
                 </button>
                 </div> 
@@ -107,42 +133,53 @@ export default class AnalyteRange extends React.Component {
                 <FlexContainer direction='row' gap='15px'>
                
                 <Input
-                        title='Age Min Months'
-                        value={this.props.model.age_min_months}
-                    />
+                    onChange={e => this.setState({ age_min_months: e.target.value })}
+                    title='Age Min Months'
+                    value={this.state.age_min_months}
+                />
 
-                    <Input
-                        title='Age Max Months'
-                        value={this.props.model.age_max_months}
-                    
-                    />
+                <Input
+                    onChange={e => this.setState({ age_max_months: e.target.value })}
+                    title='Age Max Months'
+                    value={this.state.age_max_months}
+                
+                />
 
-                    <Input
-                        title='Report Min'
-                        value={this.props.model.report_min}
-                    />
-                    <Input
-                        title='Low Min'
-                        value={this.props.model.low_min}
-                    />
-                    <Input
-                        title='Healthy Min'
-                        value={this.props.model.report_min}
-                    />
-                    <Input
-                        title='Healthy Max'
-                        value={this.props.model.report_min}
-                    />
+                <Input                    
+                    onChange={e => this.setState({ report_min: e.target.value })}
+                    title='Report Min'
+                    value={this.state.report_min}
+                />
+                <Input
+                    onChange={e => this.setState({ low_min: e.target.value })}
+                    title='Low Min'
+                    value={this.state.low_min}
+                />
+                <Input
+                    title='Healthy Min'
+                    value={this.state.healthy_min}
+                    onChange={e => this.setState({ healthy_min: e.target.value })}
 
-                    <Input
-                        title='High Max'
-                        value={this.props.model.report_min}
-                    />
-                    <Input
-                        title='Report Max'
-                        value={this.props.model.report_min}
-                    />
-                 
+                />
+                <Input
+                    title='Healthy Max'
+                    value={this.state.healthy_max}
+                    onChange={e => this.setState({ healthy_max: e.target.value })}
+                />
+
+                <Input
+                    title='High Max'
+                    value={this.state.high_max}
+                    onChange={e => this.setState({ high_max: e.target.value })}
+
+                />
+                <Input
+                    title='Report Max'
+                    value={this.state.report_max}
+                    onChange={e => this.setState({ report_max: e.target.value })}
+
+                />
+                
                 </FlexContainer>
                 </div>
                
@@ -173,8 +210,8 @@ export default class AnalyteRange extends React.Component {
                     default: true,
                 },
                 affect: {
-                    title: 'Affect',
-                    property: 'affect',
+                    title: 'Effect',
+                    property: 'effect',
                     type: 'TEXT',
                     default: true
                 },

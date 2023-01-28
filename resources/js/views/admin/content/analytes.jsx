@@ -56,6 +56,10 @@ export default class Analytes extends React.Component {
     SidePanel.pushStart('Analyte Details', 
        <Analyte
         model={x}
+        onSave={() => {
+          SidePanel.pop();
+          if (this.table) this.table.handleSearch();
+        }}
        />
     )
   }

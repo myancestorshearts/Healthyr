@@ -12,15 +12,15 @@ import FlexExpander from '../../../components/flex-expander';
 const GENDER_OPTIONS = [
     {
         name: 'Female',
-        id: 'FEMALE',
+        id: 'F',
     },
     {
         name: 'Male',
-        id: 'MALE',
+        id: 'M',
     },
     {
         name: 'Prefer not say',
-        id: 'PREFER NOT SAY'
+        id: 'O'
     }
   ]
 
@@ -28,32 +28,36 @@ export default class AddAnalyteRange extends React.Component{
         constructor(props) {
             super(props);
             this.state = {
-                analyte_id: props.analyte.id,
-                gender: '',
-                pregnant: '',
-                age_min_months: '',
-                age_max_months: '',
-                report_min: '',
-                report_max: '',
-                low_min: '',
-                high_max: '',
-                healthy_min: '',
-                healthy_max: ''
+                //analyte_id: props.analyte.id,
+                gender: this.props.model.gender,
+                genderOptions: GENDER_OPTIONS[0],
+                checked: false,
+                age_min_months:this.props.model.age_min_months,
+                age_max_months: this.props.model.age_max_months,
+                report_min: this.props.model.report_min,
+                low_min: this.props.model.low_min,
+                healthy_min: this.props.healthy_min,
+                healthy_max: this.props.model.healthy_max,
+                high_max: this.props.model.high_max,
+                report_max: this.props.model.report_max,
 
             }
-            this.handleSubmit = this.handleSubmit.bind(this)
+            this.handleSave = this.handleSave.bind(this)
             this.toggleClick = this.toggleClick.bind(this);
         }
 
-        handleSubmit(e) {
-            e.preventDefault()
+        handleSave() {
+        
             this.loading = true;
-            ApiAdmin.Generic.add({classkey: 'analyte', ...this.state}, success => {
-                if (this.props.onAdd) this.props.onAdd(success.data.model);
-            }, failure => {
-                toastr.error(failure.message);
-            })
-        }
+            ApiAdmin.Generic.set({classkey:'analyterange', id: this.props.model.id, ...this.state}, success => {
+                if(this.props.onSave) this.props.onSave(success.data.model);
+            },
+            failure => {
+                toastr.error(failure.message)
+            }
+            )
+            
+         }
 
         toggleClick(checked) {
             this.setState({
@@ -66,14 +70,13 @@ export default class AddAnalyteRange extends React.Component{
 
                 <React.Fragment>
 
-                
-
-               
-                    <form onSubmit={this.handleSubmit} direction="column" gap='15px'>
                         <InputSelectModel
                             models={GENDER_OPTIONS}
-                            value={this.state.genderOptions}
-                            onChange={(x) => this.setState({ genderOptions: x })}
+                            value={this.state.gender}
+                            onChange={(e) => { 
+                                this.state.gender = e.target.value;
+                                this.forceUpdate();
+                            }}
                             stylesselect={STYLES.selectInput}
                             stylescontainer={STYLES.selectContainer} />
 
@@ -126,14 +129,11 @@ export default class AddAnalyteRange extends React.Component{
                     
                     
                     <div>
-                        <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+                        <button style={STYLES.buttonCreate} onClick={this.handleSave}>
                             Save
                         </button>
                     </div>
-                    
-                </form>
-             
-
+        
             </React.Fragment>
                
             )

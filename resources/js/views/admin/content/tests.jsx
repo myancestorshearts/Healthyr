@@ -63,13 +63,19 @@ export default class Tests extends React.Component {
     SidePanel.pushStart('Test Details', 
        <Test
         model={x}
+
        />
     )
   }
 
   handleAdd() {
-    SidePanel.pushStart( 'Add Analyte',
-     <AddTest />
+    SidePanel.pushStart('Add Test',
+     <AddTest
+     onAdd={() => {
+      SidePanel.pop();
+      if (this.table) this.table.handleSearch();
+    }}
+      />
 
    )
   }

@@ -8,10 +8,19 @@ import FlexContainer from "../../components/flex-container";
 import CommonBrand from '../../../common/brand'
 import FlexExpander from '../../components/flex-expander';
 import AddRange from '../../portal/content/forms/add-ranges'
+import ApiAdmin from '../../api/admin'
+import toastr from 'toastr';
 
 export default class Analytes extends React.Component{
   constructor(props) {
     super(props);
+    this.state = {
+       key: this.props.model.key,
+       name: this.props.model.name,
+       unit_of_measure: this.props.model.unit_of_measure,
+       description: this.props.model.description,
+       
+    }
 
     this.handleSelectModel = this.handleSelectModel.bind(this);
     this.handleAdd= this. handleAdd.bind(this);
@@ -21,6 +30,10 @@ export default class Analytes extends React.Component{
     SidePanel.pushStart('Analyte Range Details', 
     <AnalyteRange
      model={x}
+     onSave={() => {
+      SidePanel.pop();
+      if (this.table) this.table.handleSearch();
+    }}
     />,
      1
    )
@@ -39,31 +52,50 @@ export default class Analytes extends React.Component{
     )
  }
 
+ handleSave() {
+        
+  this.loading = true;
+  ApiAdmin.Generic.set({classkey:'analyte', id: this.props.model.id, ...this.state}, success => {
+      if(this.props.onSave) this.props.onSave(success.data.model);
+  },
+  failure => {
+      toastr.error(failure.message)
+  }
+  )
+  
+}
+
  render() {
     return(
 
-        <div>
+          <div>
+              
+          <FlexContainer direction='column' gap='15px'>
+          
               <div style={STYLES.containerButton}>
-                <button style={STYLES.buttonCreate} onClick={() => this}>
+                <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
                     Save
                 </button>
-              </div>
-          <FlexContainer direction='column' gap='15px'>
+            </div>
             <Input
+                onChange={e => this.setState({ key: e.target.value })}
                 title='Key'
-                value={this.props.model.key}
+                value={this.state.key}
               />
               <Input
+                onChange={e => this.setState({ name: e.target.value })}
                 title='Name'
-                value={this.props.model.name}
+                value={this.state.name}
               />
               <Input
+                onChange={e => this.setState({ unit_of_measure: e.target.value })}
                 title='Unit of Measure'
-                value={this.props.model.unit_of_measure}
+                value={this.state.unit_of_measure}
               />
               <TextArea 
+              onChange={x => this.setState({ description: x})}
               title='Description'
-              value={this.props.model.description}
+              value={this.state.description}
               style={STYLES.area}
               />
           </FlexContainer>
