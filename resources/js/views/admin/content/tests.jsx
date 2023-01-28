@@ -54,7 +54,8 @@ export default class Tests extends React.Component {
       drawerOpen: false,
     }
 
-    this.handleSelectModel.bind(this)
+   this.handleSelectModel = this.handleSelectModel.bind(this)
+   this.handleAdd = this.handleAdd.bind(this)
   }
 
   

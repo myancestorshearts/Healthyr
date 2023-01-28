@@ -49,7 +49,7 @@ export default class Analytes extends React.Component {
       filterFulfilled: FILTER_FULFILLED[0],
       view: VIEW_DASHBOARD,
     }
-    
+    this.handleSelectModel = this.handleSelectModel.bind(this)
     this.handleAdd = this.handleAdd.bind(this);
   }
   handleSelectModel(x) { 

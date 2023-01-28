@@ -28,29 +28,28 @@ export default class AddAnalyteRange extends React.Component{
         constructor(props) {
             super(props);
             this.state = {
-                //analyte_id: props.analyte.id,
-                //gender: this.props.model.gender,
-                genderOptions: GENDER_OPTIONS[0],
-                checked: false,
-                age_min_months:this.props.model.age_min_months,
-                age_max_months: this.props.model.age_max_months,
-                report_min: this.props.model.report_min,
-                low_min: this.props.model.low_min,
-                healthy_min: this.props.healthy_min,
-                healthy_max: this.props.model.healthy_max,
-                high_max: this.props.model.high_max,
-                report_max: this.props.model.report_max,
+                analyte_id: props.analyte.id,
+                gender: GENDER_OPTIONS[0],
+                pregnant: false,
+                age_min_months: '',
+                age_max_months: '' ,
+                report_min: '',
+                low_min: '',
+                healthy_min: '',
+                healthy_max: '',
+                high_max:'',
+                report_max: '',
 
             }
-            this.handleSave = this.handleSave.bind(this)
+            this.handleAdd = this.handleAdd.bind(this)
             this.toggleClick = this.toggleClick.bind(this);
         }
 
-        handleSave() {
+        handleAdd() {
         
             this.loading = true;
-            ApiAdmin.Generic.set({classkey:'analyterange', id: this.props.model.id, ...this.state}, success => {
-                if(this.props.onSave) this.props.onSave(success.data.model);
+            ApiAdmin.Generic.add({classkey:'analyterange', ...this.state, gender: this.state.gender.id}, success => {
+                if(this.props.onAdd) this.props.onAdd(success.data.model);
             },
             failure => {
                 toastr.error(failure.message)
@@ -61,7 +60,7 @@ export default class AddAnalyteRange extends React.Component{
 
         toggleClick(checked) {
             this.setState({
-               checked
+               pregnant: !this.state.pregnant
             })
         }
 
@@ -74,63 +73,63 @@ export default class AddAnalyteRange extends React.Component{
                             models={GENDER_OPTIONS}
                             value={this.state.gender}
                             onChange={(e) => { 
-                                this.state.gender = e.target.value;
+                                this.state.gender = e;
                                 this.forceUpdate();
                             }}
                             stylesselect={STYLES.selectInput}
                             stylescontainer={STYLES.selectContainer} />
 
                         <div style={STYLES.styleswitch}>
-                            <Switch onChange={this.toggleClick} checked={this.state.checked} />
+                            <Switch onChange={this.toggleClick} checked={this.state.pregnant} />
                         </div>
 
                         <Input
                             autoFocus={true}
                             title='Age Min Months'
-                            onChange={e => this.setState({ age_min_months: e.target.age_min_months })}
+                            onChange={e => this.setState({ age_min_months: e.target.value })}
                             value={this.state.age_min_months} />
 
                         <Input
                             autoFocus={true}
                             title='Age Max Months'
-                            onChange={e => this.setState({ age_max_months: e.target.age_max_months })}
-                            value={this.state.age_min_months} />
+                            onChange={e => this.setState({ age_max_months: e.target.value})}
+                            value={this.state.age_max_months} />
                         <Input
                             autoFocus={true}
                             title='Report Min'
-                            onChange={e => this.setState({ report_min: e.target.report_min })}
+                            onChange={e => this.setState({ report_min: e.target.value })}
                             value={this.state.report_min} />
                         <Input
                             autoFocus={true}
                             title='Report Max'
-                            onChange={e => this.setState({ report_max: e.target.report_max })}
+                            onChange={e => this.setState({ report_max: e.target.value})}
                             value={this.state.report_max} />
                         <Input
                             autoFocus={true}
                             title='Low Min'
-                            onChange={e => this.setState({ low_min: e.target.low_min })}
+                            onChange={e => this.setState({ low_min: e.target.value})}
                             value={this.state.low_min} />
                         <Input
                             autoFocus={true}
                             title='High Max'
-                            onChange={e => this.setState({ high_max: e.target.high_max })}
+                            onChange={e => this.setState({ high_max: e.target.value})}
                             value={this.state.high_max} />
                         <Input
                             autoFocus={true}
                             title='Healthy Min'
-                            onChange={e => this.setState({ healthy_min: e.target.healthy_min })}
+                            onChange={e => this.setState({ healthy_min: e.target.value})}
                             value={this.state.healthy_min} />
                         <Input
                             autoFocus={true}
                             title='Healthy Max'
-                            onChange={e => this.setState({ healthy_max: e.target.healthy_max })}
+                            onChange={e => this.setState({ healthy_max: e.target.value})}
                             value={this.state.healthy_max} />
 
                     
                     
                     <div>
-                        <button style={STYLES.buttonCreate} onClick={this.handleSave}>
-                            Save
+                        <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+                            Add
                         </button>
                     </div>
         
