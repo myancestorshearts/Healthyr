@@ -8,7 +8,6 @@ import FlexContainer from "../../components/flex-container";
 import CommonBrand from '../../../common/brand'
 import FlexExpander from '../../components/flex-expander';
 import AddRange from '../../portal/content/forms/add-ranges'
-
 export default class Analytes extends React.Component{
   constructor(props) {
     super(props);

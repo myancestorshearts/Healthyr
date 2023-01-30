@@ -10,6 +10,7 @@ import Brand from "../../brand"
 import FlexExpander from "../../components/flex-expander";
 import CommonBrand from '../../../common/brand'
 import AddAnalyteRangeEffect from "../../portal/content/forms/add-analyte-range-effect";
+import GraphComponent from '../../components/graph-component'
 
 
 
