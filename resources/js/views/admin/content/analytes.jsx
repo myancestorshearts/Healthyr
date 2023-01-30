@@ -49,13 +49,17 @@ export default class Analytes extends React.Component {
       filterFulfilled: FILTER_FULFILLED[0],
       view: VIEW_DASHBOARD,
     }
-    
+    this.handleSelectModel = this.handleSelectModel.bind(this)
     this.handleAdd = this.handleAdd.bind(this);
   }
   handleSelectModel(x) { 
     SidePanel.pushStart('Analyte Details', 
        <Analyte
         model={x}
+        onSave={() => {
+          SidePanel.pop();
+          if (this.table) this.table.handleSearch();
+        }}
        />
     )
   }
@@ -222,7 +226,8 @@ const STYLES = {
 		color: '#ffffff',
 		fontWeight: 20,
 		fontSize: '18px',
-		fontFamily: 'Poppins'
+		fontFamily: 'Poppins',
+    cursor: 'pointer'
 	},
 	createInputIcon: {
 		paddingRight: '10px'

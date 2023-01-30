@@ -1,64 +1,1055 @@
+export default class Dictionary {
 
-import WebClient from './webclient';
-import Storage from './storage';
 
-class Kit {
 
-	/**purpose
-	 *   register a kit
-	 * args
-	 * 	 kit_id
-	 *   platform_user_id
-	 *   first_name
-	 * 	 last_name
-	 *   email
-	 *   date_of_birth
-	 * 	 sex
-	 *	 phone
-	 *   consent_test_taker
-	 *   consent_product
-	 *   consent_research
-	 */
-    static register(parameters, successCallback, failureCallback) {
-        WebClient.basicPost(parameters, 'https://api.behealthyr.com/api/platform/user/kit/register', successCallback, failureCallback);
-    }
+	static RESULT_VARIATIONS = {
+		'M': {
+			"Testosterone": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'ng/ml',
+				range_low: 1.75,
+				range_low_normal: 2.66,
+				range_high_normal: 6.9,
+				range_high: 7.81,
+				reportable_range_low: 0.1,
+				reportable_range_high: 16,
+			},
+			"Testosterone, Total (Males)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'ng/ml',
+				range_low: 1.75,
+				range_low_normal: 2.66,
+				range_high_normal: 6.9,
+				range_high: 7.81,
+				reportable_range_low: 0.1,
+				reportable_range_high: 16,
+			},
+			"% Hemoglobin A1C": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: '%',
+				range_low: 3.8,
+				range_low_normal: 4.21,
+				range_high_normal: 5.7,
+				range_high: 6.5,
+				reportable_range_low: 3.3,
+				reportable_range_high: 14.9,
+			},
+			"Glucose": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 65,
+				range_low_normal: 71,
+				range_high_normal: 99,
+				range_high: 105,
+				reportable_range_low: 7,
+				reportable_range_high: 770,
+			},
+			"Insulin": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'μIU/mL',
+				range_low: 2.6,
+				range_low_normal: 5.95,
+				range_high_normal: 21.56,
+				range_high: 24.9,
+				reportable_range_low: 0.03,
+				reportable_range_high: 300,
+			},
+			"High-Sensitivity CRP": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/mL',
+				range_low: 0,
+				range_low_normal: 0,
+				range_high_normal: 2.55,
+				range_high: 3,
+				reportable_range_low: 0.2,
+				reportable_range_high: 160,
+			},
+			"Creatinine": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/mL',
+				range_low: 0.6,
+				range_low_normal: 0.71,
+				range_high_normal: 1.2,
+				range_high: 1.3,
+				reportable_range_low: 0.24,
+				reportable_range_high: 23.26,
+			},
+			"Vitamin B12": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'pg/mL',
+				range_low: 180,
+				range_low_normal: 290.1,
+				range_high_normal: 803.9,
+				range_high: 914,
+				reportable_range_low: 50,
+				reportable_range_high: 1500,
+			},
+			"HDL Cholesterol": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 40,
+				range_low_normal: 49,
+				range_high_normal: 91,
+				range_high: 100,
+				reportable_range_low: 6,
+				reportable_range_high: 138,
+			},
+			"LDL Cholesterol": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 0,
+				range_low_normal: 0,
+				range_high_normal: 110.5,
+				range_high: 130,
+				reportable_range_low: 20,
+				reportable_range_high: 1100,
+			},
+			"Triglycerides": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 0,
+				range_low_normal: 0,
+				range_high_normal: 127.5,
+				range_high: 150,
+				reportable_range_low: 10,
+				reportable_range_high: 854,
+			},
+			"Cholesterol, Total": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 0,
+				range_low_normal: 0,
+				range_high_normal: 170,
+				range_high: 200,
+				reportable_range_low: 10,
+				reportable_range_high: 401,
+			},
+			"Apolipoprotein A1 (APOA1)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 100,
+				range_low_normal: 115,
+				range_high_normal: 185,
+				range_high: 200,
+				reportable_range_low: 0,
+				reportable_range_high: 250,
+			},
+			"Apolipoprotein B (APOB)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 50,
+				range_low_normal: 65.75,
+				range_high_normal: 139.25,
+				range_high: 155,
+				reportable_range_low: 0,
+				reportable_range_high: 187,
+			},
+			"Cortisol": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 2.3,
+				range_low_normal: 4.87,
+				range_high_normal: 16.84,
+				range_high: 19.4,
+				reportable_range_low: 0,
+				reportable_range_high: 60,
+			},
+			"Vit D": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 20,
+				range_low_normal: 32,
+				range_high_normal: 88,
+				range_high: 100,
+				reportable_range_low: 0,
+				reportable_range_high: 219,
+			},
+			"25-(OH) Vitamin D": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 20,
+				range_low_normal: 32,
+				range_high_normal: 88,
+				range_high: 100,
+				reportable_range_low: 0,
+				reportable_range_high: 219,
+			},
+			"Ferritin": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 23.9,
+				range_low_normal: 70.75,
+				range_high_normal: 289.36,
+				range_high: 336.2,
+				reportable_range_low: 0.2,
+				reportable_range_high: 1500,
+			},
+			"Folate": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 4,
+				range_low_normal: 7.12,
+				range_high_normal: 21.68,
+				range_high: 24.8,
+				reportable_range_low: 1,
+				reportable_range_high: 24.8,
+			},
+			"Magnesium": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 1.7,
+				range_low_normal: 1.85,
+				range_high_normal: 2.55,
+				range_high: 2.7,
+				reportable_range_low: 0.5,
+				reportable_range_high: 8,
+			},
+			"Calcium": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 8.6,
+				range_low_normal: 8.84,
+				range_high_normal: 9.96,
+				range_high: 10.2,
+				reportable_range_low: 0,
+				reportable_range_high: 18,
+			},
+			"Thyroid Stimulating Hormone (TSH)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 0.45,
+				range_low_normal: 1.06,
+				range_high_normal: 3.89,
+				range_high: 4.5,
+				reportable_range_low: 0,
+				reportable_range_high: 56,
+			},
+			"Alanine Aminotransferase (ALT)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'U/L',
+				range_low: 11,
+				range_low_normal: 17.15,
+				range_high_normal: 45.85,
+				range_high: 52,
+				reportable_range_low: 4,
+				reportable_range_high: 920,
+			},
+			"Aspartate Aminotransferase (AST)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'U/L',
+				range_low: 13,
+				range_low_normal: 16.9,
+				range_high_normal: 35.1,
+				range_high: 39,
+				reportable_range_low: 3,
+				reportable_range_high: 753,
+			},
+			"Total Bilirubin": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'U/L',
+				range_low: 0.3,
+				range_low_normal: 0.41,
+				range_high_normal: 0.9,
+				range_high: 1,
+				reportable_range_low: 0.26,
+				reportable_range_high: 13.63,
+			},
+		},
+		'F': {
+			"% Hemoglobin A1C": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: '%',
+				range_low: 3.8,
+				range_low_normal: 4.21,
+				range_high_normal: 5.7,
+				range_high: 6.5,
+				reportable_range_low: 3.3,
+				reportable_range_high: 14.9,
+			},
+			"Glucose": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 65,
+				range_low_normal: 71,
+				range_high_normal: 99,
+				range_high: 105,
+				reportable_range_low: 7,
+				reportable_range_high: 770,
+			},
+			"Insulin": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'μIU/mL',
+				range_low: 2.6,
+				range_low_normal: 5.95,
+				range_high_normal: 21.56,
+				range_high: 24.9,
+				reportable_range_low: 0.03,
+				reportable_range_high: 300,
+			},
+			"High-Sensitivity CRP": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/mL',
+				range_low: 0,
+				range_low_normal: 0,
+				range_high_normal: 2.55,
+				range_high: 3,
+				reportable_range_low: 0.2,
+				reportable_range_high: 160,
+			},
+			"Creatinine": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/mL',
+				range_low: 0.6,
+				range_low_normal: 0.71,
+				range_high_normal: 1.2,
+				range_high: 1.3,
+				reportable_range_low: 0.24,
+				reportable_range_high: 23.26,
+			},
+			"Vitamin B12": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'pg/mL',
+				range_low: 180,
+				range_low_normal: 290.1,
+				range_high_normal: 803.9,
+				range_high: 914,
+				reportable_range_low: 50,
+				reportable_range_high: 1500,
+			},
+			'HDL Cholesterol': {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 40,
+				range_low_normal: 49,
+				range_high_normal: 91,
+				range_high: 100,
+				reportable_range_low: 6,
+				reportable_range_high: 138,
+			},
+			"LDL Cholesterol": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 0,
+				range_low_normal: 0,
+				range_high_normal: 110.5,
+				range_high: 130,
+				reportable_range_low: 20,
+				reportable_range_high: 1100,
+			},
+			"Triglycerides": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 0,
+				range_low_normal: 0,
+				range_high_normal: 127.5,
+				range_high: 150,
+				reportable_range_low: 10,
+				reportable_range_high: 854,
+			},
+			"Cholesterol, Total": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 0,
+				range_low_normal: 0,
+				range_high_normal: 170,
+				range_high: 200,
+				reportable_range_low: 10,
+				reportable_range_high: 401,
+			},
+			"Apolipoprotein A1 (APOA1)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 100,
+				range_low_normal: 115,
+				range_high_normal: 185,
+				range_high: 200,
+				reportable_range_low: 0,
+				reportable_range_high: 250,
+			},
+			"Apolipoprotein B (APOB)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 50,
+				range_low_normal: 65.75,
+				range_high_normal: 139.25,
+				range_high: 155,
+				reportable_range_low: 0,
+				reportable_range_high: 187,
+			},
+			"Cortisol": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'μg/dL',
+				range_low: 2.3,
+				range_low_normal: 4.87,
+				range_high_normal: 16.84,
+				range_high: 19.4,
+				reportable_range_low: 0,
+				reportable_range_high: 60,
+			},
+			"Vitamin D": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'ng/mL',
+				range_low: 20,
+				range_low_normal: 32,
+				range_high_normal: 88,
+				range_high: 100,
+				reportable_range_low: 0,
+				reportable_range_high: 219,
+			},
+			"25-(OH) Vitamin D": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 20,
+				range_low_normal: 32,
+				range_high_normal: 88,
+				range_high: 100,
+				reportable_range_low: 0,
+				reportable_range_high: 219,
+			},
+			"Ferritin": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'ng/mL',
+				range_low: 11,
+				range_low_normal: 55.37,
+				range_high_normal: 262.43,
+				range_high: 306.8,
+				reportable_range_low: 0.2,
+				reportable_range_high: 1500,
+			},
+			"Folate": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'ng/mL',
+				range_low: 4,
+				range_low_normal: 7.12,
+				range_high_normal: 21.68,
+				range_high: 24.8,
+				reportable_range_low: 1,
+				reportable_range_high: 24.8,
+			},
+			"Magnesium": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 1.7,
+				range_low_normal: 1.85,
+				range_high_normal: 2.55,
+				range_high: 2.7,
+				reportable_range_low: 0.5,
+				reportable_range_high: 8,
+			},
+			"Calcium": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 8.6,
+				range_low_normal: 8.84,
+				range_high_normal: 9.96,
+				range_high: 10.2,
+				reportable_range_low: 0,
+				reportable_range_high: 18,
+			},
+			"Thyroid Stimulating Hormone (TSH)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'mg/dL',
+				range_low: 0.45,
+				range_low_normal: 1.06,
+				range_high_normal: 3.89,
+				range_high: 4.5,
+				reportable_range_low: 0,
+				reportable_range_high: 56,
+			},
+			"Alanine Aminotransferase (ALT)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'U/L',
+				range_low: 11,
+				range_low_normal: 17.15,
+				range_high_normal: 45.85,
+				range_high: 52,
+				reportable_range_low: 4,
+				reportable_range_high: 920,
+			},
+			"Aspartate Aminotransferase (AST)": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'U/L',
+				range_low: 13,
+				range_low_normal: 16.9,
+				range_high_normal: 35.1,
+				range_high: 39,
+				reportable_range_low: 3,
+				reportable_range_high: 753,
+			},
+			"Total Bilirubin": {
+				age_range_min: 0,
+				age_range_max: 120,
+				units: 'U/L',
+				range_low: 0.3,
+				range_low_normal: 0.41,
+				range_high_normal: 0.9,
+				range_high: 1,
+				reportable_range_low: 0.26,
+				reportable_range_high: 13.63,
+			},
+		}
+	}
+
+	static RESULT_DESCRIPTIONS = {
+		diabetes_panel: {
+			'% Hemoglobin A1C': {
+				description: 'Screening for hemoglobin A1c (HbA1c) measures the amount of blood sugar (glucose) attached to hemoglobin. Hemoglobin is the part of your red blood cells that carries oxygen from your lungs to the rest of your body. ',
+				effect: 'If your HbA1c levels are elevated, it may be a sign of  pre-diabetes or diabetes, a chronic condition that can cause serious health problems, including heart disease, kidney disease, and nerve damage.',
+				tyler_effect: 'HbA1c is a biomarker that indicates your average blood sugar level over the past three months, which may be useful in identifying people suffering from diabetes or prediabetes. In people with known diabetes or prediabetes, HbA1c levels help indicate how well these conditions are being managed. '
+			},
+			'Glucose': {
+				description: "Blood sugar, or glucose, is the main sugar found in your blood. It comes from the food you eat, and is your body's main source of energy. Your blood carries glucose to all of your body's cells to use for energy.",
+				effect: "Diabetes is a disease in which your blood sugar levels are too high. Over time, having too much glucose in your blood can cause serious problems. Even if you don't have diabetes, sometimes you may have problems with blood sugar that is too low or too high. Keeping a regular schedule of eating, activity, and taking any medicines you need can help maintain healthy glucose levels.",
+				tyler_effect: "A glucose test indicates how much sugar is in your blood. Glucose levels may indicate either hyperglycemia (high blood sugar) or hypoglycemia (low blood sugar), and can help identify people suffering from diabetes.",
+			},
+			'Insulin': {
+				description: "Insulin is a hormone that helps move blood sugar, known as glucose, from your bloodstream into your cells. Glucose comes from the foods you eat and drink. It is your body's main source of energy. Insulin plays a key role in keeping glucose at the right levels. If glucose levels are too high or too low, it can cause serious health problems.",
+				effect: "Glucose levels that are not normal are known as: Hyperglycemia, blood glucose levels that are too high. It happens when your body doesn't make enough insulin. If there's not enough insulin, glucose can't get into your cells. It stays in the bloodstream instead. Hypoglycemia, blood glucose levels that are too low. If your body sends too much insulin into the blood, too much glucose will go into your cells. This leaves less in the bloodstream.",
+				tyler_effect: "Insulin helps regulate the amount of sugar in your blood. Insulin levels along with glucose levels and HbA1c can help a care provider determine if you have developed insulin resistance, which may make it difficult for your body to properly regulate blood sugar. Insulin may also be used to help determine type I vs type II diabetes, or be used identify people with hypoglycemia or hyperglycemia. ",
+			},
+			'High-Sensitivity CRP': {
+				description: "High-sensitivity C-reactive protein (hsCRP) is a marker of inflammation that predicts incident myocardial infarction, stroke, peripheral arterial disease, and sudden cardiac death among healthy individuals with no history of cardiovascular disease, and recurrent events and death in patients with acute or stable coronary syndromes.",
+				effect: "",
+				tyler_effect: "CRP is a non-specific biomarker for inflammation, which may be caused by injury, infection, chronic disease, or certain medications. In combination with the other biomarkers on this panel, it can be helpful to determine if you have inflammation that could be caused by diabetes, prediabetes, or cardiovascular disease.",
+			},
+			'Creatinine': {
+				description: "Creatinine is a chemical compound left over from energy-producing processes in your muscles. Healthy kidneys filter creatinine out of the blood. Creatinine exits your body as a waste product in urine",
+				effect: "A higher than typical result may be a sign of kidney disease. In particular, the result may indicate a complication of diabetes called diabetic nephropathy, or diabetic kidney disease.",
+				tyler_effect: "A creatinine test may be helpful in understanding how diabetes may be affecting your kidney function.",
+			},
+			'Vitamin B12': {
+				description: "Vitamin B-12 (cobalamin) plays an essential role in red blood cell formation, cell metabolism, nerve function and the production of DNA, the molecules inside cells that carry genetic information.",
+				effect: "",
+				tyler_effect: "Metformin is a common and effective treatment for diabetes and pre-diabetes, but may lower your B12 levels. Measuring B12 can help a care provider determine if metformin is an appropriate treatment option for you or if you could benefit from B12 supplements.",
+			},
+		},
+		cardiovascular_health_screening_panel: {
+			'HDL Cholesterol': {
+				description: 'HDL stands for high-density lipoproteins. It is sometimes called the "good" cholesterol because it carries cholesterol from other parts of your body back to your liver. Your liver then removes the cholesterol from your body.',
+				effect: "With HDL cholesterol, higher numbers are better, because a high HDL level can lower your risk for coronary artery disease and stroke. How high your HDL should be depends on your age and sex: 19 or younger = More than 45mg/dl, Men age 20 or older = More than 40mg/dl, Women age 20 or older = More than 50mg/dl",
+				tyler_effect: "HDL is a healthy type of cholesterol that helps clear unhealthy cholesterol, like LDL, out of your body. Understanding your HDL levels can help a care provider evaluate your cardiovascular health.",
+			},
+			'LDL Cholesterol': {
+				description: 'LDL stands for low-density lipoproteins. It is sometimes called the "bad" cholesterol because a high LDL level leads to a buildup of cholesterol in your arteries.',
+				effect: "If you have a high LDL level, this means that you have too much LDL cholesterol in your blood. This extra LDL, along with other substances, forms plaque. The plaque builds up in your arteries; this is a condition called atherosclerosis.",
+				tyler_effect: "LDL is an unhealthy form of cholesterol that may increase your risk of developing atherosclerosis, the most common cause of cardiovascular disease. Understanding your LDL levels can help a care provider evaluate your cardiovascular health. ",
+			},
+			'Triglycerides': {
+				description: "Your body uses triglycerides for energy. If you eat more calories than you need, your body turns the extra calories into triglycerides and stores them in your fat cells to use later. When your body needs energy, your cells release triglycerides into your bloodstream to provide fuel for your muscles to work.",
+				effect: "If you eat more calories than you burn off, especially calories from carbohydrates, including sugary foods, and fats, you may have high triglyceride levels in your blood. A high blood triglyceride level usually doesn't cause any symptoms, but over time, it may affect your arteries and increase your risk of heart disease. Extremely high levels of triglycerides also increase the risk of acute pancreatitis in adults and children.",
+				tyler_effect: "A high blood triglyceride level usually doesn't cause any symptoms, but over time it may affect your arteries and increase your risk of devceloping cardiovascular disease. Understanding your triglyceride levels can help a care provider evaluate your cardiovascular health. ",
+			},
+			'Cholesterol, Total': {
+				description: "Cholesterol is a waxy, fat-like substance that's found in all the cells in your body. Your body needs some cholesterol to make hormones, vitamin D, and substances that help you digest foods. Your body makes all the cholesterol it needs. Cholesterol is also found in foods from animal sources, such as egg yolks, meat, and cheese",
+				effect: "",
+				tyler_effect: "If you have too much cholesterol in your blood, it can combine with other substances in the blood to form plaque. Plaque sticks to the walls of your arteries, which can develop into atherosclerosis and lead to cardiovascular disease. ",
+			},
+			'Apolipoprotein A1 (APOA1)': {
+				description: "ApoA-I attaches to cell membranes and promotes the movement of cholesterol and phospholipids from inside the cell to the outer surface. Once outside the cell, these substances combine with apoA-I to form HDL. ApoA-I also triggers a reaction called cholesterol esterification that converts cholesterol to a form that can be fully integrated into HDL and transported through the bloodstream.",
+				effect: "Mutations in the APOA1 gene cause familial HDL deficiency, an inherited condition characterized by low levels of HDL in the blood and an elevated risk for early-onset cardiovascular disease, which often occurs before age 50. These mutations lead to an altered apoA-I protein. Some versions of the altered protein are less able to promote the removal of cholesterol and phospholipids from cells, which decreases the amount of these substances available to form HDL. Other versions of the altered protein are less able to stimulate cholesterol esterification, which means cholesterol cannot be integrated into HDL particles. Both types of mutation result in low HDL levels. A shortage (deficiency) of HDL is believed to increase the risk of cardiovascular disease.",
+				tyler_effect: "ApoA-1 promotes the formation of HDL (healthy cholesterol). Low ApoA-1 may cause low HDL and put you at risk of developing cardiovascular disease. Adapting healthy habits like sleeping, excercising, and eating healthy foods can improve ApoA-1 levels, but there may also be underlying gentic causes for low ApoA-1.",
+			},
+			'Apolipoprotein B (APOB)': {
+				description: "The APOB gene provides instructions for making two versions of the apolipoprotein B protein, a short version called apolipoprotein B-48 and a longer version known as apolipoprotein B-100. Both of these proteins are components of lipoproteins, which are particles that carry fats and fat-like substances (such as cholesterol) in the blood.",
+				effect: "Researchers are studying other variations (polymorphisms) in the APOB gene that may influence heart disease risk in people without inherited cholesterol disorders. Some studies have found that certain polymorphisms are associated with higher levels of LDLs in the blood and an increased chance of developing or dying of heart disease. Other studies, however, have not shown such an association. It is clear that a large number of genetic and lifestyle factors, many of which remain unknown, determine the risk of developing this complex condition.",
+				tyler_effect: "ApoB is a protein attached to bad cholesterol like LDL, VLDL, and IDL and allows these types of cholesterols into your cells. Understanding your ApoB levels can help a care provider evalute your cardiovascular health. ",
+			},
+			'High-Sensitivity CRP': {
+				description: "High-sensitivity C-reactive protein (hsCRP) is a marker of inflammation that predicts incident myocardial infarction, stroke, peripheral arterial disease, and sudden cardiac death among healthy individuals with no history of cardiovascular disease, and recurrent events and death in patients with acute or stable coronary syndromes.",
+				effect: "",
+				tyler_effect: "CRP is a non-specific biomarker for inflammation, which may be caused by injury, infection, chronic disease, or certain medications. In combination with the other biomarkers on this panel, it can be helpful to determine if you have inflammation that could be caused by diabetes, prediabetes, or cardiovascular disease.",
+			},
+			'Cortisol': {
+				description: `Cortisol is a hormone that affects almost every organ and tissue in your body. It helps your body: Respond to stress (cortisol is sometimes called the "stress hormone"), Reduce inflammation, Regulate blood sugar and metabolism (how your body uses food for energy), Control blood pressure`,
+				effect: "",
+				tyler_effect: "Elevated cortisol may contribute to a wide array of health problems including mental health issues, infertility, diabetes, and cardiovascular disease. ",
+			},
+
+		},
+		female_fertility_health_screening_panel: {
+			'Anti-Mullerian Hormone (AMH)': {
+				description: "Low AMH levels in women may indicate low ovarian reserve and decreased fertility potential. AMH levels can also be used to monitor ovarian response to fertility treatments such as in-vitro fertilization (IVF). High AMH levels may be associated with polycystic ovary syndrome (PCOS), a condition that can affect fertility.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Follicle-Stimulating Hormone (FSH)': {
+				description: "Follicle-stimulating hormone is one of the gonadotropic hormones, the other being a luteinizing hormone. Both FSH and LH are released by the pituitary gland into the bloodstream. FSH is one of the hormones essential to pubertal development and the function of women’s ovaries and men’s testes. FSH stimulates the growth and maturation of follicles in the ovaries, which release eggs during ovulation.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Luteinizing Hormone (LH)': {
+				description: "Luteinizing hormone (LH) is a hormone that is produced by the pituitary gland. LH is responsible for sexual development and function. In females, LH helps to control the menstrual cycle and also triggers the release of an egg from the ovary during ovulation.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Prolactin (PRL)': {
+				description: "Prolactin is a hormone that plays an important role in several bodily functions, most notably lactation and breast tissue development. Prolactin levels are normally highest during pregnancy and drop immediately after childbirth. However, prolactin levels can also increase for other reasons, such as stress or certain medications.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Estradiol (Sensitive)': {
+				description: "Estradiol is hormone produced by a woman's ovaries, adrenal gland and also the placenta during pregnancy. Estradiol is most important during a woman's reproductive years, and is required for reproductive and sexual function as well as having an impact on the health of other organs and tissues.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Dehydroepiandrosterone Sulfate (DHEA-S)': {
+				description: "Dehydroepiandrosterone (DHEA) is a hormone that your body naturally produces in the adrenal gland. DHEA helps produce other hormones, including testosterone and estrogen.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Thyroid Stimulating Hormone (TSH)': {
+				description: "TSH is produced by the pituitary gland and regulates the production of thyroid hormone by the thyroid gland. TSH levels are affected by a number of factors, including stress, diet, and certain medications. High TSH levels may indicate an underactive thyroid gland, while low TSH levels may indicate an overactive thyroid gland.",
+				effect: "",
+				tyler_effect: "",
+			},
+		},
+		athletic_performance_panel: {
+			'Testosterone, Total (Males)': {
+				description: "Testosterone is most often associated with sex drive and plays a vital role in sperm production. This hormone also helps to build muscle mass and bone density. Testosterone levels that are too high or too low can cause medical problems.",
+				effect: "",
+				tyler_effect: "In men, testosterone is a hormone that helps build muscle mass, increases bone density, and improves excercise capacity. Testosterone can be improved by getting more sleep, eating healthy foods, and by excercising regularly. ",
+			},
+			'Cortisol': {
+				description: "Cortisol is a steroid hormone that your body naturally produce and release. Cortisol affects several aspects of your body and mainly helps regulate your body's response to stress. Cortisol has several important functions including helping the body regulate blood pressure and heart rate. Cortisol aids in the metabolism of glucose, suppresses the immune system, and influences memory formation. Cortisol also plays a role in how the body responds to inflammation.",
+				effect: "",
+				tyler_effect: "Elevated cortisol may contribute to a wide array of health problems including mental health issues, infertility, diabetes, and cardiovascular disease. With respect to athletic performance, cortisol causes muscle breakdown and may inhibit growth factors that help build muscle. ",
+			},
+			'25-(OH) Vitamin D': {
+				description: "Vitamin D helps your body absorb calcium, which is the primary component of bone. Vitamin D also regulates many other cellular functions in your body, including inflammation, antioxidants, and neuroprotection. Vitamin D supports immune health, muscle function, and brain cell activity.",
+				effect: "",
+				tyler_effect: "Healthy Vitamin D levels are associated with improved endurance and muscle function. High levels of physical activity in atheletes may increase the body's demand for Vitamin D. ",
+			},
+			'Vitamin B12': {
+				description: "Vitamin B12 is needed for the formation of red blood cells and DNA, and is also a key player in the function and development of brain and nerve cells. Vitamin B12 deficiency can lead to fatigue, anemia, and neurological problems.",
+				effect: "",
+				tyler_effect: "B12 is essential for red blood cell production. Low B12 may cause B12 anemia and can cause fatigue in athletes. ",
+			},
+			'Thyroid Stimulating Hormone (TSH)': {
+				description: "TSH is produced by the pituitary gland and regulates the production of thyroid hormone by the thyroid gland. TSH levels are affected by a number of factors, including stress, diet, and certain medications. High TSH levels may indicate an underactive thyroid gland, while low TSH levels may indicate an overactive thyroid gland.",
+				effect: "",
+				tyler_effect: "An imbalance of TSH levels may indicate an underactive or overactive thyroid, which can cause fatigue and dimish your ability to effectively excercise. ",
+			},
+		},
+		male_hormone_screening_panel: {
+			'Cortisol': {
+				description: "Cortisol is a steroid hormone that your body naturally produce and release. Cortisol affects several aspects of your body and mainly helps regulate your body's response to stress. Cortisol has several important functions including helping the body regulate blood pressure and heart rate. Cortisol aids in the metabolism of glucose, suppresses the immune system, and influences memory formation. Cortisol also plays a role in how the body responds to inflammation.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Testosterone, Total (Males)': {
+				description: "Testosterone is most often associated with sex drive and plays a vital role in sperm production. This hormone also helps to build muscle mass and bone density. Testosterone levels that are too high or too low can cause medical problems.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Testosterone, Free (calc)': {
+				description: "Free testosterone is the small percentage of your total testosterone concentration that is not bound to any protein—hence it is “free.” Your free testosterone levels may decrease with age, or they can be low due to several medical issues. Free testosterone levels are important because this form of the hormone is readily available to your cells to be used for various bodily functions.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Sex Hormone-Binding Globulin (SHBG)': {
+				description: "SHBG stands for Sex Hormone Binding Globulin. SHBG is a protein made by your liver. It's primary function is to bind to 3 sex hormones - estrogen, dihydrotestosterone (DHT), and testosterone - and transport them throughout your blood. Although it is present in both men and women, the levels of each hormone vary between sexes. SHBG plays an important role in regulating these hormone levels, and can therefore have a significant impact on sexual development and reproduction.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Prolactin (PRL)': {
+				description: "Prolactin is a hormone that plays an important role in several bodily functions, most notably lactation and breast tissue development. In men, high prolactin concentration interferes with the function of the testicles, the production of testosterone and sperm production.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'DHEA-S': {
+				description: "Your adrenal glands make DHEA sulfate, a steroid hormone found in all sexes. DHEAS levels tend to peak around puberty and then naturally decline with age. DHEAS plays an important role in making the male sex hormone testosterone and the female sex hormone estrogen.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Prostate-Specific Antigen (PSA)': {
+				description: "Prostate-specific antigen (PSA) is a protein made by cells in the prostate gland. Currently, PSA is a biomarker for the diagnosis and screening of prostate cancer and it was the first cancer biomarker approved by the FDA. PSA is mostly found in semen, but a small amount is also found in blood.",
+				effect: "",
+				tyler_effect: "",
+			},
+			'Albumin': {
+				description: "",
+				effect: "",
+				tyler_effect: "",
+			}
+
+
+		},
+		micronutrient_panel: {
+			'25-(OH) Vitamin D': {
+				description: "Vitamin D helps your body absorb calcium, which is the primary component of bone. Vitamin D also regulates many other cellular functions in your body, including inflammation, antioxidants, and neuroprotection. Vitamin D supports immune health, muscle function, and brain cell activity.",
+				effect: "",
+				tyler_effect: "Healthy Vitamin D levels are associated with improved endurance and muscle function. High levels of physical activity in atheletes may increase the body's demand for Vitamin D. ",
+			},
+			'Magnesium': {
+				description: "Magnesium is an important mineral, playing a role in over 300 enzyme reactions in the human body. Its many functions include helping with muscle and nerve function, regulating blood pressure, and supporting the immune system.",
+				effect: "",
+				tyler_effect: "Low magnesium may make you feel nauseated, and fatigued. Over time, magnesium deficiency may cause osteoporosis (weak bones), cause headaches, and may have a negative impact on cardiovascular health. "
+			},
+			'Calcium': {
+				description: "Calcium is a mineral most often associated with healthy bones and teeth, although it also plays an important role in blood clotting, helping muscles to contract, and regulating normal heart rhythms and nerve functions.",
+				effect: "",
+				tyler_effect: "Low calcium may make you feel fatigued and may cause dizziness and brain fog. Over time, calcium deficiency can cause osteoporosis (weak bones), cataracts, and may put you at risk of developing tooth decay. Elevated calcium may decrease bone strength, create kidney stones, cause high blood pressure, or slow your heart rate. ",
+			},
+			'Ferritin': {
+				description: "Ferritin is a protein that stores iron. Red blood cells need iron to carry oxygen around your body. Other parts of your body, such as your liver, bone marrow, and muscles, also need iron.",
+				effect: "",
+				tyler_effect: "Low Ferritin may indicate that you have low iron levels, or iron deficient-anemia. ",
+			},
+			'Folate': {
+				description: "B9, or Folate, is a vitamin your body uses to make DNA, other genetic material, and red blood cells. Folate also plays an important role in the brain development of fetuses. The CDC recommends that reproductive aged women take Folate supplements to prevent birth defects. ",
+				effect: "",
+				tyler_effect: 'Low Folate (B9) may cause fatigue, weakness, mouth sores, and neurological issues. It may also contribute to "B12 anemia." Low Folate in pregnant women may also contribute to the development of birth defects in fetuses. '
+			},
+			'Vitamin B12': {
+				description: "Vitamin B12 is needed for the formation of red blood cells and DNA, and is also a key player in the function and development of brain and nerve cells. Vitamin B12 deficiency can lead to fatigue, anemia, and neurological problems.",
+				effect: "",
+				tyler_effect: 'Low B12 may cause fatigue, headaches, depression, and can cause a specific type of anemia called  "B12 anemia." Low B12 can also have neurological symptoms such as vision problems, memory loss, a tingling sensation, or a loss of coordination. ',
+			},
+		},
+		comprehensive_health_panel: {
+			'25-(OH) Vitamin D': {
+				description: "Vitamin D helps your body absorb calcium, which is the primary component of bone. Vitamin D also regulates many other cellular functions in your body, including inflammation, antioxidants, and neuroprotection. Vitamin D supports immune health, muscle function, and brain cell activity.",
+				effect: "",
+				tyler_effect: "Healthy Vitamin D levels are associated with improved endurance and muscle function. High levels of physical activity in atheletes may increase the body's demand for Vitamin D. ",
+			},
+			'Alanine Aminotransferase (ALT)': {
+				description: "ALT is an enzyme found mostly in liver cells. Liver damage caused by infection, injury, alcohol consumption, certain medications, or liver disease can cause an elevated amount of ALT in the blood stream. Measuring ALT and AST may help a care provider evaluate your overall liver health.",
+				effect: "",
+				tyler_effect: "Liver damage caused by infection, injury, alcohol consumption, certain medications, or liver disease can cause an elevated amount of ALT in the blood stream. Measuring ALT and AST may help a care provider evaluate your overall liver health.",
+			},
+			'Aspartate Aminotransferase (AST)': {
+				description: "AST is an enzyme found in the liver, heart, muscles, kidneys, brain, and red blood cells, which helps these tissues metabolize amino acids. AST levels in blood are most commonly used to evaluate liver health, but may also indicate tissue damage in the heart, muscles, kidneys, brain, or red blood cells. ",
+				effect: "",
+				tyler_effect: "AST levels in blood are most commonly used to evaluate liver health, but may also indicate tissue damage in the heart, muscles, kidneys, brain, or red blood cells. ",
+			},
+			'Cholesterol, Total': {
+				description: "Cholesterol is a waxy, fat-like substance that's found in all the cells in your body. Your body needs some cholesterol to make hormones, vitamin D, and substances that help you digest foods. However, if you have too much cholesterol in your blood it can combine with other substances in the blood to form plaque. Plaque sticks to the walls of your arteries, which can develop into atherosclerosis and lead to cardiovascular disease. ",
+				effect: "",
+				tyler_effect: "If you have too much cholesterol in your blood, it can combine with other substances in the blood to form plaque. Plaque sticks to the walls of your arteries, which can develop into atherosclerosis and lead to cardiovascular disease. ",
+			},
+			'Cortisol': {
+				description: `Cortisol is a hormone that affects almost every organ and tissue in your body. It helps your body: Respond to stress (cortisol is sometimes called the "stress hormone"), Reduce inflammation, Regulate blood sugar and metabolism (how your body uses food for energy), Control blood pressure`,
+				effect: "",
+				tyler_effect: "Elevated cortisol may contribute to a wide array of health problems including mental health issues, infertility, diabetes, and cardiovascular disease. ",
+			},
+			'Creatinine': {
+				description: "Creatinine is a chemical compound left over from energy-producing processes in your muscles. Healthy kidneys filter creatinine out of the blood. Creatinine exits your body as a waste product in urine",
+				effect: "A higher than typical result may be a sign of kidney disease. In particular, the result may indicate a complication of diabetes called diabetic nephropathy, or diabetic kidney disease.",
+				tyler_effect: "A creatinine test may be helpful in understanding how diabetes may be affecting your kidney function.",
+			},
+			'HDL Cholesterol': {
+				description: 'HDL stands for high-density lipoproteins. It is sometimes called the "good" cholesterol because it carries cholesterol from other parts of your body back to your liver. Your liver then removes the cholesterol from your body.',
+				effect: "With HDL cholesterol, higher numbers are better, because a high HDL level can lower your risk for coronary artery disease and stroke. How high your HDL should be depends on your age and sex: 19 or younger = More than 45mg/dl, Men age 20 or older = More than 40mg/dl, Women age 20 or older = More than 50mg/dl",
+				tyler_effect: "HDL is a healthy type of cholesterol that helps clear unhealthy cholesterol, like LDL, out of your body. Understanding your HDL levels can help a care provider evaluate your cardiovascular health.",
+			},
+			'% Hemoglobin A1C': {
+				description: 'Screening for hemoglobin A1c (HbA1c) measures the amount of blood sugar (glucose) attached to hemoglobin. Hemoglobin is the part of your red blood cells that carries oxygen from your lungs to the rest of your body. ',
+				effect: 'If your HbA1c levels are elevated, it may be a sign of  pre-diabetes or diabetes, a chronic condition that can cause serious health problems, including heart disease, kidney disease, and nerve damage.',
+				tyler_effect: 'HbA1c is a biomarker that indicates your average blood sugar level over the past three months, which may be useful in identifying people suffering from diabetes or prediabetes. In people with known diabetes or prediabetes, HbA1c levels help indicate how well these conditions are being managed. '
+			},
+			'LDL Cholesterol': {
+				description: 'LDL stands for low-density lipoproteins. It is sometimes called the "bad" cholesterol because a high LDL level leads to a buildup of cholesterol in your arteries.',
+				effect: "If you have a high LDL level, this means that you have too much LDL cholesterol in your blood. This extra LDL, along with other substances, forms plaque. The plaque builds up in your arteries; this is a condition called atherosclerosis.",
+				tyler_effect: "LDL is an unhealthy form of cholesterol that may increase your risk of developing atherosclerosis, the most common cause of cardiovascular disease. Understanding your LDL levels can help a care provider evaluate your cardiovascular health. ",
+			},
+			'Thyroid Stimulating Hormone (TSH)': {
+				description: "Thyroid Stimulating Hormone, or TSH, is produced by the pituitary gland and regulates the production of thyroid hormones by the thyroid gland. TSH levels are affected by a number of factors, including stress, diet, and certain medications. An imbalance of TSH levels may indicate an underactive or overactive thyroid, which can cause fatigue and dimish your ability to effectively excercise.",
+				effect: "",
+				tyler_effect: "Elevated or supressed TSH may indicate hypothyroidism or hyperthyroidism. ",
+			},
+			'Total Bilirubin': {
+				description: "Bilirubin is a byproduct of the normal breakdown of red blood cells. This byproduct is processed by the liver, where it becomes incorporated into bile and eventually excreted from your body. The amount of bilirubin in your blood may be an indicator of your liver's ability to filter your blood. This can help a care provider evaluate your overall liver function.  ",
+				effect: "",
+				tyler_effect: "The amount of bilirubin in your blood may be an indicator of your liver's ability to filter your blood. This can help a care provider evaluate your overall liver function.  ",
+			},
+			'Triglycerides': {
+				description: "If you eat more calories than you need, your body turns the extra calories into triglycerides and stores them in your fat cells to use later. A high blood triglyceride level usually doesn't cause any symptoms, but over time it may affect your arteries and increase your risk of developing cardiovascular disease. Understanding your triglyceride levels can help a care provider evalute your cardiovascular health. ",
+				effect: "",
+				tyler_effect: "A high blood triglyceride level usually doesn't cause any symptoms, but over time it may affect your arteries and increase your risk of developing cardiovascular disease. Understanding your triglyceride levels can help a care provider evalute your cardiovascular health. ",
+			},
+
+		}
+
+	}
+	//RED: FF6668
+	//YELLOW: FBB91C 
+	//GREEN: 6DD58C
+
+	static RESULT_DESCRIPTIONS = {
+		'#-####': 
+		[
+			{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: false,
+                position: '',
+                min: 'report_min',
+                max: 'healthy_min',
+        	}, 
+        	{
+                color: '#6DD58C',
+                value: '',
+                flex: '2',
+                show: true,
+                position: 'left',
+                min: 'healthy_min',
+                max: 'healthy_max',
+        	},
+        	{
+                color: '#FBB91C',
+                value: '',
+                flex: '1',
+                show: true,
+                position: 'right',
+                min: 'healthy_max',
+                max: 'high_max',
+        	},
+        	{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: false,
+                position: '',
+                min: 'high_max',
+                max: 'report_max',
+        	},
+        ],
+		'#-##-#': 
+		[
+			{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: true,
+                position: 'right',
+                min: 'report_min',
+                max: 'healthy_min',
+        	},
+        	{
+                color: '#6DD58C',
+                value: '',
+                flex: '3',
+                show: false,
+                position: false,
+                min: 'healthy_min',
+                max: 'healthy_max',
+        	},
+        	{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: true,
+                position: 'left',
+                min: 'healthy_max',
+                max: 'report_max',
+        	},
+        ],
+		'####-#': 
+		[
+			{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: false,
+                position: '',
+                min: 'report_min',
+                max: 'low_min',
+        	},
+        	{
+                color: '#FBB91C',
+                value: '',
+                flex: '2',
+                show: true,
+                position: 'left',
+                min: 'low_min',
+                max: 'healthy_min',
+
+        	},
+        	{
+                color: '#6DD58C',
+                value: '',
+                flex: '4.5',
+                show: true,
+                position: 'right',
+                min: 'healthy_min',
+                max: 'healthy_max',
+        	},
+        	{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: false,
+                position: '',
+                min: 'healthy_max',
+                max: 'report_max',
+        	},
+        ],
+		'#--###':
+		[
+        	{
+                color: '#6DD58C',
+                value: '',
+                flex: '2',
+                show: true,
+                position: 'left',
+                min: 'report_min',
+                max: 'healthy_max',
+
+        	},
+        	{
+                color: '#FBB91C',
+                value: '',
+                flex: '4',
+                show: true,
+                position: 'right',
+                min: 'healthy_max',
+                max: 'high_max',
+        	},
+        	{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: false,
+                position: '',
+                min: 'high_max',
+                max: 'report_max',
+        	},
+        ],
+		'###--#':
+		[
+			{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: false,
+                position: '',
+                min: 'report_min',
+                max: 'low_min',
+
+        	},
+        	{
+                color: '#FBB91C',
+                value: '',
+                flex: '2',
+                show: true,
+                position: 'left',
+                min: 'low_min',
+                max: 'healthy_min',
+        	},
+        	{
+                color: '#6DD58C',
+                value: '',
+                flex: '5',
+                show: true,
+                position: 'right',
+                min: 'healthy_min',
+                max: 'report_max',
+        	},
+        ],
+		'######':
+		[
+			{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: false,
+                position: '',
+                min: 'report_min',
+                max: 'low_min',
+        	},
+        	{
+                color: '#FBB91C',
+                value: '',
+                flex: '2',
+                show: true,
+                position: 'left',
+                min: 'low_min',
+                max: 'healthy_min',
+        	},
+        	{
+                color: '#6DD58C',
+                value: '',
+                flex: '5',
+                show: false,
+                position: '',
+                min: 'healthy_min',
+                max: 'healthy_max',
+        	},
+        	{
+                color: '#FBB91C',
+                value: '',
+                flex: '2',
+                show: true,
+                position: 'right',
+                min: 'healthy_max',
+                max: 'high_max',
+        	},
+        	{
+                color: '#FF6668',
+                value: '',
+                flex: '1',
+                show: false,
+                position: '',
+                min: 'high_max',
+                max: 'report_max',
+        	},
+        ],
+
+	}
+
 }
-
-class User {
-
-	/**purpose
-	 *   first_name (pull from shopify user)
-	last_name (pull from shopify user)
-	phone (pull from shopify user) (if no phone, then show an input field)
-	email (pull from shopify user)
-	date_of_birth (show input field) 
-	gender (show dropdown field) (M, F, O) AKA (Male , Femail, Other)
-	 */
-
-
-    static registerUser(parameters, successCallback, failureCallback) {
-        WebClient.basicPost(parameters, 'https://api.behealthyr.com/api/platform/user/register', successCallback, failureCallback);
-    }
-
-    static getUser(parameters, successCallback, failureCallback) {
-        WebClient.basicGet(parameters, 'https://api.behealthyr.com/api/platform/user', successCallback, failureCallback);
-    }
-
-    static registerKit(parameters, successCallback, failureCallback) {
-        WebClient.basicPost(parameters, 'https://api.behealthyr.com/api/platform/user/kit/register', successCallback, failureCallback);
-    }
-
-    static getKit(parameters, successCallback, failureCallback) {
-        WebClient.basicGet(parameters, 'https://api.behealthyr.com/api/platform/user/kits', successCallback, failureCallback);
-    }
-
-    static getRegistrationToken(parameters, successCallback, failureCallback) {
-        WebClient.basicGet(parameters, 'https://api.behealthyr.com/api/platform/user/registration/token', successCallback, failureCallback);
-    }
-}
-
-
-export default class Api {
-    static Kit = Kit;
-    static User= User;
-}
+/*
+Glucose: {
+				description: "",
+				effect: "",
+				tyler_effect: "",
+			},
+*/

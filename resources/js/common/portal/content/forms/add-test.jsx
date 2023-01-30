@@ -12,15 +12,16 @@ export default class AddTest extends React.Component{
         constructor(props) {
             super(props);
             this.state = {
+             
                 name:'',
                 key: '',
                 
             }
-            this.handleSubmit = this.handleSubmit.bind(this)
+            this.handleAdd = this.handleAdd.bind(this)
         }
 
-        handleSubmit(e) {
-            e.preventDefault()
+        
+        handleAdd() {
             this.loading = true;
             ApiAdmin.Generic.add({classkey: 'test', ...this.state}, success => {
                 if (this.props.onAdd) this.props.onAdd(success.data.model);
@@ -28,9 +29,10 @@ export default class AddTest extends React.Component{
                 toastr.error(failure.message);
             })
         }
+        
         render() {
             return(
-               <form onSubmit={this.handleSubmit}>
+             
                 <div>
                     <FlexContainer direction='column' gap='15px'>
                        <InputText 
@@ -45,14 +47,15 @@ export default class AddTest extends React.Component{
                         onChange={e => this.setState({ name: e.target.value })}
                         value={this.state.name}
                        />
-                    </FlexContainer>
-                </div>
-                <div>
+                        <div>
                     <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
 						Add
 					</button>
                 </div>
-               </form>
+                    </FlexContainer>
+                </div>
+               
+        
             )
         }
 }
@@ -70,6 +73,7 @@ const STYLES = {
 		color: '#ffffff',
 		fontWeight: 20,
 		fontSize: '18px',
-		fontFamily: 'Poppins'
+		fontFamily: 'Poppins',
+        cursor: 'pointer'
 	},
 }

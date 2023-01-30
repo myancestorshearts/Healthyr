@@ -3,9 +3,7 @@ import FlexContainer from "../../components/flex-container";
 import Input from '../../inputs/field'
 import CommonBrand from '../../brand'
 import ApiAdmin from '../../api/admin';
-import AddTest from '../../../common/portal/content/forms/add-test';
 import toastr from 'toastr';
-import SidePanel from '../../portal/panel/side-panel';
 
 export default class Test extends React.Component{
     constructor(props) {
@@ -19,10 +17,23 @@ export default class Test extends React.Component{
         
     }
 
+    handleSave() {
+        
+        this.loading = true;
+        ApiAdmin.Generic.set({classkey:'test', id: this.props.model.id, ...this.state}, success => {
+            if(this.props.onSave) this.props.onSave(success.data.model);
+        },
+        failure => {
+            toastr.error(failure.message)
+        }
+        )
+        
+     }
+
  render() {
     return(
         <div>
-             <form onSubmit={this.handleSubmit} direction="column" gap='15px'>
+            
                     <FlexContainer direction="column" gap="15px">
                     
                     <Input
@@ -35,17 +46,17 @@ export default class Test extends React.Component{
                     <Input
                         autoFocus={true}
                         title='Key'
-                        onChange={e => this.setState({ name: e.target.value })}
+                        onChange={e => this.setState({ key: e.target.value })}
                         value={this.state.key}
                     />
                     </FlexContainer>
 
                     <div>
-                        <button style={STYLES.buttonCreate} onClick={() => this}>
+                        <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
                             Save
                         </button>
                     </div>
-             </form>
+            
            
         </div>
        

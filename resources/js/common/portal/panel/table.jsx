@@ -413,12 +413,14 @@ const Row = (props) => {
     let cursorType = (props.onSelectModel ? 'pointer' : 'auto')
 
     return (
-        <tr
+        <StyledComponent 
             style={{ cursor: cursorType }}
             onClick={(props.onSelectModel ? () => props.onSelectModel(props.model) : null)}
+            tag='tr'
+            styleHover={STYLES.rowHover}
         >
             {columns}
-        </tr>
+        </StyledComponent>
     )
 }
 
@@ -535,5 +537,9 @@ const STYLES = {
         width: '20px',
         padding: '5px',
         cursor: 'pointer'
+    },
+    rowHover: {
+        backgroundColor: CommonBrand.getActiveColor(),
+        color: 'white'
     }
 }

@@ -54,7 +54,8 @@ export default class Tests extends React.Component {
       drawerOpen: false,
     }
 
-    this.handleSelectModel.bind(this)
+   this.handleSelectModel = this.handleSelectModel.bind(this)
+   this.handleAdd = this.handleAdd.bind(this)
   }
 
   
@@ -63,13 +64,23 @@ export default class Tests extends React.Component {
     SidePanel.pushStart('Test Details', 
        <Test
         model={x}
+        onSave={() => {
+          SidePanel.pop();
+          if (this.table) this.table.handleSearch();
+        }}
+
        />
     )
   }
 
   handleAdd() {
-    SidePanel.pushStart( 'Add Analyte',
-     <AddTest />
+    SidePanel.pushStart('Add Test',
+     <AddTest
+     onAdd={() => {
+      SidePanel.pop();
+      if (this.table) this.table.handleSearch();
+    }}
+      />
 
    )
   }
@@ -206,7 +217,8 @@ const STYLES = {
 		color: '#ffffff',
 		fontWeight: 20,
 		fontSize: '18px',
-		fontFamily: 'Poppins'
+		fontFamily: 'Poppins',
+    cursor: 'pointer'
 	},
 	createInputIcon: {
 		paddingRight: '10px'

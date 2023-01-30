@@ -3,6 +3,8 @@ import FlexContainer from "../../components/flex-container";
 import Input from '../../inputs/field'
 import TextArea from '../../inputs/text-area'
 import CommonBrand from '../../brand'
+import ApiAdmin from '../../api/admin'
+import toastr from "toastr";
 
 export default class AnalyteRangeAffect extends React.Component {
     constructor(props) {
@@ -11,44 +13,55 @@ export default class AnalyteRangeAffect extends React.Component {
             
             min: this.props.model.min,
             max: this.props.model.max,
-            affect: this.props.model.affect
+            effect: this.props.model.effect
           
         }
-        //this.handleAdd = this.handleAdd.bind(this)
-        //this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSave= this.handleSave.bind(this)
     }
-
-   
-    
+    handleSave() {
+        
+        this.loading = true;
+        ApiAdmin.Generic.set({classkey:'analyterangeeffect', id: this.props.model.id, ...this.state}, success => {
+            if(this.props.onSave) this.props.onSave(success.data.model);
+        },
+        failure => {
+            toastr.error(failure.message)
+        }
+        )
+        
+     }
    
     render(){
         return(
            
-            <form onSubmit={this.handleSubmit} direction="column" gap='15px'>
              <FlexContainer direction="column" gap="15px">
         
                     <Input
+                        onChange={e => this.setState({ min: e.target.value })}
                         title='Min'
-                        value={this.props.model.min}
+                        value={this.state.min}
                     />
 
                     <Input
+                        onChange={e => this.setState({ max: e.target.value })}
                         title='Max'
-                        value={this.props.model.max}
+                        value={this.state.max}
                     />
                     
                     <TextArea 
-                    title='Affect'
-                    value={this.props.model.affect}
+                    onChange={x => this.setState({ effect: x})}
+                    title='Effect'
+                    style={STYLES.inputField}
+                    value={this.state.effect}
                     />
-            </FlexContainer>
-            <div>
-                        <button style={STYLES.buttonCreate} onClick={() => this}>
+                     <div>
+                        <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
                             Save
                         </button>
                     </div>
-            </form>
-
+            </FlexContainer>
+           
+            
           
             
       )
@@ -67,6 +80,10 @@ const STYLES = {
         color: '#ffffff',
         fontWeight: 20,
         fontSize: '18px',
-        fontFamily: 'Poppins'
+        fontFamily: 'Poppins',
+        cursor: 'pointer'
     },
+    inputField: {
+        cursor: 'text'
+    }
 }

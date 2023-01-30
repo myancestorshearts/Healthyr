@@ -16,11 +16,10 @@ export default class AddAnalyteRangeEffect extends React.Component{
                 max: '',
                 effect: '',
             }
-            this.handleSubmit = this.handleSubmit.bind(this)
+            this.handleAdd = this.handleAdd.bind(this)
         }
 
-        handleSubmit(e) {
-            e.preventDefault()
+        handleAdd() {
             this.loading = true;
             ApiAdmin.Generic.add({classkey: 'analyterangeeffect', ...this.state}, success => {
                 if (this.props.onAdd) this.props.onAdd(success.data.model);
@@ -30,7 +29,6 @@ export default class AddAnalyteRangeEffect extends React.Component{
         }
         render() {
             return(
-               <form onSubmit={this.handleSubmit}>
              
                     <FlexContainer direction='column' gap='15px'>
         
@@ -54,14 +52,15 @@ export default class AddAnalyteRangeEffect extends React.Component{
                         onChange={x => this.setState({ effect: x})}
                         value={this.state.effect}
                        />
+                       <div>
+                        <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+                            Add
+                        </button>
+                       </div>
+              
                     </FlexContainer>
                 
-                <div>
-                    <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
-						Save
-					</button>
-                </div>
-               </form>
+                
             )
         }
 }

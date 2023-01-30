@@ -11,6 +11,7 @@ const FlexContainer = (props) => {
     if (props.columnGap) containerStyles.columnGap = props.columnGap;
     if (props.rowGap) containerStyles.rowGap = props.rowGap;
     if (props.direction) containerStyles.flexDirection = props.direction;
+    if (props.marginTop) containerStyles.marginTop = props.marginTop;
 
     if (props.center) {
         containerStyles.justifyContent = 'center';
