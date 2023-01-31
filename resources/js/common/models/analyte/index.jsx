@@ -109,6 +109,7 @@ export default class Analytes extends React.Component{
                    
             <TableSearch
             classkey='analyterange'
+            analyte_id={this.props.model.id}
             ref={(e) => (this.table = e)}
             properties={{
               key: {

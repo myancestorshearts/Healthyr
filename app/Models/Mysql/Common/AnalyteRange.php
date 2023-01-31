@@ -11,8 +11,8 @@ class AnalyteRange extends Base
 
     const SEARCH_PARAMETERS = [
         [
-            'column' => 'id',
-            'argument' => 'id',
+            'column' => 'analyte_id',
+            'argument' => 'analyte_id',
             'type' => 'EQUAL'  
         ]
     ];
