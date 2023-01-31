@@ -9,6 +9,13 @@ class AnalyteRange extends Base
     public $table = 'analyte_ranges';
 
 
+    const SEARCH_PARAMETERS = [
+        [
+            'column' => 'id',
+            'argument' => 'id',
+            'type' => 'EQUAL'  
+        ]
+    ];
 
     const PROPERTIES = [
         [
