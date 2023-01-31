@@ -1,5 +1,4 @@
 {
     "/global/assets/js/views/admin.min.js": "/global/assets/js/views/admin.min.js",
-    "/global/assets/js/views/authentication.min.js": "/global/assets/js/views/authentication.min.js",
-    "/global/assets/js/views/portal.min.js": "/global/assets/js/views/portal.min.js"
+    "/global/assets/js/views/authentication.min.js": "/global/assets/js/views/authentication.min.js"
 }
