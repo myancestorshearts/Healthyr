@@ -44,7 +44,19 @@ export  default class SearchTable extends React.Component{
     }
 
     handleSearch() {
-        ApiAdmin.Generic.search({classkey: this.props.classkey, page: this.state.page, take: 25, include_meta: true, analyte_id: this.props.analyte_id}, success => {
+        let searchObject = {
+            classkey: this.props.classkey, 
+            page: this.state.page, 
+            take: 25, 
+            include_meta: true,
+        }
+
+        if(this.props.analyte_id) searchObject.analyte_id = this.props.analyte_id
+        if(this.props.analyte_range_id) searchObject.analyte_range_id = this.props.analyte_range_id
+
+
+
+        ApiAdmin.Generic.search(searchObject, success => {
             this.setState({
                 models: success.data.models,
                 pageCount: success.data.page_count

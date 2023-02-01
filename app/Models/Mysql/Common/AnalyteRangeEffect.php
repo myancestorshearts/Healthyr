@@ -8,6 +8,14 @@ class AnalyteRangeEffect extends Base
 {
     public $table = 'analyte_range_effects';
 
+    const SEARCH_PARAMETERS = [
+        [
+            'column' => 'analyte_range_id',
+            'argument' => 'analyte_range_id',
+            'type' => 'EQUAL'  
+        ]
+    ];
+
     const PROPERTIES = [
         [
             'key' => 'analyte_range_id',

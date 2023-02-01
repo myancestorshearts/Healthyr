@@ -32,6 +32,8 @@ export default class AnalyteRangeAffect extends React.Component {
      }
    
     render(){
+
+        console.log('look at me', this.props.model)
         return(
            
              <FlexContainer direction="column" gap="15px">

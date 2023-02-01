@@ -103,6 +103,8 @@ export default class AnalyteRange extends React.Component {
     }
 
     render() {
+
+
         return(
             <React.Fragment>
 
@@ -219,6 +221,7 @@ export default class AnalyteRange extends React.Component {
                    
             <TableSearch
                 classkey='analyterangeeffect'
+                analyte_range_id={this.props.model.id}
                 ref={(e) => (this.table = e)}
                 properties={{
                 min: {
