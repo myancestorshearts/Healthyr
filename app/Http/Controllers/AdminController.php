@@ -167,4 +167,35 @@ class AdminController extends BaseController
 		// return success response
 		return $model->set($request)->json();
 	}
+	
+	/**purpose 
+	 *   delete a model 
+	 * args
+	 *   classkey (required)
+	 *   id (required)
+	 * returns
+	 *   (none)
+ 	 */
+	public function doDelete(Request $request) {
+
+		// create response
+		$response = new Response;
+
+		// check for required fields
+		if (!$response->hasRequired($request, ['classkey', 'id'])) return $response->jsonFailure('Missing reqiured fields');
+
+		// validate the class key
+        $class = Mysql\Admin\Base::getClassFromClassKey($request->get('classkey'));
+        if (!isset($class)) return $response->jsonFailure('Invalid classkey');
+
+		// validate the id 
+		$model = $class::find($request->get('id'));
+		if (!isset($model)) return $response->jsonFailure('Invalid model id');
+
+		// delete
+		$model->active = 0;
+		$model->save();
+
+		return $response->jsonSuccess();
+	}
 }

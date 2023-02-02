@@ -23,6 +23,9 @@ Route::post('add', 'AdminController@doAdd');
 // generic set
 Route::post('set', 'AdminController@doSet');
 
+// generic delete
+Route::post('delete', 'AdminController@doDelete');
+
 //Route::get('properties', 'Controller@getProperties');
 
 
