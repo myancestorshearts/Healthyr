@@ -8,6 +8,14 @@ class Analyte extends Base
 {
     public $table = 'analytes';
 
+    const SEARCH_PARAMETERS = [
+        [
+            'column' => 'active',
+            'argument' => 'active', 
+            'type' => 'EQUAL',
+            'default' => 1
+        ]
+    ];
 
     const PROPERTIES = [
         [

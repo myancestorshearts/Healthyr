@@ -14,6 +14,12 @@ class AnalyteRange extends Base
             'column' => 'analyte_id',
             'argument' => 'analyte_id',
             'type' => 'EQUAL'  
+        ],
+        [
+            'column' => 'active',
+            'argument' => 'active', 
+            'type' => 'EQUAL',
+            'default' => 1
         ]
     ];
 

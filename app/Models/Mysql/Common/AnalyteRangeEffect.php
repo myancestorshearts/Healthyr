@@ -13,6 +13,12 @@ class AnalyteRangeEffect extends Base
             'column' => 'analyte_range_id',
             'argument' => 'analyte_range_id',
             'type' => 'EQUAL'  
+        ],
+        [
+            'column' => 'active',
+            'argument' => 'active', 
+            'type' => 'EQUAL',
+            'default' => 1
         ]
     ];
 
