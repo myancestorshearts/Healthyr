@@ -6,6 +6,7 @@ import CommonBrand from '../../../brand'
 import toastr from 'toastr';
 import CommonFunctions from '../../../functions'
 import StyledComponent from '../../../components/styled-component';
+import Ellipses from '../../../components/ellipses'
 
 class Table extends React.Component {
 
@@ -91,19 +92,15 @@ const Row = (props) => {
 
     return (
         
-        <StyledComponent
-         props={{onClick: props.onClick}}
-         tagName='tr'
-         styleHover={STYLES.rowHover}
-         style={STYLES.row}
+       <StyledComponent
+            props={{ onClick: props.onClick }}
+            tagName='tr'
+            styleHover={STYLES.rowHover}
+            style={STYLES.row}
         >
-       
-
-        {columns}
-        
-           
+            {columns}
         </StyledComponent>
-        
+       
     )
 
 }

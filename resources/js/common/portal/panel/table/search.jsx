@@ -26,13 +26,16 @@ const OPTIONS_TAKE = [
     }
 ]
 
+const DEFAULT_PREFERENCE = {}
+
 export  default class SearchTable extends React.Component{
     constructor(props) {
         super(props)
         this.state = {
             models: [],
             page: 1,
-            pageCount: 1
+            pageCount: 1,
+            sort: DEFAULT_PREFERENCE
             
         }
         this.handlePaginate = this.handlePaginate.bind(this);

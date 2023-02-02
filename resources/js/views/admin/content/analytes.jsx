@@ -168,8 +168,11 @@ export default class Analytes extends React.Component {
               }
             }}
             onSelectModel={this.handleSelectModel}
+            
           />
+          
         ) : null}
+       
       </FlexContainer>
     )
   }
