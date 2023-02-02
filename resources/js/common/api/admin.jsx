@@ -51,6 +51,19 @@ class Generic {
     static set(parameters, successCallback, failureCallback) {
         WebClient.basicPost(parameters, '/api/admin/set', successCallback, failureCallback);
     }
+
+
+	/**purpose 
+	 *   delete a model 
+	 * args
+	 *   classkey (required)
+	 *   id (required)
+	 * returns
+	 *   (none)
+ 	 */
+    static delete(parameters, successCallback, failureCallback) {
+        WebClient.basicPost(parameters, '/api/admin/delete', successCallback, failureCallback);
+    }
 }
 
 export default class Brand {
