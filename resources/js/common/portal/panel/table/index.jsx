@@ -78,15 +78,15 @@ const Row = (props) => {
             contents = (<a href='#' onClick={(e) => {
                 window.open(props.properties[key].linkMethod(props.model), '_blank')
                 e.stopPropagation();
-            }}> {contents}</a>);
+            }}> {contents} </a>);
         }
         return (
-            <td
+        <td
                 style={cellStyles}
                 key={key}
             >
                 {contents}
-            </td>
+           </td>
         )
     }) : null
 
@@ -98,7 +98,8 @@ const Row = (props) => {
             styleHover={STYLES.rowHover}
             style={STYLES.row}
         >
-            {columns}
+            {columns }
+            
         </StyledComponent>
        
     )
@@ -196,5 +197,6 @@ const STYLES = {
     },
     row: {
         color: '#555'
-    }
+    },
+    
 }

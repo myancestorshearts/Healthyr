@@ -9,7 +9,9 @@ import CommonBrand from '../../../common/brand'
 import Analyte from '../../../common/models/analyte/index'
 import FlexExpander from '../../../common/components/flex-expander';
 import AddAnalyte from '../../../common/portal/content/forms/add-analyte'
-
+import Ellipses from '../../../common/components/ellipses'
+import ApiAdmin from '../../../common/api'
+import toastr from 'toastr'
 
 const FILTER_TIME_FRAME = [
   {
@@ -51,6 +53,7 @@ export default class Analytes extends React.Component {
     }
     this.handleSelectModel = this.handleSelectModel.bind(this)
     this.handleAdd = this.handleAdd.bind(this);
+   
   }
   handleSelectModel(x) { 
     SidePanel.pushStart('Analyte Details', 
@@ -60,10 +63,15 @@ export default class Analytes extends React.Component {
           SidePanel.pop();
           if (this.table) this.table.handleSearch();
         }}
+        onDelete={() => {
+          SidePanel.pop();
+          if (this.table) this.table.handleSearch();
+        }}
        />
     )
   }
 
+ 
   handleAdd() {
      SidePanel.pushStart( 'Add Analyte',
       <AddAnalyte 
@@ -120,10 +128,13 @@ export default class Analytes extends React.Component {
           
           }
          <FlexExpander />
+
+         
           <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
 						<i className="fa fa-plus" style={STYLES.createInputIcon}></i>
 						Add Analytes
 					</button>
+         
         </FlexContainer>
         
 
@@ -137,6 +148,7 @@ export default class Analytes extends React.Component {
             <PortalPanelTotal title="High" value="80%" />
           </React.Fragment>
         ) : null}
+        
         {this.state.view == VIEW_TABLE ? (
           <TableSearch
             classkey='analyte'
@@ -168,6 +180,7 @@ export default class Analytes extends React.Component {
               }
             }}
             onSelectModel={this.handleSelectModel}
+            
             
           />
           
@@ -234,5 +247,10 @@ const STYLES = {
 	},
 	createInputIcon: {
 		paddingRight: '10px'
-	}
+	},
+  dotActive:{
+    backgroundColor:CommonBrand.getSecondaryColor(),
+    color: 'white',
+  }
+   
 }

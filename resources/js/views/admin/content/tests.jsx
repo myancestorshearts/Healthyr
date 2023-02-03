@@ -6,7 +6,7 @@ import InputSelectModel from '../../../common/inputs/select-model'
 
 import PortalPanelTotal from '../../../common/portal/panel/total'
 import PortalTitle from '../../../common/portal/title'
-
+import Ellipses from '../../../common/components/ellipses'
 import TableSearch from '../../../common/portal/panel/table/search'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
@@ -126,6 +126,7 @@ export default class Tests extends React.Component {
             />
           ) : null}
           <FlexExpander />
+          
           <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
 						<i className="fa fa-plus" style={STYLES.createInputIcon}></i>
 						Add Tests
@@ -142,6 +143,7 @@ export default class Tests extends React.Component {
         {this.state.view == VIEW_TABLE ? (
           <TableSearch
             classkey='test'
+            onSelectModel={this.handleSelectModel}
             ref={(e) => (this.table = e)}
             properties={{
               name: {
@@ -157,8 +159,7 @@ export default class Tests extends React.Component {
                 default: true,
               },
             }}
-            onSelectModel={this.handleSelectModel}
-           
+            
           />
         ) : null}
       </FlexContainer>

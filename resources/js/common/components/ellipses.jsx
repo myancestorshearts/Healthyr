@@ -1,27 +1,46 @@
 import React from "react"
+import Brand from "../brand"
 
 export default class Ellipses extends React.Component{
+    
 
+    handleDelete() {
+
+    }
 
 
     render() {
         return (
-            <div>
-                <i className=" fa fa-ellipsis-v"></i>
+            <div 
+            onClick={this.props.onClick} 
+            style={STYLES.containerDot} 
+            stylehover={STYLES.dotActive}
+            >
+                <i 
+                className="fa fa-trash-o" 
+                style={STYLES.dot}
+                />
             </div>
         )
     }
 }
 
 const STYLES = {
-    dots:  {
-        height: '20px',
-        width:' 20px',
-        backgroundColor: 'grey',
-        borderRadius: '0%',
-        display: 'inline-block',
-        position: 'relative',
-    },
    
+   dot: {
+    padding: '13px',
+    backgroundColor: 'white',
+    borderRadius: '20px',
+    fontSize: '20px',
+    cursor: 'pointer',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: 'grey',
+   },
+   dotActive:{
+    backgroundColor: Brand.getSecondaryColor(),
+    color: 'white',
+  }
+  
     
 }

@@ -3,7 +3,10 @@ import FlexContainer from "../../components/flex-container";
 import Input from '../../inputs/field'
 import CommonBrand from '../../brand'
 import ApiAdmin from '../../api/admin';
+import Ellipses from '../../components/ellipses';
+import Duplicate from '../../components/duplicate';
 import toastr from 'toastr';
+import Spacer from '../../components/spacer';
 
 export default class Test extends React.Component{
     constructor(props) {
@@ -14,6 +17,7 @@ export default class Test extends React.Component{
             key: this.props.model.key,
           
         }
+       
         
     }
 
@@ -33,29 +37,43 @@ export default class Test extends React.Component{
  render() {
     return(
         <div>
+            {/*DUPLICATE, DELETE the tests*/}
+            <FlexContainer gap="10px">
+              <div style={STYLES.containerButton}>
+                <Ellipses
+                  onClick={this.handleDelete}
+                />
+                <Spacer/>
+                <Duplicate
+                 onClick={this.handleDuplicate}
+                />
+                
+                </div>
+            </FlexContainer>
+
+            {/* Save the test here */}
+            <FlexContainer direction="column" gap="15px">
             
-                    <FlexContainer direction="column" gap="15px">
-                    
-                    <Input
-                        autoFocus={true}
-                        title='Name'
-                        onChange={e => this.setState({ name: e.target.value })}
-                        value={this.state.name}
-                    />
+            <Input
+                autoFocus={true}
+                title='Name'
+                onChange={e => this.setState({ name: e.target.value })}
+                value={this.state.name}
+            />
 
-                    <Input
-                        autoFocus={true}
-                        title='Key'
-                        onChange={e => this.setState({ key: e.target.value })}
-                        value={this.state.key}
-                    />
-                    </FlexContainer>
+            <Input
+                autoFocus={true}
+                title='Key'
+                onChange={e => this.setState({ key: e.target.value })}
+                value={this.state.key}
+            />
+            </FlexContainer>
 
-                    <div>
-                        <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
-                            Save
-                        </button>
-                    </div>
+            <div>
+                <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
+                    Save
+                </button>
+            </div>
             
            
         </div>
@@ -80,4 +98,11 @@ const STYLES = {
 		fontSize: '18px',
 		fontFamily: 'Poppins'
 	},
+    containerButton: {
+        padding: '15px',
+        paddingBottom: '15px',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        flex: 1
+     }
 }

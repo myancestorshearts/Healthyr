@@ -10,6 +10,10 @@ import FlexExpander from '../../components/flex-expander';
 import AddRange from '../../portal/content/forms/add-ranges'
 import ApiAdmin from '../../api/admin'
 import toastr from 'toastr';
+import Ellipses from '../../components/ellipses';
+import Duplicate from '../../components/duplicate';
+import Spacer from '../../components/spacer';
+
 export default class Analytes extends React.Component{
   constructor(props) {
     super(props);
@@ -23,20 +27,55 @@ export default class Analytes extends React.Component{
 
     this.handleSelectModel = this.handleSelectModel.bind(this);
     this.handleAdd= this. handleAdd.bind(this);
+    this.handleDelete = this.handleDelete.bind(this)
+    this.handleDuplicate = this.handleDuplicate.bind(this)
   }
 
-  handleSelectModel(x) {
-    SidePanel.pushStart('Analyte Range Details', 
-    <AnalyteRange
-     model={x}
-     onSave={() => {
-      SidePanel.pop();
-      if (this.table) this.table.handleSearch();
-    }}
-    />,
-     1
-   )
+    handleSelectModel(x) {
+      SidePanel.pushStart('Analyte Range Details', 
+      <AnalyteRange
+      model={x}
+      onSave={() => {
+        SidePanel.pop();
+        if (this.table) this.table.handleSearch();
+      }}
+      />,
+      1
+    )
+    }
+
+  handleDelete() {
+     
+    ApiAdmin.Generic.delete({
+      classkey: 'analyte', id: this.props.model.id
+    }, () => {
+      toastr.success('Analyte Successfully Deleted')
+      if(this.props.onDelete) this.props.onDelete()
+    }, failure => {
+      toastr.error(failure.message);
+    }
+
+    )
+}
+
+  handleDuplicate() {
+    
+    let duplicate = {...this.props.model}
+    delete duplicate.id
+
+    ApiAdmin.Generic.add({
+      classkey: 'analyte', ...duplicate
+    }, () => {
+      toastr.success('Analyte Successfully Duplicated')
+      if(this.props.onDelete) this.props.onDelete()
+    }, failure => {
+      toastr.error(failure.message);
+    }
+
+    )
   }
+
+
   
   handleAdd() {
     SidePanel.pushStart( 'Add Analyte',
@@ -70,12 +109,29 @@ export default class Analytes extends React.Component{
           <div>
               
           <FlexContainer direction='column' gap='15px'>
-          
+            <FlexContainer gap="10px">
               <div style={STYLES.containerButton}>
-                <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
-                    Save
+                <Ellipses
+                  onClick={this.handleDelete}
+                />
+                <Spacer/>
+                <Duplicate
+                 onClick={this.handleDuplicate}
+                />
+                <Spacer/>
+                <button 
+                style={STYLES.buttonCreate} 
+                onClick={() => this.handleSave()}
+                >
+                  Save
                 </button>
-            </div>
+                </div>
+            </FlexContainer>
+                
+                {/* <FontAwesomeIcon icon="fa fa-thin fa-clone" /> */}
+               
+               
+            {/* </div> */}
             <Input
                 onChange={e => this.setState({ key: e.target.value })}
                 title='Key'
@@ -185,10 +241,11 @@ export default class Analytes extends React.Component{
 
 const STYLES = {
    containerButton: {
-      paddingLeft: '15px',
+      padding: '15px',
       paddingBottom: '15px',
       display: 'flex',
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+      flex: 1
    },
    area: {
      border: 'none'
@@ -215,5 +272,6 @@ const STYLES = {
       marginBottom: '15px',
       display: 'flex',
       justifyContent: 'flex-end'
-  }
+  },
+  
 }

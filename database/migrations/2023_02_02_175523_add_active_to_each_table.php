@@ -25,7 +25,7 @@ return new class extends Migration
             //
             $table->boolean('active')->after('report_max')->default(1);
         });
-    Schema::table('analyte_range_affects', function (Blueprint $table) {
+    Schema::table('analyte_range_effects', function (Blueprint $table) {
             //
             $table->boolean('active')->after('affect')->default(1);
         });
