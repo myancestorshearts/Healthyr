@@ -43,7 +43,7 @@ class ResultPdf extends Command
      */
     public function handle()
     {  
-        $platform_user_kits = Mysql\Common\PlatformUserkit::whereRaw('result_file_id IS NULL')->where('active', '=', 1)->get();
+        $platform_user_kits = Mysql\Common\PlatformUserKit::whereRaw('result_file_id IS NULL')->where('active', '=', 1)->get();
 
         $index = 0;
         $count = count($platform_user_kits);
