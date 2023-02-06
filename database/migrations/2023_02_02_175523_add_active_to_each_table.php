@@ -14,20 +14,20 @@ return new class extends Migration
     public function up()
     {
         Schema::table('tests', function (Blueprint $table) {
-            //
+            
             $table->boolean('active')->after('name')->default(1);
         });
         Schema::table('analytes', function (Blueprint $table) {
-            //
+            
             $table->boolean('active')->after('description')->default(1);
         });
         Schema::table('analyte_ranges', function (Blueprint $table) {
-            //
+            
             $table->boolean('active')->after('report_max')->default(1);
         });
     Schema::table('analyte_range_effects', function (Blueprint $table) {
             //
-            $table->boolean('active')->after('affect')->default(1);
+            $table->boolean('active')->after('effect')->default(1);
         });
     }
 
