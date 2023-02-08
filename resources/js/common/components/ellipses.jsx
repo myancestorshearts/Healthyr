@@ -4,10 +4,7 @@ import Brand from "../brand"
 export default class Ellipses extends React.Component{
     
 
-    handleDelete() {
-
-    }
-
+    
 
     render() {
         return (

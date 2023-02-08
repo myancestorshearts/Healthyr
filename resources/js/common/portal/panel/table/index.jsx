@@ -6,7 +6,7 @@ import CommonBrand from '../../../brand'
 import toastr from 'toastr';
 import CommonFunctions from '../../../functions'
 import StyledComponent from '../../../components/styled-component';
-import Ellipses from '../../../components/ellipses'
+import Dots from '../../../components/dots'
 
 class Table extends React.Component {
 
@@ -15,7 +15,7 @@ class Table extends React.Component {
     }  
 
     render() {
-    
+     
         
         let rows = this.props.models.map(x => <Row
             key={x.id}
@@ -86,7 +86,9 @@ const Row = (props) => {
                 key={key}
             >
                 {contents}
+               
            </td>
+           
         )
     }) : null
 
@@ -99,8 +101,9 @@ const Row = (props) => {
             style={STYLES.row}
         >
             {columns }
-            
+            <Dots />
         </StyledComponent>
+       
        
     )
 

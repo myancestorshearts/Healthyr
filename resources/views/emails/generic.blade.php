@@ -34,7 +34,7 @@
         @if (isset($action_link) && isset($action_text))
             <tr>
                 <td>
-                    <a href="{{$action_link}}" target="_blank" style="padding: 12px 12px;background-color:#313d44;font-family: Helvetica, Arial, sans-serif;font-size: 14px;color: #ffffff;text-decoration: none;font-weight:bold;display: block;width: 140px;margin: auto;text-align: center;border-radius: 10px;">
+                    <a href="{{$action_link}}" target="_blank" style="padding: 12px 12px;background-color:rgb(32, 20, 94);font-family: Helvetica, Arial, sans-serif;font-size: 14px;color: #ffffff;text-decoration: none;font-weight:bold;display: block;width: 140px;margin: auto;text-align: center;border-radius: 10px;">
                         {{$action_text}}
                     </a>
                 </td>

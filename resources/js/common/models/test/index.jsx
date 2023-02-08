@@ -38,18 +38,7 @@ export default class Test extends React.Component{
     return(
         <div>
             {/*DUPLICATE, DELETE the tests*/}
-            <FlexContainer gap="10px">
-              <div style={STYLES.containerButton}>
-                <Ellipses
-                  onClick={this.handleDelete}
-                />
-                <Spacer/>
-                <Duplicate
-                 onClick={this.handleDuplicate}
-                />
-                
-                </div>
-            </FlexContainer>
+            
 
             {/* Save the test here */}
             <FlexContainer direction="column" gap="15px">

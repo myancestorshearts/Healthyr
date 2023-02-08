@@ -155,13 +155,27 @@ export default class Analytes extends React.Component{
               />
           </FlexContainer>
 
-          <FlexExpander />
-          <div style={STYLES.button}>
-              <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
-                  <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
-                  Add Range
-              </button>
-          </div>
+        
+
+            <FlexContainer gap="10px">
+              <div style={STYLES.containerButton}>
+                      <Ellipses
+                        onClick={this.handleDelete}
+                      />
+                      <Spacer/>
+                      <Duplicate
+                      onClick={this.handleDuplicate}
+                      />
+                      <Spacer/>
+                     
+                    <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+                        <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
+                        Add Range
+                    </button>
+               </div>
+            </FlexContainer>
+          
+         
                    
             <TableSearch
             classkey='analyterange'
