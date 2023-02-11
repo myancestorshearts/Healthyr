@@ -57,12 +57,12 @@ return new class extends Migration
             $table->timestamps();
         });
         
-        Schema::create('analyte_range_affects', function (Blueprint $table) {
+        Schema::create('analyte_range_effects', function (Blueprint $table) {
             $table->id();
             $table->integer('analyte_range_id')->index();
             $table->decimal('min', 8, 2)->nullable();
             $table->decimal('max', 8, 2)->nullable();
-            $table->string('affect', 2048);
+            $table->string('effect', 2048);
             $table->timestamps();
         });
     }

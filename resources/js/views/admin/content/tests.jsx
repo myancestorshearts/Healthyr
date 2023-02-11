@@ -6,7 +6,6 @@ import InputSelectModel from '../../../common/inputs/select-model'
 
 import PortalPanelTotal from '../../../common/portal/panel/total'
 import PortalTitle from '../../../common/portal/title'
-import Ellipses from '../../../common/components/ellipses'
 import TableSearch from '../../../common/portal/panel/table/search'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
@@ -155,6 +154,30 @@ export default class Tests extends React.Component {
               key: {
                 title: 'Key',
                 property: 'key',
+                type: 'TEXT',
+                default: true,
+              },
+              description: {
+                title: 'Description',
+                property: 'description',
+                type: 'TEXT',
+                default: true,
+              },
+              sku: {
+                title: 'Sku',
+                property: 'sku',
+                type: 'TEXT',
+                default: true,
+              },
+              upc: {
+                title: 'Upc',
+                property: 'upc',
+                type: 'TEXT',
+                default: true,
+              },
+              ean: {
+                title: 'Ean',
+                property: 'ean',
                 type: 'TEXT',
                 default: true,
               },

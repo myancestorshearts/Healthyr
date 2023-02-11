@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        
 
         Schema::create('email_links', function (Blueprint $table) {
             $table->id();
