@@ -12,6 +12,15 @@ use App\Mail;
 
 class User extends Base
 {
+    const PROPERTIES = [
+        [
+            'key' => 'name',
+            'type' => 'TEXT',
+        ],
+    ];
+
+
+
     public $table = 'users';
     
     // token keys
