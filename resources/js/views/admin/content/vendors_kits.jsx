@@ -149,57 +149,39 @@ export default class VendorsKit extends React.Component {
             
             {this.state.view == VIEW_TABLE ? (
               <TableSearch
-                classkey='vendorkit'
-                ref={(e) => (this.table = e)}
-                properties={{
-                  key: {
-                    title: 'Key',
-                    property: 'key',
-                    type: 'TEXT',
-                    default: true,
-                  },
-                 name: {
-                    title: 'Name',
-                    property: 'name',
-                    type: 'TEXT',
-                    default: true,
-                  },
-                 description: {
-                    title: 'Description',
-                    property: 'description',
-                    type: 'TEXT',
-                    default: true,
-                  },
-                  sku: {
-                    title: 'Sku',
-                    property: 'sku',
-                    type: 'TEXT',
-                    default: true
-                  },
-                  upc: {
-                    title: 'Upc',
-                    property: 'upc',
-                    type: 'TEXT',
-                    default: true
-                  },
-                  ean: {
-                    title: 'Ean',
-                    property: 'ean',
-                    type: 'TEXT',
-                    default: true
-                  },
-
-                  active: {
-                    title: 'Active',
-                    property: 'active',
-                    type: 'TEXT',
-                    default: true
-                  }
-                }}
-                onSelectModel={this.handleSelectModel}
-                
-                
-              />
+              classkey='vendorkit'
+              //vendor_id={this.props.model.id}
+              ref={(e) => (this.table = e)}
+              properties={{
+                vendorid: {
+                  title: 'Vendor Id',
+                  property: 'vendor_id',
+                  type: 'INTEGER',
+                  default: true,
+                },
+                masterpackid: {
+                  title: 'Masterpack Id',
+                  property: 'masterpack_id',
+                  type: 'TEXT',
+                  default: true,
+                },
+                kitid: {
+                  title: 'Kit Id',
+                  property: 'kit_id',
+                  type: 'TEXT',
+                  default: true,
+                },
+               active: {
+                  title: 'Active',
+                  property: 'active',
+                  type: 'TEXT',
+                  default: true
+                },
+               
+  
+              }}
+              onSelectModel={this.handleSelectModel}
+            />
               
             ) : null}
            

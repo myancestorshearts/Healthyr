@@ -54,7 +54,7 @@ export default class Analytes extends React.Component {
    
   }
   handleSelectModel(x) { 
-    SidePanel.pushStart('Vendor Details', 
+    SidePanel.pushStart(' Vendor Details', 
        <Vendor
         model={x}
         onSave={() => {

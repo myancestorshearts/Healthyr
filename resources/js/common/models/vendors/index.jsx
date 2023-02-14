@@ -6,7 +6,8 @@ import ApiAdmin from '../../api/admin';
 import Ellipses from '../../components/ellipses';
 import Duplicate from '../../components/duplicate';
 import toastr from 'toastr';
-import Spacer from '../../components/spacer';
+import TableSearch from '../../../common/portal/panel/table/search'
+
 
 export default class Test extends React.Component{
     constructor(props) {
@@ -39,12 +40,18 @@ export default class Test extends React.Component{
 
  render() {
     return(
-        <div>
+        <div style={STYLES.textarea}>
             {/*DUPLICATE, DELETE the tests*/}
             
 
             {/* Save the test here */}
             <FlexContainer direction="column" gap="15px">
+            
+            <div style={STYLES.containerButton}>
+                <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
+                    Save
+                </button>
+            </div>
             
             <Input
                 autoFocus={true}
@@ -79,12 +86,42 @@ export default class Test extends React.Component{
             />
             </FlexContainer>
 
-            <div>
-                <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
-                    Save
-                </button>
-            </div>
+
             
+            <TableSearch
+                classkey='vendorkit'
+                vendor_id={this.props.model.id}
+                ref={(e) => (this.table = e)}
+                properties={{
+                  vendorid: {
+                    title: 'Vendor Id',
+                    property: 'vendor_id',
+                    type: 'TEXT',
+                    default: true,
+                  },
+                  masterpackid: {
+                    title: 'Masterpack Id',
+                    property: 'masterpack_id',
+                    type: 'TEXT',
+                    default: true,
+                  },
+                  kitid: {
+                    title: 'Kit Id',
+                    property: 'kit_id',
+                    type: 'TEXT',
+                    default: true,
+                  },
+                 active: {
+                    title: 'Active',
+                    property: 'active',
+                    type: 'TEXT',
+                    default: true
+                  },
+                 
+    
+                }}
+                onSelectModel={this.handleSelectModel}
+              />
            
         </div>
        
@@ -114,5 +151,8 @@ const STYLES = {
         display: 'flex',
         justifyContent: 'flex-end',
         flex: 1
-     }
+     },
+     textarea: {
+        padding: '20px',
+    }
 }
