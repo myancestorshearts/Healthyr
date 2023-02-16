@@ -8,12 +8,15 @@ import CommonFunctions from '../../../functions'
 import StyledComponent from '../../../components/styled-component';
 import Dots from '../../../components/dots'
 
+
+
 class Table extends React.Component {
 
     constructor(props) {
         super(props)
     }  
 
+   
     render() {
      
         
@@ -100,8 +103,10 @@ const Row = (props) => {
             styleHover={STYLES.rowHover}
             style={STYLES.row}
         >
-            {columns }
-            <Dots />
+            {columns}
+            {/* <td  style={cellStyles}>
+            <Dots model={props.model}/>
+            </td> */}
         </StyledComponent>
        
        
@@ -127,6 +132,7 @@ const HeaderComponent = (props) => {
     return (
         <tr>
             {headers}
+            <th style={STYLES.tableHeader}></th>
         </tr>
     )
 }
@@ -157,7 +163,7 @@ const STYLES = {
    
     tableContainer: {
         width: '100%',
-        overflowY: 'auto',
+        overflowY: 'hidden',
         background: '#ffffff',
         borderRadius: '20px',
         paddingTop: '10px'
@@ -199,7 +205,7 @@ const STYLES = {
         cursor: 'pointer'
     },
     row: {
-        color: '#555'
+        //color: '#555'
     },
     
 }

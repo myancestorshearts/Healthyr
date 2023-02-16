@@ -51,6 +51,7 @@ const STYLES = {
     container: {
         display: 'flex',
         flexDirection: 'column',
+        
     },
     select: {
         backgroundColor: 'transparent',
