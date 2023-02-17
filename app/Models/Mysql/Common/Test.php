@@ -23,8 +23,25 @@ class Test extends Base
             'type' => 'TEXT'
         ],
         [
-            'key' => ' ',
+            'key' => 'key',
             'type' => 'TEXT'
-        ]
+        ],
+        [
+            'key' => 'description',
+            'type' => 'TEXT'
+        ],
+        [
+            'key' => 'sku',
+            'type' => 'TEXT'
+        ],
+        [
+            'key' => 'upc',
+            'type' => 'TEXT'
+        ],
+        [
+            'key' => 'ean',
+            'type' => 'TEXT'
+        ],
+
     ];
 }

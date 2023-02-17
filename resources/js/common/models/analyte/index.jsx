@@ -13,6 +13,7 @@ import toastr from 'toastr';
 import Ellipses from '../../components/ellipses';
 import Duplicate from '../../components/duplicate';
 import Spacer from '../../components/spacer';
+import { CONFIRM } from '../../components/modal/index';
 
 export default class Analytes extends React.Component{
   constructor(props) {
@@ -48,13 +49,12 @@ export default class Analytes extends React.Component{
      
     ApiAdmin.Generic.delete({
       classkey: 'analyte', id: this.props.model.id
-    }, () => {
+    }, () => { 
       toastr.success('Analyte Successfully Deleted')
       if(this.props.onDelete) this.props.onDelete()
     }, failure => {
       toastr.error(failure.message);
     }
-
     )
 }
 
@@ -109,23 +109,27 @@ export default class Analytes extends React.Component{
           <div>
               
           <FlexContainer direction='column' gap='15px'>
-            <FlexContainer gap="10px">
-              <div style={STYLES.containerButton}>
+            <FlexContainer gap="20px" style={STYLES.containerButton}>
+              
                 <Ellipses
-                  onClick={this.handleDelete}
+                 onClick={(e) => {
+                  e.stopPropagation();
+                  CONFIRM('Are you sure you want to cancel this?', () => this.handleDelete())
+                 }}
+                  
                 />
-                <Spacer/>
+                
                 <Duplicate
                  onClick={this.handleDuplicate}
                 />
-                <Spacer/>
+                
                 <button 
                 style={STYLES.buttonCreate} 
                 onClick={() => this.handleSave()}
                 >
                   Save
                 </button>
-                </div>
+             
             </FlexContainer>
                 
                 {/* <FontAwesomeIcon icon="fa fa-thin fa-clone" /> */}

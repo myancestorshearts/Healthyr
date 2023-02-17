@@ -13,5 +13,7 @@ class Base extends Mysql\Common\Base
         'analyterange' => Mysql\Common\AnalyteRange::class,
         'analyterangeeffect' => Mysql\Common\AnalyteRangeEffect::class,
         'advertisment' => Mysql\Common\Advertisment::class,
+        'vendor' => Mysql\Common\Vendor::class,
+        'vendorkit' => Mysql\Common\VendorKit::class
 	];
 }

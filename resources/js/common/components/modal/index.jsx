@@ -7,8 +7,9 @@ import FlexContainer from '../flex-container'
 import Panel from '../../components/panel'
 
 import Text from '../../../common/inputs/text'
-
+import CommonBrand from '../../brand'
 import Button from '../../../common/inputs/button'
+import Spacer from '../../../common/components/spacer'
 
 export default class Modal extends React.Component {
     constructor(props)
@@ -46,11 +47,13 @@ export default class Modal extends React.Component {
     }
 
     render() {
-        let panelStyles = {...STYLES.panelStyle, ...{maxHeight: this.props.maxHeight ? this.props.maxHeight : null, width: this.props.width ? this.props.width : null, minWidth: this.props.width ? null : '50%', height: this.props.height, backgroundColor: (this.props.backgroundColor) ? this.props.backgroundColor : null, overflow: (this.props.overflow) ? this.props.overflow : null}}
+        let panelStyles = {...STYLES.panelStyle, ...{maxHeight: this.props.maxHeight ? this.props.maxHeight : null, width: this.props.width ? this.props.width : null, minWidth: this.props.width ? null : '50%', 
+        height: this.props.height, 
+        overflow: (this.props.overflow) ? this.props.overflow : null}}
         return ReactDOM.createPortal(
             <React.Fragment>
                 <Panel className={this.props.className} style={panelStyles}>
-                    <div ref={e => this.panelRef = e} style={{height: '100%', backgroundColor: (this.props.backgroundColor ? this.props.backgroundColor : null)}}>
+                    <div ref={e => this.panelRef = e} >
                         {this.props.children}
                     </div>
                 </Panel>
@@ -69,6 +72,7 @@ const STYLES = {
         fontSize: '25px',
         padding: '10px',
         overflow: 'hidden',
+        background: 'white'
     },
     confirmButtonsContainer: {
         display: 'flex'
@@ -102,13 +106,13 @@ export const CONFIRM = (message, successCallback, cancelCallback) => {
                     autoFocus: true,
                     onClick:onSuccess
                 }}
-                color={GoaBrand.getPrimaryColor()}
+                color={CommonBrand.getPrimaryColor()}
             >
                 Confirm
             </Button>
             <Spacer space='20px'/>
             <Button 
-                color={GoaBrand.getPrimaryColor()}
+                color={CommonBrand.getPrimaryColor()}
                 props={{onClick:onCancel}}
             >
                 Cancel

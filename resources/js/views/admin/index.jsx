@@ -6,6 +6,11 @@ import ContentTests from './content/tests'
 import ContentAnalytes from './content/analytes'
 import ContentSettings from './content/settings'
 import ContentAdvertisements from './content/advertisement'
+import ContentVendors from './content/vendors'
+import ContentVendorsKit from './content/vendors_kits'
+import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+
+
 
 const MENUS = [
   {
@@ -32,6 +37,20 @@ const MENUS = [
     icon: 'fa fa-newspaper-o',
     component: ContentAdvertisements,
     link: '/advertisements', 
+  },
+  {
+    title: 'Vendors',
+    icon:"fa fa-group" ,
+    component: ContentVendors,
+    link: '/vendors'
+    
+  },
+  {
+    title: 'Vendors Kit',
+    icon:"fa fa-medkit" ,
+    component: ContentVendorsKit,
+    link: '/vendorsKit'
+    
   },
   {
     title: 'Settings',

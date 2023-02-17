@@ -8,6 +8,7 @@ use App\Services;
 
 use App;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -32,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        
     }
 }
