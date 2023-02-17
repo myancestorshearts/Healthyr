@@ -105,11 +105,11 @@ const Row = (props) => {
             style={STYLES.row}
         >
             {columns}
-            {<td  style={cellStyles}>
+            <td  style={cellStyles}>
             <Dots 
                 classKey={props.classKey}
                 model={props.model}/>
-            </td> }
+            </td> 
         </StyledComponent>
        
        
@@ -184,7 +184,8 @@ const STYLES = {
         paddingBottom: '10px',
         fontSize: '12px',
         cursor: 'pointer',
-        userSelect: 'none'
+        userSelect: 'none',
+        overflowY: 'hidden'
     },
     tableHeaderIcon: {
         fontSize: '14px',

@@ -25,7 +25,7 @@ export default  class SelectionBox extends  React.Component {
     handleDelete() {
     
         ApiAdmin.Generic.delete({
-          classkey: classKey, id: this.props.model.id
+          classkey: this.props.classKey, id: this.props.model.id
         }, () => { 
           toastr.success('Analyte Successfully Deleted')
           if(this.props.onDelete) this.props.onDelete()
@@ -39,9 +39,9 @@ export default  class SelectionBox extends  React.Component {
     
         let duplicate = {...this.props.model}
         delete duplicate.id
-        const {classKey}  = this.props.id
+        
         ApiAdmin.Generic.add({
-          classkey: classKey, ...duplicate
+          classkey: this.props.classKey, ...duplicate
         }, () => {
           toastr.success('Analyte Successfully Duplicated')
           if(this.props.onDelete) this.props.onDelete()
@@ -142,15 +142,14 @@ const STYLES = {
         margin: '15px',
         padding: '15px',
         minWidth: '60px',
-        zIndex: 3,
-        top: '-20px',
+        zIndex: 1,
+        top: '-5px',
         backgroundColor: 'white',
         color: 'black',
-        border: '2px solid white',
+        border: '2px solid rgb(245 248 250/ 100%',
         position:'absolute',
         left: '-50px',
-        top: '10px'
-        //boxShadow: 'rgb(180 204 222 / 45%) 15px 15px 10px 10px'
+        boxShadow: 'rgb(245 248 250/ 100%) 5px 5px 5px '
        
 
     },
