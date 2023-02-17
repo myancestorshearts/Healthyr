@@ -97,6 +97,7 @@ export  default class SearchTable extends React.Component{
                     properties={this.props.properties}
                     models={this.state.models} 
                     onSelectModel = {this.props.onSelectModel}
+                    classKey={this.props.classkey}
                     />
                 
                     <div style={STYLES.pageContainer}>

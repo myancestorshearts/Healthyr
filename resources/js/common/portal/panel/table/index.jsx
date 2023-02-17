@@ -21,6 +21,7 @@ class Table extends React.Component {
      
         
         let rows = this.props.models.map(x => <Row
+            classKey={this.props.classKey}
             key={x.id}
             model={x}
             properties={this.props.properties}
@@ -104,9 +105,11 @@ const Row = (props) => {
             style={STYLES.row}
         >
             {columns}
-            {/* <td  style={cellStyles}>
-            <Dots model={props.model}/>
-            </td> */}
+            {<td  style={cellStyles}>
+            <Dots 
+                classKey={props.classKey}
+                model={props.model}/>
+            </td> }
         </StyledComponent>
        
        
