@@ -3,10 +3,12 @@ import FlexContainer from "../../components/flex-container";
 import Input from '../../inputs/field'
 import CommonBrand from '../../brand'
 import ApiAdmin from '../../api/admin';
-import Ellipses from '../../components/ellipses';
-import Duplicate from '../../components/duplicate';
+import TableSearch from '../../../common/portal/panel/table/search'
 import toastr from 'toastr';
-import Spacer from '../../components/spacer';
+
+
+const VIEW_DASHBOARD = 'dashboard'
+const VIEW_TABLE = 'table'
 
 export default class Test extends React.Component{
     constructor(props) {
@@ -64,6 +66,39 @@ export default class Test extends React.Component{
                 </button>
             </div>
             
+            <TableSearch
+            classkey='analyte'
+            analyte_id={this.props.model.id}
+            ref={(e) => (this.table = e)}
+            properties={{
+            key: {
+            title: 'Key',
+            property: 'key',
+            type: 'TEXT',
+            default: true,
+            },
+            name: {
+            title: 'Name',
+            property: 'name',
+            type: 'TEXT',
+            default: true,
+            },
+            unit: {
+            title: 'Unit of Measure',
+            property: 'unit_of_measure',
+            type: 'TEXT',
+            default: true,
+            },
+            description: {
+            title: 'Description',
+            property: 'description',
+            type: 'TEXT',
+            default: true
+            }
+            }}
+            onSelectModel={this.handleSelectModel}
+            />
+         
            
         </div>
        
