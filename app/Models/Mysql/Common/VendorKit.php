@@ -10,8 +10,8 @@ class VendorKit extends Base
 
     const SEARCH_PARAMETERS = [
         [
-            'column' => 'analyte_id',
-            'argument' => 'analyte_id',
+            'column' => 'vendor_id',
+            'argument' => 'vendor_id',
             'type' => 'EQUAL'  
         ],
         [
@@ -22,30 +22,12 @@ class VendorKit extends Base
         ]
     ];
 
+
     const PROPERTIES = [
         [
             'key' => 'vendor_id',
             'type' => 'MODEL_ID',
-            'class' => VendorKit::class
-        ],
-        [
-            'key' => 'vendor_id',
-            'type' => 'INTEGER',
-            
-        ],
-        [
-            'key' => 'masterpack_id',
-            'type' => 'INTEGER'
-        ],
-        [
-            'key' => 'kit_id',
-            'type' => 'TEXT',
-            
-        ],
-        [
-            'key' => 'active',
-            'type' => 'INTEGER',
-           
+            'class' => Vendor::class
         ],
        
     ];

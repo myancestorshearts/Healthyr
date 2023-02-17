@@ -28,7 +28,7 @@ export default class Test extends React.Component{
     handleSave() {
         
         this.loading = true;
-        ApiAdmin.Generic.set({classkey:'test', id: this.props.model.id, ...this.state}, success => {
+        ApiAdmin.Generic.set({classkey:'vendor', id: this.props.model.id, ...this.state}, success => {
             if(this.props.onSave) this.props.onSave(success.data.model);
         },
         failure => {
@@ -93,12 +93,6 @@ export default class Test extends React.Component{
                 vendor_id={this.props.model.id}
                 ref={(e) => (this.table = e)}
                 properties={{
-                  vendorid: {
-                    title: 'Vendor Id',
-                    property: 'vendor_id',
-                    type: 'TEXT',
-                    default: true,
-                  },
                   masterpackid: {
                     title: 'Masterpack Id',
                     property: 'masterpack_id',
