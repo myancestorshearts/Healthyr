@@ -108,6 +108,7 @@ export default class Analytes extends React.Component {
             className="fa fa-list"
             onClick={() => this.setState({ view: VIEW_TABLE })}
           />
+
           {/*<i style={STYLES.iconFilter} className='fa fa-download' />*/}
           <InputSelectModel
             models={FILTER_TIME_FRAME}
@@ -129,7 +130,9 @@ export default class Analytes extends React.Component {
           }
          <FlexExpander />
 
-         
+         <button style={STYLES.buttonCreate}>
+						<i className="fa fa-upload"></i>
+					</button>
           <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
 						<i className="fa fa-plus" style={STYLES.createInputIcon}></i>
 						Add Analytes

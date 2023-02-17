@@ -6,12 +6,13 @@ import PortalTitle from '../../../common/portal/title'
 import TableSearch from '../../../common/portal/panel/table/search'
 import SidePanel from '../../../common/portal/panel/side-panel'
 import CommonBrand from '../../../common/brand'
-import Analyte from '../../../common/models/analyte/index'
+import VendorKit from '../../../common/models/vendors_kit/index'
 import FlexExpander from '../../../common/components/flex-expander';
 import AddAnalyte from '../../../common/portal/content/forms/add-analyte'
 import Ellipses from '../../../common/components/ellipses'
 import ApiAdmin from '../../../common/api'
 import toastr from 'toastr'
+
 
 const FILTER_TIME_FRAME = [
   {
@@ -58,7 +59,7 @@ export default class VendorsKit extends React.Component {
       }
       handleSelectModel(x) { 
         SidePanel.pushStart('Vendors Kit Details', 
-           <Analyte
+           <VendorKit
             model={x}
             onSave={() => {
               SidePanel.pop();
