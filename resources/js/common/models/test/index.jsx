@@ -68,7 +68,9 @@ export default class Test extends React.Component{
             
             <TableSearch
             classkey='analyte'
-            analyte_id={this.props.model.id}
+            searchArgs={{
+                test_id: this.props.model.id
+            }}
             ref={(e) => (this.table = e)}
             properties={{
             key: {

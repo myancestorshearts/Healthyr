@@ -52,13 +52,13 @@ export  default class SearchTable extends React.Component{
             page: this.state.page, 
             take: 25, 
             include_meta: true,
+            ...(this.props.searchArgs ? this.props.searchArgs : {}),
         }
 
         if(this.props.analyte_id) searchObject.analyte_id = this.props.analyte_id
         if(this.props.analyte_range_id) searchObject.analyte_range_id = this.props.analyte_range_id
         if(this.props.vendor_id) searchObject.vendor_id = this.props.vendor_id
 
-            console.log(searchObject, 'searchme')
 
 
 
@@ -76,7 +76,6 @@ export  default class SearchTable extends React.Component{
     }
 
     render() {
-        console.log('ITS ALIVEEEEEE')
         const pageNumbers = [];
 
 
