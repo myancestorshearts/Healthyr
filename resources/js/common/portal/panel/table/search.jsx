@@ -26,7 +26,8 @@ const OPTIONS_TAKE = [
     }
 ]
 
-const DEFAULT_PREFERENCE = {}
+const DEFAULT_PREFERENCE = {
+}
 
 export  default class SearchTable extends React.Component{
     constructor(props) {
@@ -40,6 +41,7 @@ export  default class SearchTable extends React.Component{
         }
         this.handlePaginate = this.handlePaginate.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleSort = this.handleSort.bind(this);
     }
 
     componentDidMount() {
@@ -52,6 +54,7 @@ export  default class SearchTable extends React.Component{
             page: this.state.page, 
             take: 25, 
             include_meta: true,
+            order_by: JSON.stringify([this.state.sort])
         }
 
         if(this.props.analyte_id) searchObject.analyte_id = this.props.analyte_id
@@ -73,6 +76,26 @@ export  default class SearchTable extends React.Component{
 
     handlePaginate(page) {
         this.setState({page: page}, this.handleSearch) 
+    }
+
+    handleSort(x) {
+        if (this.state.sort.column == x.property && this.state.sort.direction == 'ASC') {
+            this.setState({sort: {
+                column: x.property,
+                direction: 'DESC'
+            }}, this.handleSearch)
+        }
+        else if (this.state.sort.column == x.property && this.state.sort.direction == 'DESC') {
+            this.setState({sort: DEFAULT_PREFERENCE}, this.handleSearch)
+        }
+        else {
+
+            this.setState({sort: {
+                column: x.property,
+                direction: 'ASC'
+            }}, this.handleSearch)
+        }
+
     }
 
     render() {
@@ -101,6 +124,8 @@ export  default class SearchTable extends React.Component{
                     models={this.state.models} 
                     onSelectModel = {this.props.onSelectModel}
                     classKey={this.props.classkey}
+                    onSort={this.handleSort}
+                    sort={this.state.sort}
                     />
                 
                     <div style={STYLES.pageContainer}>

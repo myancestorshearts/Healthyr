@@ -17,9 +17,9 @@ export default  class SelectionBox extends  React.Component {
     }
 
     handleSelect(e){
-       
-        this.setState({open: !this.state.open})
         e.stopPropagation()
+        this.setState({open: !this.state.open})
+       
     }
 
     handleDelete() {
@@ -70,16 +70,7 @@ export default  class SelectionBox extends  React.Component {
         labelStyles = { ...labelStyles, ...(this.props.styleslabel ? this.props.styleslabel : {}) };
         containerStyles = { ...containerStyles, ...(this.props.stylescontainer ? this.props.stylescontainer : {}) };
 
-        // let selectableOptions = [...this.props.options]
-
-        // if (!this.props.value) {
-        //     selectableOptions.unshift({
-        //         label: this.props.placeholder ? this.props.placeholder : '',
-        //         value: undefined
-        //     })
-
-        // }
-         //let options = selectableOptions.map((x, i) => <option key={i} value={x.value}>{x.label}</option>)
+        
 
         return (
             <div style={containerStyles} onClick={this.handleSelect}>
@@ -142,13 +133,14 @@ const STYLES = {
         margin: '15px',
         padding: '15px',
         minWidth: '60px',
-        zIndex: 1,
-        top: '-5px',
+        overflowX: 'hidden',
+        zIndex: 3,
+        top: 'auto',
         backgroundColor: 'white',
         color: 'black',
         border: '2px solid rgb(245 248 250/ 100%',
-        position:'absolute',
-        left: '-50px',
+        position:'fixed',
+        right: '-10px',
         boxShadow: 'rgb(245 248 250/ 100%) 5px 5px 5px '
        
 

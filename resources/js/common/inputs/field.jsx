@@ -39,7 +39,8 @@ const STYLES = {
     container: {
         display: 'flex',
         flexDirection: 'column',
-        marginBottom: '10px'
+        marginBottom: '10px',
+        
     },
     input: {
         backgroundColor: 'transparent',

@@ -52,4 +52,15 @@ class ViewController extends Controller {
         return view('admin');
     }
 
+    /**purpose 
+     *   shows user portal view (customer interacts with site)
+     * args
+     *   (none)
+     * returns
+     *   user portal view
+     */
+    public function showClient() {
+        //if (!Auth::check()) return Redirect::to('/');
+        return view('client');
+    }
 }

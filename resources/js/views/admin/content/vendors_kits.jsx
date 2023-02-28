@@ -151,28 +151,31 @@ export default class VendorsKit extends React.Component {
             {this.state.view == VIEW_TABLE ? (
               <TableSearch
               classkey='vendorkit'
-              //vendor_id={this.props.model.id}
               ref={(e) => (this.table = e)}
               properties={{
                 vendorid: {
+                  sortable: true,
                   title: 'Vendor Id',
                   property: 'vendor_id',
                   type: 'INTEGER',
                   default: true,
                 },
                 masterpackid: {
+                  sortable: true,
                   title: 'Masterpack Id',
                   property: 'masterpack_id',
                   type: 'TEXT',
                   default: true,
                 },
                 kitid: {
+                  sortable: true,
                   title: 'Kit Id',
                   property: 'kit_id',
                   type: 'TEXT',
                   default: true,
                 },
                active: {
+                sortable: true,
                   title: 'Active',
                   property: 'active',
                   type: 'TEXT',

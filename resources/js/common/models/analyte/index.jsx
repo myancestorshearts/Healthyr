@@ -106,7 +106,7 @@ export default class Analytes extends React.Component{
  render() {
     return(
 
-          <div>
+          <div style={STYLES.textarea}>
               
           <FlexContainer direction='column' gap='15px'>
             <FlexContainer gap="20px" style={STYLES.containerButton}>
@@ -187,12 +187,15 @@ export default class Analytes extends React.Component{
             ref={(e) => (this.table = e)}
             properties={{
               key: {
+                sortable: true,
                 title: 'Gender',
                 property: 'gender',
                 type: 'TEXT',
                 default: true,
               },
               name: {
+                sortable: true,
+                sortable: true,
                 title: 'Pregnant',
                 property: 'pregnant',
                 type: 'BOOLEAN',
@@ -201,48 +204,56 @@ export default class Analytes extends React.Component{
                 default: true,
               },
               agemin: {
+                sortable: true,
                 title: 'Age Min Months',
                 property: 'age_min_months',
                 type: 'TEXT',
                 default: true,
               },
              agemax: {
+                sortable: true,
                 title: 'Age Max Months',
                 property: 'age_max_months',
                 type: 'TEXT',
                 default: true
               },
               reportmin: {
+                sortable: true,
                 title: 'Report Min',
                 property: 'report_min',
                 type: 'TEXT',
                 default: true
               },
               reportmax: {
+                sortable: true,
                 title: 'Report Max',
                 property: 'report_max',
                 type: 'TEXT',
                 default: true
               },
               lowmin: {
+                sortable: true,
                 title: 'Low Min',
                 property: 'low_min',
                 type: 'TEXT',
                 default: true
               },
               higmax: {
+                sortable: true,
                 title: 'High Max',
                 property: 'high_max',
                 type: 'TEXT',
                 default: true
               },
               healthymin: {
+                sortable: true,
                 title: 'Healthy Min',
                 property: 'healthy_min',
                 type: 'TEXT',
                 default: true
               },
               healthymax: {
+                sortable: true,
                 title: 'Healthy Max',
                 property: 'healthy_max',
                 type: 'TEXT',
@@ -291,5 +302,8 @@ const STYLES = {
       display: 'flex',
       justifyContent: 'flex-end'
   },
+  textarea: {
+    padding: '20px',
+}
   
 }
