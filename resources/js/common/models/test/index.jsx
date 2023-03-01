@@ -5,6 +5,8 @@ import CommonBrand from '../../brand'
 import ApiAdmin from '../../api/admin';
 import TableSearch from '../../../common/portal/panel/table/search'
 import toastr from 'toastr';
+import Spacer from '../../components/spacer';
+
 
 
 const VIEW_DASHBOARD = 'dashboard'
@@ -38,16 +40,17 @@ export default class Test extends React.Component{
 
  render() {
     return(
-        <div>
+        <div style={STYLES.textarea}>
             
             {/* Save the test here */}
-            <FlexContainer  gap="15px" direction="column">
-                <div style={STYLES.containerButton}>
+            <div style={STYLES.containerButton}>
                     <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
                             Save
                     </button>
                 </div>
                     
+            <FlexContainer  gap="15px" direction="column">
+            
                 <Input
                     autoFocus={true}
                     title='Name'
@@ -63,7 +66,7 @@ export default class Test extends React.Component{
                 />
             </FlexContainer>
 
-            
+            <Spacer />
             
             <TableSearch
             classkey='analyte'
@@ -134,5 +137,8 @@ const STYLES = {
         display: 'flex',
         justifyContent: 'flex-end',
     
-     }
+     },
+     textarea: {
+        padding: '20px',
+    }
 }

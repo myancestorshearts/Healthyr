@@ -12,7 +12,6 @@ import ApiAdmin from '../../api/admin'
 import toastr from 'toastr';
 import Ellipses from '../../components/ellipses';
 import Duplicate from '../../components/duplicate';
-import Spacer from '../../components/spacer';
 import { CONFIRM } from '../../components/modal/index';
 
 export default class Analytes extends React.Component{
@@ -118,7 +117,8 @@ export default class Analytes extends React.Component{
                 </button>
              
             </FlexContainer>
-              
+            
+           
             <Input
                 onChange={e => this.setState({ key: e.target.value })}
                 title='Key'
@@ -145,13 +145,13 @@ export default class Analytes extends React.Component{
         
 
             
-            <div style={STYLES.containerButton}>
-                  <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
-                      <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
-                      Add Range
-                  </button>
-            </div>
-          
+          <div style={STYLES.containerButton}>
+                <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+                    <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
+                    Add Range
+                </button>
+          </div>
+        
         
             <TableSearch
             classkey='analyterange'
