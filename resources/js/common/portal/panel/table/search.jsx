@@ -99,7 +99,7 @@ export  default class SearchTable extends React.Component{
     }
 
     render() {
-        console.log('ITS ALIVEEEEEE')
+       
         const pageNumbers = [];
 
 

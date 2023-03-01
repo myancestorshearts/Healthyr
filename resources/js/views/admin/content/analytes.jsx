@@ -134,9 +134,9 @@ export default class Analytes extends React.Component {
           }
          <FlexExpander />
 
-         <button style={STYLES.buttonCreate} onClick={this.handleUpload}>
+         {/* <button style={STYLES.buttonCreate} onClick={this.handleUpload}>
 						<i className="fa fa-upload"></i>
-					</button>
+					</button> */}
           <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
 						<i className="fa fa-plus" style={STYLES.createInputIcon}></i>
 						Add Analytes

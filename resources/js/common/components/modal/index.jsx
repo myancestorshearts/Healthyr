@@ -24,7 +24,7 @@ export default class Modal extends React.Component {
         this.el.style.background = 'rgba(0, 0, 0, .5)';
         this.el.style.display = 'flex';
         this.el.style['align-items'] = 'center';
-        this.el.style['justify-content'] = 'flex-end';
+        this.el.style['justify-content'] = 'center';
 
         document.body.appendChild(this.el);
         this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -47,9 +47,9 @@ export default class Modal extends React.Component {
     }
 
     render() {
-        let panelStyles = {...STYLES.panelStyle, ...{maxHeight: this.props.maxHeight ? this.props.maxHeight : null, width: this.props.width ? this.props.width : null, minWidth: this.props.width ? null : '50%', 
+        let panelStyles = {...STYLES.panelStyle, ...{maxHeight: this.props.maxHeight ? this.props.maxHeight : null, width: this.props.width ? this.props.width : null, minWidth: this.props.width ? null : '15%', 
         height: this.props.height, 
-        overflow: (this.props.overflow) ? this.props.overflow : null}}
+        overflow: 'hidden' }}
         return ReactDOM.createPortal(
             <React.Fragment>
                 <Panel className={this.props.className} style={panelStyles}>
@@ -67,16 +67,18 @@ export default class Modal extends React.Component {
 const STYLES = {
     panelStyle: {
         display: 'flex',
-        flexDirection: 'column',
-        fontFamily: 'arial',
+        justifyContent: 'center',
+        fontFamily: 'sans-serif',
         fontSize: '25px',
-        padding: '10px',
+        padding: '50px',
         overflow: 'hidden',
         background: 'white'
     },
     confirmButtonsContainer: {
-        display: 'flex'
-    }
+        display: 'flex',
+        
+    }, 
+    
 }
 
 
@@ -107,6 +109,7 @@ export const CONFIRM = (message, successCallback, cancelCallback) => {
                     onClick:onSuccess
                 }}
                 color={CommonBrand.getPrimaryColor()}
+               
             >
                 Confirm
             </Button>

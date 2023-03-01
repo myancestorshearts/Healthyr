@@ -25,7 +25,7 @@ class Table extends React.Component {
    
     render() {
      
-        console.log('on sort clicked')
+       
         let rows = this.props.models.map(x => <Row
             classKey={this.props.classKey}
             key={x.id}
