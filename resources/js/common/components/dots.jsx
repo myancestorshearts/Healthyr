@@ -5,7 +5,8 @@ import toastr from "toastr";
 
 export default  class SelectionBox extends  React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.panelRef = React.createRef();
         this.state ={
             loading: true,
             open: false
@@ -14,6 +15,7 @@ export default  class SelectionBox extends  React.Component {
         this.handleSelect = this.handleSelect.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleDuplicate = this.handleDuplicate.bind(this)
+        this.handleClickOutside = this.handleClickOutside.bind(this)
     }
 
     handleSelect(e){
@@ -21,7 +23,15 @@ export default  class SelectionBox extends  React.Component {
         this.setState({open: !this.state.open})
        
     }
+    componentDidMount() {
+      document.addEventListener('mousedown', this.handleClickOutside);
+   }
 
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+        
+    }
     handleDelete() {
     
         ApiAdmin.Generic.delete({
@@ -33,6 +43,15 @@ export default  class SelectionBox extends  React.Component {
           toastr.error(failure.message);
         }
         )
+    }
+
+    handleClickOutside(event) {
+    if (this.panelRef && !this.panelRef.contains(event.target)) {
+      this.setState({
+        open: false
+      })
+    }
+      
     }
 
     handleDuplicate() {
@@ -73,16 +92,18 @@ export default  class SelectionBox extends  React.Component {
         
 
         return (
-            <div style={containerStyles} onClick={this.handleSelect}>
+            <div style={containerStyles}  onClick={this.handleSelect}>
               <i 
                 className="fa fa-ellipsis-h" 
                 style={STYLES.dot}
+                ref={ e=> this.panelRef = e}
                 >
                 {this.state.open ? 
-                <div style={STYLES.ellipsisOpt}>
+                <div style={STYLES.ellipsisOpt} 
+                >
                 <option style={STYLES.optButton}  onClick={(e) => {
                     e.stopPropagation();
-                    CONFIRM('Are you sure you want to cancel this?', () => this.handleDelete())
+                    CONFIRM('Are you sure you want to delete this ?', () => this.handleDelete())
                 }}>
                 Delete
                 </option>

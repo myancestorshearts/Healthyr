@@ -71,7 +71,8 @@ const STYLES = {
         padding: '10px',
         fontSize: '16px',
         cursor: 'text',
-        resize: 'none'
+        resize: 'none',
+        fontFamily: 'sans-serif'
     },
     label: {
         marginBottom: '2px',
