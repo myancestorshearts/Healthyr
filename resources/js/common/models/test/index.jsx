@@ -39,32 +39,31 @@ export default class Test extends React.Component{
  render() {
     return(
         <div>
-            {/*DUPLICATE, DELETE the tests*/}
             
-
             {/* Save the test here */}
-            <FlexContainer direction="column" gap="15px">
-            
-            <Input
-                autoFocus={true}
-                title='Name'
-                onChange={e => this.setState({ name: e.target.value })}
-                value={this.state.name}
-            />
+            <FlexContainer  gap="15px" direction="column">
+                <div style={STYLES.containerButton}>
+                    <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
+                            Save
+                    </button>
+                </div>
+                    
+                <Input
+                    autoFocus={true}
+                    title='Name'
+                    onChange={e => this.setState({ name: e.target.value })}
+                    value={this.state.name}
+                />
 
-            <Input
-                autoFocus={true}
-                title='Key'
-                onChange={e => this.setState({ key: e.target.value })}
-                value={this.state.key}
-            />
+                <Input
+                    autoFocus={true}
+                    title='Key'
+                    onChange={e => this.setState({ key: e.target.value })}
+                    value={this.state.key}
+                />
             </FlexContainer>
 
-            <div>
-                <button style={STYLES.buttonCreate} onClick={() => this.handleSave()}>
-                    Save
-                </button>
-            </div>
+            
             
             <TableSearch
             classkey='analyte'
@@ -74,24 +73,28 @@ export default class Test extends React.Component{
             ref={(e) => (this.table = e)}
             properties={{
             key: {
+            sortable: true,
             title: 'Key',
             property: 'key',
             type: 'TEXT',
             default: true,
             },
             name: {
+            sortable: true,
             title: 'Name',
             property: 'name',
             type: 'TEXT',
             default: true,
             },
             unit: {
+            sortable: true,
             title: 'Unit of Measure',
             property: 'unit_of_measure',
             type: 'TEXT',
             default: true,
             },
             description: {
+            sortable: true,
             title: 'Description',
             property: 'description',
             type: 'TEXT',
@@ -110,6 +113,9 @@ export default class Test extends React.Component{
 }
 
 const STYLES = {
+    containerInputs:{
+        padding:'20px'
+    },
     buttonCreate: {
 		paddingRight: '10px',
         paddingLeft: '10px',
@@ -129,6 +135,6 @@ const STYLES = {
         paddingBottom: '15px',
         display: 'flex',
         justifyContent: 'flex-end',
-        flex: 1
+    
      }
 }

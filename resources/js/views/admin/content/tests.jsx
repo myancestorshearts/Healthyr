@@ -146,36 +146,42 @@ export default class Tests extends React.Component {
             ref={(e) => (this.table = e)}
             properties={{
               name: {
+                sortable: true,
                 title: 'Name',
                 property: 'name',
                 type: 'TEXT',
                 default: true,
               },
               key: {
+                sortable: true,
                 title: 'Key',
                 property: 'key',
                 type: 'TEXT',
                 default: true,
               },
               description: {
+                sortable: true,
                 title: 'Description',
                 property: 'description',
                 type: 'TEXT',
                 default: true,
               },
               sku: {
+                sortable: true,
                 title: 'Sku',
                 property: 'sku',
                 type: 'TEXT',
                 default: true,
               },
               upc: {
+                sortable: true,
                 title: 'Upc',
                 property: 'upc',
                 type: 'TEXT',
                 default: true,
               },
               ean: {
+                sortable: true,
                 title: 'Ean',
                 property: 'ean',
                 type: 'TEXT',

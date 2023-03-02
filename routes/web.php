@@ -20,6 +20,11 @@ Route::post('/migrate', 'ViewController@doMigrate');
 Route::get('/admin', 'ViewController@showAdmin');
 Route::get('/admin/{path}', 'ViewController@showAdmin')->where('path', '.*');
 
+
+// client portal
+Route::get('/client', 'ViewController@showClient');
+Route::get('/client/{path}', 'ViewController@showClient')->where('path', '.*');
+
 // authentication
 Route::get('/', 'ViewController@showAuthentication');
 Route::get('/register', 'ViewController@showAuthentication');

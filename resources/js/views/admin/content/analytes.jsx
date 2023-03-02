@@ -84,6 +84,10 @@ export default class Analytes extends React.Component {
      )
   }
 
+  handleUpload() {
+     ApiAdmin.fileupload({classkey: 'analyte', id: this.props.model.id, ...this.state})
+  }
+
   render() {
     return (
       <FlexContainer gap="20px">
@@ -130,7 +134,7 @@ export default class Analytes extends React.Component {
           }
          <FlexExpander />
 
-         <button style={STYLES.buttonCreate}>
+         <button style={STYLES.buttonCreate} onClick={this.handleUpload}>
 						<i className="fa fa-upload"></i>
 					</button>
           <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
@@ -158,24 +162,28 @@ export default class Analytes extends React.Component {
             ref={(e) => (this.table = e)}
             properties={{
               key: {
+                sortable: true,
                 title: 'Key',
                 property: 'key',
                 type: 'TEXT',
                 default: true,
               },
               name: {
+                sortable: true,
                 title: 'Name',
                 property: 'name',
                 type: 'TEXT',
                 default: true,
               },
               unit: {
+                sortable: true,
                 title: 'Unit of Measure',
                 property: 'unit_of_measure',
                 type: 'TEXT',
                 default: true,
               },
               description: {
+                sortable: true,
                 title: 'Description',
                 property: 'description',
                 type: 'TEXT',

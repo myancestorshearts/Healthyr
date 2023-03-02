@@ -10,16 +10,22 @@ import Dots from '../../../components/dots'
 
 
 
+
 class Table extends React.Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            sortableColumn: null,
+            data: []
+        }
+       
     }  
 
    
     render() {
      
-        
+        console.log('on sort clicked')
         let rows = this.props.models.map(x => <Row
             classKey={this.props.classKey}
             key={x.id}
@@ -29,7 +35,8 @@ class Table extends React.Component {
                 if (this.props.onSelectModel) this.props.onSelectModel(x)
             }}
         />)
-        return (
+        return (  
+            
             
                     <div style={STYLES.tableContainer}>
                         <Loading loading={(this.props.loading) ? this.props.loading : false}>
@@ -38,9 +45,12 @@ class Table extends React.Component {
                                 cellSpacing="0"
                             >
                                 <thead>
+                                
                                     <HeaderComponent
                                         axis="x"
                                         properties={this.props.properties}
+                                        sort={this.props.sort}
+                                        onSort={this.props.onSort}
                                     />
                                 </thead>
                                 <tbody>
@@ -105,11 +115,11 @@ const Row = (props) => {
             style={STYLES.row}
         >
             {columns}
-            {<td  style={cellStyles}>
+            <td  style={cellStyles}>
             <Dots 
                 classKey={props.classKey}
                 model={props.model}/>
-            </td> }
+            </td> 
         </StyledComponent>
        
        
@@ -129,6 +139,7 @@ const HeaderComponent = (props) => {
             index={index}
             title={props.properties[key].title}
             sort={props.sort}
+            sortableColumn={props.properties[key].sortable ? props.properties[key].property : null}
         />
     }) : null
 
@@ -144,7 +155,7 @@ const HeaderTitle = (props) => {
 
     let carat = undefined;
     if (props.sortableColumn && props.sort.column == props.sortableColumn) {
-        let caretDirection = props.sort.direction == 'ASC' ? 'fa fa-caret-down' : 'fa fa-caret-up';
+        let caretDirection = props.sort.direction == 'ASC' ? 'fa fa-arrow-down' : 'fa fa-arrow-up';
         carat = <i className={caretDirection} style={STYLES.tableHeaderIcon} />
     }
 
@@ -184,7 +195,8 @@ const STYLES = {
         paddingBottom: '10px',
         fontSize: '12px',
         cursor: 'pointer',
-        userSelect: 'none'
+        userSelect: 'none',
+        overflowY: 'hidden'
     },
     tableHeaderIcon: {
         fontSize: '14px',

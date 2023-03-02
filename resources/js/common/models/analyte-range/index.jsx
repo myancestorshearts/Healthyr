@@ -225,18 +225,21 @@ export default class AnalyteRange extends React.Component {
                 ref={(e) => (this.table = e)}
                 properties={{
                 min: {
+                    sortable: true,
                     title: 'Min',
                     property: 'min',
                     type: 'TEXT',
                     default: true,
                 },
                 max: {
+                    sortable: true,
                     title: 'Max',
                     property: 'max',
                     type: 'TEXT',
                     default: true,
                 },
                 affect: {
+                    sortable: true,
                     title: 'Effect',
                     property: 'effect',
                     type: 'TEXT',
@@ -308,7 +311,8 @@ const STYLES = {
         justifyContent: 'flex-end'
     },
     textarea: {
-      padding: '20px',
+      paddingRight: '20px',
+      paddingLeft:'50px'
   }
 }
   

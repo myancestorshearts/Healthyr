@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('set','ClientController@doSet');
-
+Route::post('set', 'ClientController@doSet');
+Route::get('kits', 'ClientController@getKits');
 
 
 

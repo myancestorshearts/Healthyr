@@ -150,30 +150,35 @@ export default class Analytes extends React.Component {
             ref={(e) => (this.table = e)}
             properties={{
               name: {
+                sortable: true,
                 title: 'Name',
                 property: 'name',
                 type: 'TEXT',
                 default: true,
               },
              contact_name: {
+                sortable: true,
                 title: 'Contact Name',
                 property: 'contact_name',
                 type: 'TEXT',
                 default: true,
               },
               contact_email: {
+                sortable: true,
                 title: 'Contact Email',
                 property: 'contact_email',
                 type: 'TEXT',
                 default: true,
               },
               contact_phone: {
+                sortable: true,
                 title: 'Contact Phone',
                 property: 'contact_phone',
                 type: 'TEXT',
                 default: true
               },
               active: {
+                sortable: true,
                 title: 'Active',
                 property: 'active',
                 type: 'TEXT',

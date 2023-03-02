@@ -40,7 +40,6 @@ class Spot {
 			'Content-Type: application/json',
 			'Authorization: Token ' . $this->key
 		];
-
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
     }
 
@@ -82,7 +81,6 @@ class Spot {
 			$data_string = http_build_query($data);
 			$this->createCurl($api . '?' . $data_string);
 		}
-
 		$server_output = curl_exec($this->curl);
 		$server_decoded = json_decode($server_output);
 

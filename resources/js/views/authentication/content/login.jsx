@@ -25,7 +25,7 @@ export default class Login extends React.Component {
     e.preventDefault();
      
     ApiAuth.Authenticate.login({email: this.state.email, password: this.state.password}, success => {
-      window.location = '/admin';
+      window.location = '/client';
     }, failure => {
       toastr.error(failure.message)
     })
