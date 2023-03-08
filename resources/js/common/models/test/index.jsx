@@ -6,6 +6,9 @@ import ApiAdmin from '../../api/admin';
 import TableSearch from '../../../common/portal/panel/table/search'
 import toastr from 'toastr';
 import Spacer from '../../components/spacer';
+import Textarea from '../../inputs/text-area';
+import TestAnalyte from '../test-analyte/index';
+import SidePanel from '../../portal/panel/side-panel';
 
 
 
@@ -21,9 +24,27 @@ export default class Test extends React.Component{
             key: this.props.model.key,
           
         }
-       
+       this.handleSelectModel = this.handleSelectModel.bind(this)
+       this.handleSave = this.handleSave.bind(this)
         
     }
+
+    handleSelectModel(x) { 
+        SidePanel.pushStart('Analyte Details', 
+           <TestAnalyte
+            model={x}
+            onSave={() => {
+              SidePanel.pop();
+              if (this.table) this.table.handleSearch();
+            }}
+            onDelete={() => {
+              SidePanel.pop();
+              if (this.table) this.table.handleSearch();
+            }}
+           />, 1
+        )
+      }
+      
 
     handleSave() {
         
@@ -63,6 +84,34 @@ export default class Test extends React.Component{
                     title='Key'
                     onChange={e => this.setState({ key: e.target.value })}
                     value={this.state.key}
+                />
+
+                <Textarea
+                    autoFocus={true}
+                    title='Description'
+                    onChange={e => this.setState({ description: e.target.value })}
+                    value={this.state.description}
+                />
+
+                <Input
+                    autoFocus={true}
+                    title='Sku'
+                    onChange={e => this.setState({ sku: e.target.value })}
+                    value={this.state.sku}
+                />
+
+                <Input
+                    autoFocus={true}
+                    title='Upc'
+                    onChange={e => this.setState({ upc: e.target.value })}
+                    value={this.state.upc}
+                />
+
+                <Input
+                    autoFocus={true}
+                    title='Ean'
+                    onChange={e => this.setState({ ean: e.target.value })}
+                    value={this.state.ean}
                 />
             </FlexContainer>
 

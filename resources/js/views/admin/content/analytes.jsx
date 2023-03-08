@@ -39,6 +39,9 @@ const FILTER_FULFILLED = [
   },
 ]
 
+
+
+
 const VIEW_DASHBOARD = 'dashboard'
 const VIEW_TABLE = 'table'
 
@@ -168,6 +171,13 @@ export default class Analytes extends React.Component {
                 type: 'TEXT',
                 default: true,
               },
+              type: {
+                sortable: true,
+                title: 'Type',
+                property: 'type',
+                type: 'ENUM',
+                default: true,
+              },
               name: {
                 sortable: true,
                 title: 'Name',
@@ -188,7 +198,22 @@ export default class Analytes extends React.Component {
                 property: 'description',
                 type: 'TEXT',
                 default: true
-              }
+              },
+              binary_false_effect: {
+                sortable: true,
+                title: 'Binary False Effect',
+                property: 'binary_false_effect',
+                type: 'TEXT',
+                default: true
+              },
+              binary_true_effect: {
+                sortable: true,
+                title: 'Binary True Effect',
+                property: 'binary_true_effect',
+                type: 'TEXT',
+                default: true
+              },
+
             }}
             onSelectModel={this.handleSelectModel}
             

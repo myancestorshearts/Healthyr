@@ -14,7 +14,11 @@ class User extends Base
 {
     const PROPERTIES = [
         [
-            'key' => 'name',
+            'key' => 'first_name',
+            'type' => 'TEXT',
+        ],
+        [
+            'key' => 'last_name',
             'type' => 'TEXT',
         ],
     ];

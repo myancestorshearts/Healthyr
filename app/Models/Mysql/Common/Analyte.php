@@ -23,6 +23,11 @@ class Analyte extends Base
             'type' => 'TEXT'
         ],
         [
+            'key' => 'type',
+            'type' => 'ENUM', 
+            'options' => ['RANGE', 'BINARY']
+        ],
+        [
             'key' => 'key',
             'type' => 'TEXT'
         ],
@@ -33,6 +38,16 @@ class Analyte extends Base
         [
             'key' => 'description',
             'type' => 'TEXT'
-        ]
+        ],
+        [
+            'key' => 'binary_false_effect',
+            'type' => 'TEXT',
+            'nullable' => true
+        ],
+        [
+            'key' => 'binary_true_effect',
+            'type' => 'TEXT',
+            'nullable' => true
+        ],
     ];
 }

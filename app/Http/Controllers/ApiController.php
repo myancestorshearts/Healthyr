@@ -37,11 +37,19 @@ class ApiController extends BaseController
         $response = new Response;
 
         // validate requests has all required arguments
-        if (!$response->hasRequired($request, ['name', 'email', 'phone', 'password'])) return $response->jsonFailure('Missing required fields');
+        if (!$response->hasRequired($request, ['first_name', 'last_name', 'email', 'phone', 'password'])) return $response->jsonFailure('Missing required fields');
 
         // validate various fields to make sure they are valid
-        $validated_name = Validator::validateText($request->get('name'), ['trim' => true]);
-        if (!isset($validated_name)) return $response->jsonFailure('Invalid name', 'INVALID_ARGS');
+        $validated_first_name = Validator::validateText($request->get('first_name'), ['trim' => true]);
+        if (!isset($validated_first_name)) return $response->jsonFailure('Invalid first name', 'INVALID_ARGS');
+
+        // validate various fields to make sure they are valid
+        $validated_last_name = Validator::validateText($request->get('last_name'), ['trim' => true]);
+        if (!isset($validated_last_name)) return $response->jsonFailure('Invalid last name', 'INVALID_ARGS');
+
+         // validate various fields to make sure they are valid
+        $validated_gender = Validator::validateText($request->get('gender'), ['trim' => true]);
+        if (!isset($validated_gender)) return $response->jsonFailure('Invalid gender', 'INVALID_ARGS');
 
         $validated_company = Validator::validateText($request->get('company', ''), ['trim' => true, 'clearable' => true]);
         if (!isset($validated_company)) return $response->jsonFailure('Invalid company name', 'INVALID_ARGS');
@@ -59,10 +67,12 @@ class ApiController extends BaseController
 		$user = new Mysql\Common\User;
 
 		// set credentials
-		$user->name = $validated_name;
+		$user->first_name = $validated_first_name;
+        $user->last_name = $validated_last_name;
 		$user->company = $validated_company;
 		$user->email = $validated_email;
 		$user->phone = $validated_phone;
+        $user->gender = $validated_gender;
 		$user->verified = 0;
 		$user->admin = 0;
 		$user->active = 1;

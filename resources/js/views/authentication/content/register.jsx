@@ -10,7 +10,9 @@ export default class Register extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            name: '',
+            first_name: '',
+            last_name: '',
+            gender: 'M/F',
             company: '',
             email: '',
             password: '',
@@ -54,10 +56,26 @@ export default class Register extends React.Component {
                 <Text
                     styleslabel={STYLES.inputLabel}
                     stylesinput={STYLES.inputText}
-                    title='Name'
-                    autoComplete='name'
-                    onChange={e => this.setState({ name: e.target.value })}
-                    value={this.state.name}
+                    title='First Name'
+                    autoComplete='first name'
+                    onChange={e => this.setState({ first_name: e.target.value })}
+                    value={this.state.first_name}
+                />
+                <Text
+                    styleslabel={STYLES.inputLabel}
+                    stylesinput={STYLES.inputText}
+                    title='Last Name'
+                    autoComplete='last name'
+                    onChange={e => this.setState({ last_name: e.target.value })}
+                    value={this.state.last_name}
+                />
+                <Text
+                    styleslabel={STYLES.inputLabel}
+                    stylesinput={STYLES.inputText}
+                    title='Gender'
+                    autoComplete='gender'
+                    onChange={e => this.setState({ gender: e.target.value })}
+                    value={this.state.gender}
                 />
                 <Text
                     styleslabel={STYLES.inputLabel}

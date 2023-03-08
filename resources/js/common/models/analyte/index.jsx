@@ -6,13 +6,23 @@ import SidePanel from '../../portal/panel/side-panel';
 import TextArea from '../../inputs/text-area'
 import FlexContainer from "../../components/flex-container";
 import CommonBrand from '../../../common/brand'
-import FlexExpander from '../../components/flex-expander';
 import AddRange from '../../portal/content/forms/add-ranges'
 import ApiAdmin from '../../api/admin'
 import toastr from 'toastr';
-import Ellipses from '../../components/ellipses';
-import Duplicate from '../../components/duplicate';
+import InputSelect from '../../../common/inputs/select'
 import { CONFIRM } from '../../components/modal/index';
+
+
+const TYPE_OPTIONS= [
+  {
+    label: 'Range',
+    value: 'RANGE',
+  },
+  {
+    label: 'Binary',
+    value: 'BINARY',
+  },
+]
 
 export default class Analytes extends React.Component{
   constructor(props) {
@@ -20,9 +30,11 @@ export default class Analytes extends React.Component{
     this.state = {
        key: this.props.model.key,
        name: this.props.model.name,
+       type: this.props.model.type,
        unit_of_measure: this.props.model.unit_of_measure,
        description: this.props.model.description,
-       
+       binary_false_effect: this.props.model.binary_false_effect,
+       binary_true_effect: this.props.model.binary_true_effect
     }
 
     this.handleSelectModel = this.handleSelectModel.bind(this);
@@ -103,6 +115,7 @@ export default class Analytes extends React.Component{
 }
 
  render() {
+  console.log('here', this.state)
     return(
 
           <div style={STYLES.textarea}>
@@ -119,11 +132,12 @@ export default class Analytes extends React.Component{
             </FlexContainer>
             
            
-            <Input
+              <Input
                 onChange={e => this.setState({ key: e.target.value })}
                 title='Key'
                 value={this.state.key}
               />
+
               <Input
                 onChange={e => this.setState({ name: e.target.value })}
                 title='Name'
@@ -134,6 +148,16 @@ export default class Analytes extends React.Component{
                 title='Unit of Measure'
                 value={this.state.unit_of_measure}
               />
+              <InputSelect
+                options={TYPE_OPTIONS}
+                value={this.state.type}
+                onChange={(e) => { 
+                    this.state.type = e.target.value;
+                    this.forceUpdate();
+                }}
+                stylesselect={STYLES.selectInput}
+                stylescontainer={STYLES.selectContainer}
+              />
               <TextArea 
               onChange={x => this.setState({ description: x})}
               title='Description'
@@ -143,8 +167,12 @@ export default class Analytes extends React.Component{
           </FlexContainer>
 
         
+        
 
-            
+         {this.state.type == 'RANGE' ?   
+         <div>
+
+        
           <div style={STYLES.containerButton}>
                 <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
                     <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
@@ -235,6 +263,23 @@ export default class Analytes extends React.Component{
             }}
             onSelectModel={this.handleSelectModel}
           />
+           </div> 
+          :
+          <div>
+            <Input
+                onChange={e => this.setState({ binary_false_effect: e.target.value })}
+                title='Binary False Effect'
+                value={this.state.binary_false_effect}
+              />  
+
+              <Input
+                onChange={e => this.setState({ binary_true_effect: e.target.value })}
+                title='Binary True Effect'
+                value={this.state.binary_true_effect}
+              /> 
+          </div>
+        } 
+         
         </div>
     )
  }
@@ -276,6 +321,19 @@ const STYLES = {
   },
   textarea: {
     padding: '20px',
-}
+},
+selectInput: {
+  height: '40px',
+  fontSize: '20px',
+  textAlign: 'center',
+  border: 'none',
+  
+},
+selectContainer: {
+  border: 'solid #f1f4f9',
+  borderRadius: '20px',
+  maxWidth: '100px',
+  padding: '15px',
+},
   
 }
