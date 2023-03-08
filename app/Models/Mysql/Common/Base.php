@@ -488,7 +488,7 @@ class Base extends Model {
                 $value = trim($request->get($property['key']));
                 switch($property['type']) {
                     case 'TEXT':
-                        if (Functions::isEmpty($value)) return $response->setFailure(('Invalid ' . $property['key']));
+                        if ((!isset($property['clearable']) || !$property['clearable']) && Functions::isEmpty($value)) return $response->setFailure(('Invalid ' . $property['key']));
                         $this->{$property['key']} = $value;
                         break;
                     case 'MODEL_ID':

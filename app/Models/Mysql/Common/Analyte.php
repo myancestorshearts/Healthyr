@@ -42,12 +42,12 @@ class Analyte extends Base
         [
             'key' => 'binary_false_effect',
             'type' => 'TEXT',
-            'nullable' => true
+            'clearable' => true
         ],
         [
             'key' => 'binary_true_effect',
             'type' => 'TEXT',
-            'nullable' => true
+            'clearable' => true
         ],
     ];
 }

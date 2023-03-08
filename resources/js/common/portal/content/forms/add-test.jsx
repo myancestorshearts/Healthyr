@@ -1,7 +1,7 @@
 import React from 'react';
+import TextArea from '../../../inputs/text-area'
 import InputText from "../../../../common/inputs/field"
 import FlexContainer from '../../../components/flex-container';
-import Spacer from '../../../../common/components/spacer';
 import CommonBrand from '../../../../common/brand'
 import toastr from 'toastr';
 import ApiAdmin from '../../../api/admin';
@@ -15,6 +15,10 @@ export default class AddTest extends React.Component{
              
                 name:'',
                 key: '',
+                description: '',
+                sku:'',
+                upc:'',
+                ean:'',
                 
             }
             this.handleAdd = this.handleAdd.bind(this)
@@ -33,7 +37,7 @@ export default class AddTest extends React.Component{
         render() {
             return(
              
-                <div>
+             
                     <FlexContainer direction='column' gap='15px'>
                        <InputText 
                         autoFocus={true}
@@ -47,13 +51,37 @@ export default class AddTest extends React.Component{
                         onChange={e => this.setState({ name: e.target.value })}
                         value={this.state.name}
                        />
-                        <div>
-                    <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
-						Add
-					</button>
-                </div>
+                        <TextArea
+                        autoFocus={true}
+                        title='Description'
+                        onChange={e => this.setState({ description: e.target.value })}
+                        value={this.state.description}
+                       />
+                        <InputText 
+                        autoFocus={true}
+                        title='Sku'
+                        onChange={e => this.setState({ sku: e.target.value })}
+                        value={this.state.sku}
+                       />
+                        <InputText 
+                        autoFocus={true}
+                        title='Upc'
+                        onChange={e => this.setState({ upc: e.target.value })}
+                        value={this.state.upc}
+                       />
+                        <InputText 
+                        autoFocus={true}
+                        title='Ean'
+                        onChange={e => this.setState({ ean: e.target.value })}
+                        value={this.state.ean}
+                       />
+                    <div>
+                        <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
+                            Add
+                        </button>
+                    </div>
                     </FlexContainer>
-                </div>
+                
                
         
             )

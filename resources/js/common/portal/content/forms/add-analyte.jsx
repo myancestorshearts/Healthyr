@@ -5,9 +5,19 @@ import Spacer from '../../../../common/components/spacer';
 import TextArea from '../../../../common/inputs/text-area'
 import CommonBrand from '../../../../common/brand'
 import toastr from 'toastr';
-
+import InputSelect from '../../../inputs/select';
 import ApiAdmin from '../../../api/admin';
 
+const TYPE_OPTIONS= [
+    {
+      label: 'Range',
+      value: 'RANGE',
+    },
+    {
+      label: 'Binary',
+      value: 'BINARY',
+    },
+]
 
 export default class AddAnalyte extends React.Component{
         constructor(props) {
@@ -17,6 +27,9 @@ export default class AddAnalyte extends React.Component{
                 name: '',
                 unit_of_measure: '',
                 description: '',
+                type: '',
+                binary_false_effect: '',
+                binary_true_effect:''
             }
             this.handleAdd = this.handleAdd.bind(this)
         }
@@ -40,13 +53,24 @@ export default class AddAnalyte extends React.Component{
                         value={this.state.key}
                        />
                       
-                        <InputText 
+                       <InputText 
                         autoFocus={true}
                         title='Name'
                         onChange={e => this.setState({ name: e.target.value })}
                         value={this.state.name}
                        />
-                      
+
+                        <InputSelect
+                            options={TYPE_OPTIONS}
+                            value={this.state.type}
+                            onChange={(e) => { 
+                                this.state.type = e.target.value;
+                                this.forceUpdate();
+                            }}
+                            stylesselect={STYLES.selectInput}
+                            stylescontainer={STYLES.selectContainer}
+                        />
+
                        <InputText 
                         autoFocus={true}
                         title='Unit of Measure'
@@ -55,12 +79,29 @@ export default class AddAnalyte extends React.Component{
                        />
 
                         <TextArea 
-                        autoFocus={true}
-                        title='Description'
-                        onChange={x => this.setState({ description: x})}
-                        value={this.state.description}
-                         />
+                          autoFocus={true}
+                          title='Description'
+                          onChange={x => this.setState({ description: x})}
+                          value={this.state.description}
+                        />
                         
+                        {this.state.type == 'BINARY' ?   
+                        <div>
+                            <InputText
+                                onChange={e => this.setState({ binary_false_effect: e.target.value })}
+                                title='Binary False Effect'
+                                value={this.state.binary_false_effect} 
+                            />
+                            <InputText
+                                onChange={e => this.setState({ binary_true_effect: e.target.value })}
+                                title='Binary True Effect'
+                                value={this.state.binary_true_effect} 
+                            />
+                        </div> 
+                        : null }
+
+                      
+                       
                         <div>
                             <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
                                 Add
@@ -90,4 +131,17 @@ const STYLES = {
 		fontSize: '18px',
 		fontFamily: 'Poppins'
 	},
+    selectInput: {
+        height: '40px',
+        fontSize: '20px',
+        textAlign: 'center',
+        border: 'none',
+        
+      },
+      selectContainer: {
+        border: 'solid #f1f4f9',
+        borderRadius: '20px',
+        maxWidth: '150px',
+        padding: '15px',
+      },
 }
