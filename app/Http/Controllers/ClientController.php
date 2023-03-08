@@ -234,4 +234,106 @@ class ClientController extends BaseController
         return $response->jsonSuccess();    
 
     }
+
+
+    /**purpose
+     *   get verified user
+     * args
+     *   (none)
+     * returns
+     *   user
+     */
+    public function getUser(Request $request) {
+        // initialize response
+        $response = new Response;
+        // set response
+        $response->set('user', ApiAuth::user());
+
+        // returns successful response
+        return $response->jsonSuccess();
+    }
+
+    public function doUserSet(Request $request) {
+
+        // initialize response
+        $response = new Response;
+
+        // get user
+        $user = ApiAuth::user();
+
+        // validate and set name
+        if ($request->has('first_name')) {
+            $validated_first_name = Validator::validateText($request->get('first_name'), ['trim' => true]);
+            if (!isset($validated_first_name)) return $response->jsonFailure('Invalid first name', 'INVALID_ARGS');
+            $user->first_name = $validated_first_name;
+        }
+
+        if ($request->has('last_name')) {
+            $validated_last_name = Validator::validateText($request->get('last_name'), ['trim' => true]);
+            if (!isset($validated_last_name)) return $response->jsonFailure('Invalid last name', 'INVALID_ARGS');
+            $user->last_name = $validated_last_name;
+        }
+
+        // validate and set company
+        if ($request->has('company')) {
+            $validated_company = Validator::validateText($request->get('company', ''), ['trim' => true, 'clearable' => true]);
+            if (!isset($validated_company)) return $response->jsonFailure('Invalid company name', 'INVALID_ARGS');
+            $user->company = $validated_company;
+        }
+
+        // validate and set email
+        if ($request->has('email')) {
+            $validated_email = Validator::validateEmail($request->get('email', ''));
+            if (!isset($validated_email)) return $response->jsonFailure('Invalid email', 'INVALID_ARGS');
+            $user->email = $validated_email;
+        }
+
+        // validate and set phone
+        if ($request->has('phone')) {
+            $validated_phone = Validator::validatePhone($request->get('phone', ''));
+            if (!isset($validated_phone)) return $response->jsonFailure('Invalid phone', 'INVALID_ARGS');
+            $user->phone = $validated_phone;
+        }
+
+        // save user
+        $user->save();
+
+        // set response
+        $response->set('user', $user);
+
+        // return successful response
+        return $response->jsonSuccess();
+    }
+
+    /**purpose
+     *   allow logged in user to set password
+     * args
+     *   current_password (required)
+     *   new_password (required)
+     * returns
+     *   (none)
+     */
+    public function doUserPasswordSet(Request $request) {
+
+        // initialize response
+        $response = new Response;
+
+        // get verified user
+        $user = ApiAuth::user();
+
+        // current password
+        if (!$response->hasRequired($request, ['current_password', 'new_password'])) return $response->jsonFailure('Missing required fields');
+
+        // check existing password
+        if (!$user->checkPassword($request->get('current_password'))) $response->jsonFailure('Invalid password');
+
+        // set new password
+        $user->setPassword($request->get('new_password'));
+        
+        // save user
+        $user->save();
+
+        // return successful response
+        return $response->jsonSuccess();
+    }
 }

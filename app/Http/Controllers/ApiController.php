@@ -12,6 +12,7 @@ use App\Common\Response;
 use App\Models\Mysql;
 
 use App\Libraries;
+use ApiAuth;
 
 class ApiController extends BaseController
 {
@@ -728,4 +729,12 @@ class ApiController extends BaseController
         $contents = $file->download();
 		return response($contents)->header('Content-Type', $file->mime_type);
     }
+
+    
+
+
+
+
+
+
 }

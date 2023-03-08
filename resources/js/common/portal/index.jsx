@@ -7,6 +7,12 @@ import Storage from '../../common/storage';
 window.Brand = new Brand();
 document.documentElement.style.setProperty(`--primaryColor`, Brand.getPrimaryColor());
 
+
+import HealthyrUser from '../healthyr-user';
+window.HealthyrUser = new HealthyrUser();
+
+
+
 // portal component
 import React from 'react';
 import { Router, Route } from "react-router-dom";
@@ -32,31 +38,26 @@ export default class Portal extends React.Component {
 
         // creat state with user
         this.state = {
-            //user: undefined
+            user: undefined
         }
 
     }
 
     componentDidMount() {
         // load user to the state
-        /*this.subscribeUser = window.GoaUser.subscribe(user => {
+        this.subscribeUser = window.HealthyrUser.subscribe(user => {
             this.setState({ user: user })
         })
-        window.GoaUser.loadUser(() => {
-            window.location = '/';
-        })*/
-    }
-
-    handleLogoutOfSubUser() {
-        Storage.remove('goa-loginasuser-tokens');
-        window.location = '/admin';
+        window.HealthyrUser.loadUser(() => {
+            //window.location = '/';
+        })
     }
 
 
     componentWillUnmount() {
 
         // unsubscribe user loading when we unmount 
-        window.GoaUser.unsubscribe(this.subscribeUser);
+        window.HealthyrUser.unsubscribe(this.subscribeUser);
 
     }
 
@@ -78,7 +79,7 @@ export default class Portal extends React.Component {
 
         // include logout of user
         let showLogoutOfSubuser = Storage.has('goa-loginasuser-tokens');
-
+        console.log(this.state.user, 'user')
         // return portal view
         return (
             <div style={STYLES.body}>

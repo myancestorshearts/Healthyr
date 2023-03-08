@@ -30,12 +30,20 @@ Route::post('/platform/user/kit/register', 'ApiController@doPlatformUserKitRegis
 Route::get('/platform/user/kits', 'ApiController@getPlatformUserKits'); // completed
 Route::get('/platform/user/registration/token', 'ApiController@getPlatformUserRegistrationToken'); // completed
 
+
 // authentication for everything else
 Route::post('login', 'ApiController@doLogin');
 Route::post('register', 'ApiController@doRegister');
 Route::post('verify/email', 'ApiController@doVerifyEmail');
 Route::post('password/request', 'ApiController@doPasswordRequest');
 Route::post('password/set', 'ApiController@doPasswordSet');
+
+// user
+Route::get('user', 'ClientController@getUser');
+Route::post('user/set', 'ClientController@doUserSet');
+Route::post('user/password/set', 'ClientController@doUserPasswordSet');
+//Route::get('user/preferences', 'ApiController@getUserPreferences');
+//Route::post('user/preference/set', 'ApiController@doUserPreferenceSet');
 
 // get file
 Route::get('/platform/user/{plaform_user_id}/kit/{kit_id}/result.pdf', 'ApiController@getPlatformUserKitResult');

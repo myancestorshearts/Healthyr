@@ -60,7 +60,7 @@ const STYLES = {
         flex: 1
     },
     container: {
-        position: 'relative',
+        position: 'sticky',
         display: 'flex',
         flexDirection: 'column',
         minHeight: '0px',
