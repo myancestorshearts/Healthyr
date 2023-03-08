@@ -58,39 +58,35 @@ class ClientController extends BaseController
         $response = new Response;
 
         // check inputs
-        if (!$response->hasRequired($request, ['kit_id', 'platform_user_id'])) $response->jsonFailure('Missing required fields');
+        if (!$response->hasRequired($request, ['kit_id'])) $response->jsonFailure('Missing required fields');
 
-        // validate platform user id
-        $platform_user_id_validated = Validator::validateText($request->get('platform_user_id'), ['clearable' => false]);
-        if (!isset($platform_user_id_validated)) return $response->jsonFailure('Invalid platform user id');
-
-        $platform_user = Mysql\Common\PlatformUser::where([
-            ['platform_user_id', '=', $platform_user_id_validated],
+        $user = Mysql\Common\User::where([
+            ['id', '=', ApiAuth::user()->id],
             ['active', '=', 1]
         ])->limit(1)->get()->first();
-        if (!isset($platform_user)) return $response->jsonFailure('Invalid platform user id');
+        if (!isset($user)) return $response->jsonFailure('Invalid user');
 
-        // validate platform user id
+        // validate kit id
         $kit_id_validated = Validator::validateText($request->get('kit_id'), ['clearable' => false]);
-        if (!isset($kit_id_validated)) return $response->jsonFailure('Invalid platform user id');
+        if (!isset($kit_id_validated)) return $response->jsonFailure('Invalid kit id');
 
         // check to see if kit is registered to someone else then do not allow
         //    I Feel like this will have to be removed one day - Its a check Logan requested
-        $existing_user_kit = Mysql\Common\PlatformUserKit::where([
+        $existing_user_kit = Mysql\Common\UserKit::where([
             ['kit_id', '=', $kit_id_validated],
             ['active', '=', 1],
-            ['platform_user_id', '!=', $platform_user_id_validated]
+            ['user_id', '!=', $user->id]
         ])->limit(1)->get()->first();
         if (isset($existing_user_kit)) return $response->jsonFailure('Kit already registered to someone else');
 
         // check to see if kit already exists for platform user
-        $platform_user_kit = Mysql\Common\PlatformUserKit::where([
-            ['platform_user_id', '=', $platform_user_id_validated],
+        $user_kit = Mysql\Common\UserKit::where([
+            ['user_id', '=', $platform_user_id_validated],
             ['kit_id', '=', $kit_id_validated]
         ])->limit(1)->get()->first();
 
         // if platform user kit does not exist then create it 
-        if (!isset($platform_user_kit)) {
+        if (!isset($user_kit)) {
 
             // check test kit
             $spot = new Libraries\Spot;
@@ -102,7 +98,7 @@ class ClientController extends BaseController
             $contains_diabetes = false;
             if (isset($validated_kit->panels)) {
                 foreach($validated_kit->panels as $panel) {
-                    if ($panel == Mysql\Common\PlatformUserKit::PANEL_DIABETES) $contains_diabetes = true;
+                    if ($panel == Mysql\Common\UserKit::PANEL_DIABETES) $contains_diabetes = true;
                 }
             }
 
@@ -112,14 +108,14 @@ class ClientController extends BaseController
                 $john_hopkins->register($platform_user);
             }
 
-            $platform_user_kit = new Mysql\Common\PlatformUserKit;
-            $platform_user_kit->platform_user_id = $platform_user_id_validated;
-            $platform_user_kit->kit_id = $kit_id_validated;
+            $user_kit = new Mysql\Common\UserKit;
+            $user_kit->user_id = $user->id;
+            $user_kit->kit_id = $kit_id_validated;
         }
 
         // save platform user and make sure its active
-        $platform_user_kit->active = 1;
-        $platform_user_kit->save();
+        $user_kit->active = 1;
+        $user_kit->save();
 
         // return successful response
         return $response->jsonSuccess();
