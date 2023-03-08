@@ -3,6 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import Brand from '../../brand';
 //import { TourMethods } from 'react-shepherd'
 import ComponentStyled from '../../components/styled-component';
+import SidePanel from '../panel/side-panel';
 
 const MenuItem = (props) => {
 
@@ -35,6 +36,9 @@ const MenuItem = (props) => {
                     styleActive={STYLES.containerActive}
                     styleHover={STYLES.containerActive}
                     active={isActive}
+                    props={{
+                        onClick: () => SidePanel.popAll()
+                    }}
                 >
                     <i style={STYLES.icon} className={props.menu.icon} />
                     <span>{props.menu.title}</span>

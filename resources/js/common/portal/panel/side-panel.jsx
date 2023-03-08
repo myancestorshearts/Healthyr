@@ -50,6 +50,12 @@ export default class SidePanel {
     let sidePanelInstance = SIDE_PANEL_STACK.pop();
     if (sidePanelInstance) sidePanelInstance.handleClose();
   }
+  
+  static popAll() {
+    while(SIDE_PANEL_STACK.length > 0) {
+      this.pop();
+    }
+  }
 
   static pushStart(title, children, index = 0) {
     while(SIDE_PANEL_STACK.length > index) this.pop();
