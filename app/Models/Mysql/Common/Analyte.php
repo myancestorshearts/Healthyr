@@ -32,22 +32,23 @@ class Analyte extends Base
             'type' => 'TEXT'
         ],
         [
-            'key' => 'unit_of_measure',
-            'type' => 'TEXT'
-        ],
-        [
             'key' => 'description',
             'type' => 'TEXT'
         ],
         [
             'key' => 'binary_false_effect',
             'type' => 'TEXT',
-            'clearable' => true
+            'nullable' => true
         ],
         [
             'key' => 'binary_true_effect',
             'type' => 'TEXT',
-            'clearable' => true
+            'nullable' => true
+        ],
+        [
+            'key' => 'unit_of_measure',
+            'type' => 'TEXT',
+            'nullable' => true
         ],
     ];
 }

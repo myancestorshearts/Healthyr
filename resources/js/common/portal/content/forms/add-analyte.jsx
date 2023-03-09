@@ -27,7 +27,7 @@ export default class AddAnalyte extends React.Component{
                 name: '',
                 unit_of_measure: '',
                 description: '',
-                type: '',
+                type: TYPE_OPTIONS[0].value,
                 binary_false_effect: '',
                 binary_true_effect:''
             }
@@ -70,14 +70,6 @@ export default class AddAnalyte extends React.Component{
                             stylesselect={STYLES.selectInput}
                             stylescontainer={STYLES.selectContainer}
                         />
-
-                       <InputText 
-                        autoFocus={true}
-                        title='Unit of Measure'
-                        onChange={e => this.setState({ unit_of_measure: e.target.value })}
-                        value={this.state.unit_of_measure}
-                       />
-
                         <TextArea 
                           autoFocus={true}
                           title='Description'
@@ -98,7 +90,16 @@ export default class AddAnalyte extends React.Component{
                                 value={this.state.binary_true_effect} 
                             />
                         </div> 
-                        : null }
+                        :   
+
+                        <InputText 
+                        autoFocus={true}
+                        title='Unit of Measure'
+                        onChange={e => this.setState({ unit_of_measure: e.target.value })}
+                        value={this.state.unit_of_measure}
+                       />
+
+                        }
 
                       
                        
@@ -129,7 +130,8 @@ const STYLES = {
 		color: '#ffffff',
 		fontWeight: 20,
 		fontSize: '18px',
-		fontFamily: 'Poppins'
+		fontFamily: 'Poppins',
+        cursor: 'pointer'
 	},
     selectInput: {
         height: '40px',

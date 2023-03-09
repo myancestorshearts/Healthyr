@@ -132,11 +132,9 @@ class AdminController extends BaseController
 		
         // check required fields
         if (!$response->hasRequired($request, ['classkey'])) return $response->jsonFailure('Missing required fields');
-
 		// validate the class key
         $class = Mysql\Admin\Base::getClassFromClassKey($request->get('classkey'));
         if (!isset($class)) return $response->jsonFailure('Invalid classkey');
-
 		return $class::create($request)->json();
 	}
 

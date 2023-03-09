@@ -17,6 +17,8 @@ return new class extends Migration
         {
             $table->string('binary_false_effect')->nullable()->default(null)->change();
             $table->string('binary_true_effect')->nullable()->default(null)->change();
+            $table->string('unit_of_measure')->nullable()->default(null)->change();
+
         });
     }
 

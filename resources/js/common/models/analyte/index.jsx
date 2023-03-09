@@ -38,7 +38,7 @@ export default class Analytes extends React.Component{
     }
 
     this.handleSelectModel = this.handleSelectModel.bind(this);
-    this.handleAdd= this. handleAdd.bind(this);
+    this.handleAdd = this. handleAdd.bind(this);
     this.handleDelete = this.handleDelete.bind(this)
     this.handleDuplicate = this.handleDuplicate.bind(this)
   }
@@ -115,7 +115,6 @@ export default class Analytes extends React.Component{
 }
 
  render() {
-  console.log('here', this.state)
     return(
 
           <div style={STYLES.textarea}>
@@ -148,16 +147,6 @@ export default class Analytes extends React.Component{
                 title='Unit of Measure'
                 value={this.state.unit_of_measure}
               />
-              <InputSelect
-                options={TYPE_OPTIONS}
-                value={this.state.type}
-                onChange={(e) => { 
-                    this.state.type = e.target.value;
-                    this.forceUpdate();
-                }}
-                stylesselect={STYLES.selectInput}
-                stylescontainer={STYLES.selectContainer}
-              />
               <TextArea 
               onChange={x => this.setState({ description: x})}
               title='Description'
@@ -172,7 +161,16 @@ export default class Analytes extends React.Component{
          {this.state.type == 'RANGE' ?   
          <div>
 
-        
+          <InputSelect
+            options={TYPE_OPTIONS}
+            value={this.state.type}
+            onChange={(e) => { 
+                this.state.type = e.target.value;
+                this.forceUpdate();
+            }}
+            stylesselect={STYLES.selectInput}
+            stylescontainer={STYLES.selectContainer}
+          />
           <div style={STYLES.containerButton}>
                 <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
                     <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
