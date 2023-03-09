@@ -12,7 +12,7 @@ class User {
      *   user
      */
     static get(parameters, successCallback, failureCallback) {
-        WebClient.basicGet(parameters, '/api/user', successCallback, failureCallback);
+        WebClient.basicGet(parameters, '/api/client/user', successCallback, failureCallback);
     }
     
     /**purpose
@@ -26,7 +26,7 @@ class User {
      *   user
      */
     static set(parameters, successCallback, failureCallback) {
-        WebClient.basicPost(parameters, '/api/user/set', successCallback, failureCallback);
+        WebClient.basicPost(parameters, '/api/client/user/set', successCallback, failureCallback);
     }
     
     /**purpose
@@ -38,7 +38,7 @@ class User {
      *   (none)
      */
     static passwordSet(parameters, successCallback, failureCallback) {
-        WebClient.basicPost(parameters, '/api/user/password/set', successCallback, failureCallback);
+        WebClient.basicPost(parameters, '/api/client/user/password/set', successCallback, failureCallback);
     }
 
     

@@ -33,7 +33,7 @@ class User extends Base
 
     protected $hidden = [
         'password',
-        'salt'
+        'salt',
     ];
 
     /**purpose

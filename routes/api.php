@@ -38,10 +38,7 @@ Route::post('verify/email', 'ApiController@doVerifyEmail');
 Route::post('password/request', 'ApiController@doPasswordRequest');
 Route::post('password/set', 'ApiController@doPasswordSet');
 
-// user
-Route::get('user', 'ClientController@getUser');
-Route::post('user/set', 'ClientController@doUserSet');
-Route::post('user/password/set', 'ClientController@doUserPasswordSet');
+
 //Route::get('user/preferences', 'ApiController@getUserPreferences');
 //Route::post('user/preference/set', 'ApiController@doUserPreferenceSet');
 

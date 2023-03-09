@@ -18,4 +18,8 @@ Route::post('set', 'ClientController@doSet');
 Route::get('kits', 'ClientController@getKits');
 
 
+// user
+Route::get('user', 'ClientController@getUser');
+Route::post('user/set', 'ClientController@doUserSet');
+Route::post('user/password/set', 'ClientController@doUserPasswordSet');
 
