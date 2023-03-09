@@ -22,7 +22,7 @@ class App extends React.Component {
       },
       {
         title: 'My Tests',
-        icon: 'fa fa-bar-chart',
+        icon: 'fa-solid fa-microscope',
         component: ContentTests,
         link: '/tests',
       },

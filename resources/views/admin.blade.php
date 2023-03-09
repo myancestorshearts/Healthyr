@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" href="{{env('APP_FAVICON', '/global/assets/images/branding/favicon.png')}}">
         <title>Healthyr</title>
+        <link href="/global/assets/fonts/fontawesome-free/css/fontawesome.css" rel="stylesheet">
+        <link href="/global/assets/fonts/fontawesome-free/css/brands.css" rel="stylesheet">
+        <link href="/global/assets/fonts/fontawesome-free/css/solid.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="/global/assets/fonts/font-awesome/all.min.css">
         @include ('/styles/base')
     </head>

@@ -23,7 +23,6 @@ export default class GoaUser {
 
     loadUser(failureCallback) {
         ClientApi.User.get({}, success => {
-            console.log(success.data.user, 'heyo')
             this.user = success.data.user;
             this.triggerCallbacks();
         }, failure => { 
