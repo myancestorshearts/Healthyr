@@ -57,10 +57,10 @@ const STYLES = {
         height: '67px',
         borderRadius: '20px',
         marginBottom: '5px',
-        color: '#7C88A1',
+        color: '#12144A',
         fontSize: '16px',
-        fontWeight: '600',
-        fomtFamily: 'poppins',
+        fontWeight: '400',
+        fomtFamily: 'montserrat',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center'
