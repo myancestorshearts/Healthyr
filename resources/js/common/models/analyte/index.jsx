@@ -33,8 +33,8 @@ export default class Analytes extends React.Component{
        type: this.props.model.type,
        unit_of_measure: this.props.model.unit_of_measure,
        description: this.props.model.description,
-       binary_false_effect: this.props.model.binary_false_effect,
-       binary_true_effect: this.props.model.binary_true_effect
+       binary_false_effect: (this.props.model.binary_false_effect ? this.props.model.binary_false_effect : ''),
+       binary_true_effect: (this.props.model.binary_true_effect ? this.props.model.binary_true_effect : '')
     }
 
     this.handleSelectModel = this.handleSelectModel.bind(this);
@@ -154,13 +154,6 @@ export default class Analytes extends React.Component{
               style={STYLES.area}
               />
           </FlexContainer>
-
-        
-        
-
-         {this.state.type == 'RANGE' ?   
-         <div>
-
           <InputSelect
             options={TYPE_OPTIONS}
             value={this.state.type}
@@ -171,6 +164,11 @@ export default class Analytes extends React.Component{
             stylesselect={STYLES.selectInput}
             stylescontainer={STYLES.selectContainer}
           />
+        
+        
+
+         {this.state.type == 'RANGE' ?   
+         <div>
           <div style={STYLES.containerButton}>
                 <button style={STYLES.buttonCreate} onClick={this.handleAdd}>
                     <i className="fa fa-plus" style={STYLES.createInputIcon}></i>
