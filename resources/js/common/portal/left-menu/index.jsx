@@ -6,6 +6,7 @@ import MenuItem from './menu-item';
 import CommonBrand from '../../brand';
 
 import CommonApiAuth from '../../api/auth';
+import FlexExpander from '../../components/flex-expander';
 
 const MENU_LOGOUT = {
     title: 'Logout',
@@ -18,7 +19,18 @@ const MENU_LOGOUT = {
 
 const LeftMenu = (props) => {
     // create menus
-    let menus = props.menus.map((x, i) => {
+    let menus = props.menus.filter(x => !x.dropped).map((x, i) => {
+        if (x.viewOnly) return null;
+        return (x.showMethod && !x.showMethod(props.user)) ? null : <MenuItem
+            key={i}
+            menu={x}
+            prefix={props.prefix}
+            onClose={props.onClose}
+        />
+    });
+
+
+    let menusDropped = props.menus.filter(x => x.dropped).map((x, i) => {
         if (x.viewOnly) return null;
         return (x.showMethod && !x.showMethod(props.user)) ? null : <MenuItem
             key={i}
@@ -41,7 +53,8 @@ const LeftMenu = (props) => {
             <div style={STYLES.menusContainer}>
                 {menus}
                 {/* Spacer */}
-                <div style={STYLES.flexSpacer}></div>
+                <FlexExpander/>
+                {menusDropped}
                 <MenuItem
                     menu={MENU_LOGOUT}
                     prefix={props.prefix}
@@ -56,9 +69,6 @@ export default LeftMenu;
 
 
 const STYLES = {
-    flexSpacer: {
-        flex: 1
-    },
     container: {
         position: 'sticky',
         display: 'flex',
@@ -66,7 +76,7 @@ const STYLES = {
         minHeight: '0px',
         minWidth: '250px',
         overflowY: 'hidden',
-        backgroundColor: 'white',
+        backgroundColor: '#F4F4F4',
         paddingLeft: '30px',
         paddingRight: '30px',
         paddingTop: '20px',
@@ -77,7 +87,7 @@ const STYLES = {
         maxWidth: '225px',
     },
     mainMenu: {
-        fontFamily: 'poppins',
+        fontFamily: 'montserrat',
         fontWeight: '600',
         fontSize: '16px',
         lineHeight: '24px',
@@ -88,7 +98,7 @@ const STYLES = {
     },
     copyright: {
         padding: '30px',
-        fontFamily: 'poppins',
+        fontFamily: 'montserrat',
         fontWeight: '400',
         fontSize: '14px',
         color: '#96A0AF',

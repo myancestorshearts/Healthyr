@@ -98,7 +98,7 @@ export default class Portal extends React.Component {
                     <ComponentResponsive max={900}>
                         <LeftMenuMobile
                             prefix={this.props.prefix}
-                            menus={this.props.menus}
+                            menus={this.props.menus} 
                             user={this.state.user}
                         />
                     </ComponentResponsive>
