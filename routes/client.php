@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('set', 'ClientController@doSet');
 Route::get('kits', 'ClientController@getKits');
+Route::post('kits/register', 'ClientController@doKitRegister');
 
 
 // user

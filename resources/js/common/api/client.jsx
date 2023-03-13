@@ -66,6 +66,23 @@ class User {
     }*/
 
 }
+class Kit {
+    /**purpose
+     *   allow logged in user to set password
+     * args
+     *   current_password (required)
+     *   new_password (required)
+     * returns
+     *   (none)
+     */
+    static register(parameters, successCallback, failureCallback) {
+        WebClient.basicPost(parameters, '/api/client/kits/register', successCallback, failureCallback);
+    }
+
+    static get(parameters, successCallback, failureCallback) {
+        WebClient.basicPost(parameters, '/api/client/kits', successCallback, failureCallback);
+    }
+}
 
 export default class Api {
     static User = User;
