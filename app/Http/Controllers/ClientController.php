@@ -295,6 +295,41 @@ class ClientController extends BaseController
             $user->phone = $validated_phone;
         }
 
+        // validate and set phone
+        if ($request->has('street_1')) {
+            $validated_street_1 = Validator::validateText($request->get('street_1', ''));
+            if (!isset($validated_street_1)) return $response->jsonFailure('Invalid street_1', 'INVALID_ARGS');
+            $user->street_1 = $validated_street_1;
+        }
+
+        // validate and set phone
+        if ($request->has('street_2')) {
+            $validated_street_2 = Validator::validateText($request->get('street_2', ''));
+            if (!isset($validated_street_2)) return $response->jsonFailure('Invalid street_2', 'INVALID_ARGS');
+            $user->street_2 = $validated_street_2;
+        }
+
+        // validate and set phone
+        if ($request->has('city')) {
+            $validated_city = Validator::validateText($request->get('city', ''));
+            if (!isset($validated_city)) return $response->jsonFailure('Invalid city', 'INVALID_ARGS');
+            $user->city = $validated_city;
+        }
+
+        // validate and set phone
+        if ($request->has('state')) {
+            $validated_state = Validator::validateText($request->get('state', ''));
+            if (!isset($validated_state)) return $response->jsonFailure('Invalid state', 'INVALID_ARGS');
+            $user->state = $validated_state;
+        }
+
+        // validate and set phone
+        if ($request->has('postal')) {
+            $validated_postal = Validator::validateText($request->get('postal', ''));
+            if (!isset($validated_postal)) return $response->jsonFailure('Invalid postal', 'INVALID_ARGS');
+            $user->postal = $validated_postal;
+        }
+
         // save user
         $user->save();
 
