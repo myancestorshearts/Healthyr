@@ -54,9 +54,9 @@ const STYLES = {
         textDecoration: 'none',
     },
     container: {
-        height: '67px',
+        height: '40px',
         borderRadius: '20px',
-        marginBottom: '5px',
+        marginBottom: '15px',
         color: '#12144A',
         fontSize: '16px',
         fontWeight: '400',

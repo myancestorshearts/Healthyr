@@ -7,7 +7,7 @@ import Storage from '../../common/storage';
 import ContentTestInstructions from './content/testing-insrtuctions'
 import ContentOrders from './content/orders'
 import ContentPartners from './content/partners'
-import ContentProfile from './content/profile'
+import ContentProfile from './content/profile/profile'
 
 class App extends React.Component {
 	render() {

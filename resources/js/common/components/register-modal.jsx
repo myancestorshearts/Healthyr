@@ -46,8 +46,7 @@ export default class RegisterModal extends React.Component {
                 kitID: kitID
             })
         }
-		HealthyrApi.User.getUser({
-           platform_user_id : window.ShopifyAnalytics.meta.page.customerId
+		/*HealthyrApi.User.getUser({
         }, success => {
         	console.log(success)
             this.setState({
@@ -61,17 +60,15 @@ export default class RegisterModal extends React.Component {
          		loading: 'false',
             	openWindow: 'registerUser',
             })
-        })
+        })*/
 	}
 
 
 	handleContinue(){
-		HealthyrApi.User.registerKit({
-			platform_user_id: window.ShopifyAnalytics.meta.page.customerId,
+	/*	HealthyrApi.User.registerKit({
 			kit_id: this.state.kitID
 		}, success => {
 			HealthyrApi.User.getRegistrationToken({
-	            platform_user_id : window.ShopifyAnalytics.meta.page.customerId,
 	        }, success => {
 	            this.setState({
 	            	token: success.data.token,
@@ -88,12 +85,11 @@ export default class RegisterModal extends React.Component {
 		}, fail => {
 			toastr.error(fail.message)
 			console.log(fail)
-		})
+		})*/
 	}
 
 	handleRegister(){
-		HealthyrApi.User.registerUser({
-			platform_user_id: window.ShopifyAnalytics.meta.page.customerId,
+		/*HealthyrApi.User.registerUser({
             first_name: this.state.firstName,
             last_name: this.state.lastName,
             email: window.customerHub.customer_email,
@@ -107,7 +103,7 @@ export default class RegisterModal extends React.Component {
         }, fail => {
         	toastr.error(fail.message)
          	console.log(fail)
-        })
+        })*/
 	}
 
 
