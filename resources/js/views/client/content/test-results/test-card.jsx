@@ -48,17 +48,9 @@ export default class TestResults extends React.Component {
          })
        })
      }
-
-<<<<<<< HEAD
-     //Retrieve User
       componentDidMount() {
          this.handleGetKits()
       }
-=======
-   componentDidMount(){
-     // this.handleGetKits(window.ShopifyAnalytics.meta.page.customerId)
-   }
->>>>>>> a88a663f3cb9eea1f6ba130735bd77a34cc80ffa
 
 
 
