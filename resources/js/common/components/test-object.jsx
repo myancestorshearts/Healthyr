@@ -29,11 +29,25 @@ export default class TestObject extends React.Component {
 			popOut: false
 		}
 		this.handleClose = this.handleClose.bind(this);
+		this.downloadFile = this.downloadFile.bind(this);
 	}
 
 
 	handleClose(){
 		this.setState({popOut: false})
+	}
+
+	downloadFile(file){
+		console.log(file)
+        fetch(file).then(response => {
+            response.blob().then(blob => {
+                const fileURL = window.URL.createObjectURL(blob);
+                let alink = document.createElement('a');
+                alink.href = fileURL;
+                alink.download = 'Test_Result.pdf';
+                alink.click();
+            })
+        })
 	}
 
 
@@ -73,7 +87,7 @@ export default class TestObject extends React.Component {
 		                  {(created_date != null) ? created_date.toLocaleDateString() : null}
 		               </div>
 		               <div style={{fontSize: '16px', fontWeight: '700', whiteSpace: 'nowrap'}}>
-		                  {PANEL_DICT[this.props.test.panels[0]]}
+		                  {PANEL_DICT[this.props.test.samples[0].panels[0]]}
 		               </div>
 		               <div>
 		               		Kit ID: {this.props.test.kit_id}
@@ -125,19 +139,23 @@ export default class TestObject extends React.Component {
 	               		</div>
 		            	<Panel style={{boxShadow: 'rgb(231, 228, 233) 1px 2px 10px 5px', borderRadius: '3px'}}>
 			            	<div style={{position: 'relative'}}>
-			            		<div style={{position: 'absolute', right: '0px', top: '0px'}}>
-			               			{currentStatus == 'Resulted' ? 
-			               				<FontAwesomeIcon onClick={() => {window.open(this.props.test.samples[0].report.pdf)}} icon={faDownload} size={'1.8x'}/>
-			               			: null
-			               			}
-			               		</div>
+			            		{this.props.test.result_pdf_url	&& currentStatus == 'Resulted' ?
+				            		
+				            		<div style={{position: 'absolute', right: '0px', top: '0px'}}>
+				               				<FontAwesomeIcon onClick={() => this.downloadFile(this.props.test.result_pdf_url)} icon={faDownload}/>
+				               		</div>
+
+				               		: 
+
+				               		null
+			               		}
 				            	<div style={STYLES.testContainer}>
 						            <div style={{paddingLeft: (window.innerWidth > 1200) ? '20px' : '0px', paddingRight: (window.innerWidth > 1200) ? '20px' : '0px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', flex: '3'}}>
 						               <div style={STYLES.smallText}>
 						                  {(created_date != null) ? created_date.toLocaleDateString() : null}
 						               </div>
 						               <div style={{fontSize: '16px', fontWeight: '700', whiteSpace: 'nowrap'}}>
-						                  {PANEL_DICT[this.props.test.panels[0]]}
+						                  {PANEL_DICT[this.props.test.samples[0].panels[0]]}
 						               </div>
 						               <div style={STYLES.smallText}>
 						               		Kit ID: {this.props.test.kit_id}
@@ -262,13 +280,6 @@ export default class TestObject extends React.Component {
 									url={'https://sesamecare.com/partners/healthyr?utm_source=account_dashboard'}
 								/>
 								<Accordion
-									title={'Find affordable prescriptions'}
-									image={'https://cdn.shopify.com/s/files/1/0569/4285/4214/t/15/assets/cuverd2.jpg?v=1668652131'}
-									buttonText={'View prescription options'}
-									text={"Don't break the bank on medications. Explore affordable options with Cuverd."}
-									url={'https://behealthyr.com/pages/cuverd'}
-								/>
-								<Accordion
 									title={'Prescriptions at your doorstep'}
 									image={'https://cdn.shopify.com/s/files/1/0569/4285/4214/t/15/assets/healthyrx.jpg?v=1668652115'}
 									buttonText={'View prescription options'}
@@ -302,7 +313,7 @@ export default class TestObject extends React.Component {
 	                  {(created_date != null) ? created_date.toLocaleDateString() : null}
 	               </div>
 	               <div style={{fontSize: '16px', fontWeight: '700'}}>
-	                  {PANEL_DICT[this.props.test.panels[0]]}
+	                  {PANEL_DICT[this.props.test.samples[0].panels[0]]}
 	               </div>
 	               <div style={{fontWeight: '600px'}}>
 	               		KIT ID - {this.props.test.kit_id}
@@ -392,13 +403,6 @@ export default class TestObject extends React.Component {
 									url={'https://sesamecare.com/partners/healthyr?utm_source=account_dashboard'}
 								/>
 								<Accordion
-									title={'Find affordable prescriptions'}
-									image={'https://cdn.shopify.com/s/files/1/0569/4285/4214/t/15/assets/cuverd2.jpg?v=1668652131'}
-									buttonText={'View prescription options'}
-									text={"Don't break the bank on medications. Explore affordable options with Cuverd."}
-									url={'https://behealthyr.com/pages/cuverd'}
-								/>
-								<Accordion
 									title={'Prescriptions at your doorstep'}
 									image={'https://cdn.shopify.com/s/files/1/0569/4285/4214/t/15/assets/healthyrx.jpg?v=1668652115'}
 									buttonText={'View prescription options'}
@@ -448,20 +452,28 @@ export default class TestObject extends React.Component {
 					<div style={{position: 'absolute', right: '10px', bottom: '10px'}}>
          			{currentStatus == 'Resulted' ?
          				<Button 
-         					color={'#130168'}
+         					color={(this.props.test.result_pdf_url) ? '#130168' : '#666666'}
                         invert={true}
                         tagName={'div'}
-				            stylesbutton={{fontSize: '14px', borderRadius: '4px', marginTop: '0px', paddingTop: '16px', paddingBottom: '16px', maxHeight: '16px'}}
-				            props={{onClick: () => window.open(this.props.test.samples[0].report.pdf)}}
-				         >
-         					<div style={{display: 'flex', alignItems: 'center'}}>
-         						<div style={{marginRight: '8px'}}>
-         							Download Report
-         						</div>
-         						<FontAwesomeIcon icon={faDownload}/>
-         					</div>
+				            stylesbutton={{fontSize: '14px', borderRadius: '4px', marginTop: '0px', paddingTop: '16px', paddingBottom: '16px', maxHeight: '16px', cursor: (this.props.test.result_pdf_url) ? 'pointer' : 'default'}}
+				            props={(this.props.test.result_pdf_url) ? {onClick: () => this.downloadFile(this.props.test.result_pdf_url)} : {}}
+				         >	{this.props.test.result_pdf_url ? 
+	         					<div style={{display: 'flex', alignItems: 'center'}}>
+	         						<div style={{marginRight: '8px'}}>
+	         							Download Report
+	         						</div>
+	         						<FontAwesomeIcon icon={faDownload}/>
+	         					</div>
+	         				:
+	         					<div style={{display: 'flex', alignItems: 'center'}}>
+	         						<div style={{marginRight: '8px'}}>
+	         							Generating Report
+	         						</div>
+	         						<FontAwesomeIcon icon={faSpinner} spin/>
+	         					</div>
+	         				}
          				</Button>
-         			: null
+         			: null 
          			}
          		</div>
 				</div>
@@ -609,6 +621,8 @@ const PANEL_DICT = {
 	male_hormone_screening_panel: 'Male Hormone Test',
 	comprehensive_health_panel: 'Comprehensive Test',
 	micronutrient_panel: 'Micronutrient Test',
+	healthyr_hba1c_glucose_panel: 'HbA1c Glucose Test',
+	healthyr_kidney_health_panel: 'Kidney Test',
 }
 
 const STATUS_DICT = {

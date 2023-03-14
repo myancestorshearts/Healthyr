@@ -41,12 +41,13 @@ const GraphBoxComponent = (props) => {
         let newResult = props.result.result
         let additionalChar = ''
         if((newResult.toString()).includes(">")){
-            newResult = parseInt(newResult.replace(">", ''))
+            newResult = parseFloat(newResult.replace(">", ''))
             additionalChar = ">"
         } else if ((newResult.toString()).includes("<")){
-            newResult = parseInt(newResult.replace("<", ''))
+            newResult = parseFloat(newResult.replace("<", ''))
             additionalChar = "<"
         }
+
         return(
             <div style={{'flex': (props.graphBox.flex), backgroundColor: props.graphBox.color, height: '100%', position: 'relative'}}>
                 <div/>
@@ -72,7 +73,7 @@ const GraphBoxComponent = (props) => {
                     : null
 
                 }*/}
-                {((newResult > newMin) && (newResult <= newMax)) ?
+                {((newResult >= newMin) && (newResult <= newMax)) ?
                     <div style={{position: 'absolute', top: '-12px', zIndex: '8', backgroundColor: '#ffffff', left: (((newResult - newMin)/(newMax - newMin) * 100) + '%' )}}>
                         <div style={{position: 'absolute', top: '-20px', whiteSpace: 'nowrap', left: ((props.result.unit_of_measure == '%') ? '-7px' : '-28px')}}>
                             {additionalChar + newResult + ' ' + props.result.unit_of_measure}
