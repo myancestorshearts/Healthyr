@@ -14,6 +14,7 @@ const STYLES = {
     title: {
         width: '100%',
         color: CommonBrand.getSecondaryColor(),
-        fontSize: '50px'
+        fontSize: '20px',
+        paddingLeft: '15px'
     }
 } 

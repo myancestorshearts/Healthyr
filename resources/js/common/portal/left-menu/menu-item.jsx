@@ -75,9 +75,11 @@ const STYLES = {
     },
     icon: {
         padding: '20px',
-        fontSize: '25px',
+        fontSize: '20px',
         width: '30px',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#D8D8D8'
+       
     }
 }
 
