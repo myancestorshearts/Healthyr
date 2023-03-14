@@ -51,6 +51,7 @@ const STYLES = {
         paddingRight: '10px',
         fontSize: '16px',
         
+        
     },
     label: {
         marginBottom: '2px',

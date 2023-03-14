@@ -55,7 +55,7 @@ export default class AccountDashboard extends React.Component {
    handleClose(){
       document.body.style.overflow = null;
       this.setState({activeRegister: false, loading: true})
-      this.handleGetKits(window.ShopifyAnalytics.meta.page.customerId)
+     // this.handleGetKits(window.ShopifyAnalytics.meta.page.customerId)
    }
 
    handleGetKits(customerID){ 
@@ -85,7 +85,7 @@ export default class AccountDashboard extends React.Component {
             activeRegister: true
           })
       }
-      this.handleGetKits(window.ShopifyAnalytics.meta.page.customerId)
+      //this.handleGetKits(window.ShopifyAnalytics.meta.page.customerId)
       let headerButton = document.getElementById('header-register-test')
       if(headerButton){
          headerButton.addEventListener('click', (e) => {

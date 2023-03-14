@@ -49,7 +49,7 @@ export default class TestResults extends React.Component {
    }
 
    componentDidMount(){
-      this.handleGetKits(window.ShopifyAnalytics.meta.page.customerId)
+     // this.handleGetKits(window.ShopifyAnalytics.meta.page.customerId)
    }
 
 

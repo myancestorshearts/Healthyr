@@ -92,8 +92,8 @@ const STYLES = {
         fontSize: '16px',
         lineHeight: '24px',
         color: '#96A0AF',
-        marginBottom: '20px',
-        marginTop: '20px',
+        marginBottom: '10px',
+        marginTop: '10px',
         paddingLeft: '15px'
     },
     copyright: {
