@@ -17,13 +17,16 @@ export default class TestView extends React.Component {
 
     
    render() {
+    console.log(this.props, 'ITS A PROP')
       return (
          <div>
              <Title 
               title='My Tests'
               />
               <Spacer />
-               <TestResults />
+               <TestResults
+                user={this.props.user}
+               />
          </div>
       )
    }

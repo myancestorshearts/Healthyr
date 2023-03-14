@@ -7,7 +7,7 @@ import Panel from '../../../../common/components/panel'
 import Text from '../../../../common/inputs/text'
 
 import Button from '../../../../common/inputs/button'
-import HealthyrApi from '../../../../common/api.jsx';
+import ClientApi from '../../../../common/api/client.jsx';
 import Loading from '../../../../common/components/loading'
 import Ad from '../../../../common/components/ad'
 
@@ -32,25 +32,27 @@ export default class TestResults extends React.Component {
 
    }
 
-   handleGetKits(customerID){ 
-         HealthyrApi.User.getKit({
-            platform_user_id: customerID,
-         }, success => {
-            this.setState({
-               kits: success.data.kits.reverse(),
-               loading: false
-            })
-         }, fail => {
-            this.setState({
-               kits: [],
-               loading: false
-            })
+       //Display Kits
+     handleGetKits() {
+       ClientApi.Kit.get({}, success => {
+         console.log(success)
+         this.setState({
+           kits: success.data.kits.reverse().slice(0, 3),
+           loading: false
          })
-   }
+       }, fail => {
+         console.log(fail)
+         this.setState({
+           kits: [],
+           loading: false
+         })
+       })
+     }
 
-   componentDidMount(){
-      this.handleGetKits(window.ShopifyAnalytics.meta.page.customerId)
-   }
+     //Retrieve User
+      componentDidMount() {
+         this.handleGetKits()
+      }
 
 
 
@@ -58,6 +60,7 @@ export default class TestResults extends React.Component {
 
     
    render() {
+      console.log(this.state.kits, 'KITS')
       return (
          <React.Fragment>
             <div style={{display: 'flex', flexDirection: 'column'}}>

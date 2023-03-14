@@ -49,7 +49,7 @@ export default class Portal extends React.Component {
             this.setState({ user: user })
         })
         window.HealthyrUser.loadUser(() => {
-            //window.location = '/';
+            window.location = '/';
         })
     }
 
@@ -65,7 +65,7 @@ export default class Portal extends React.Component {
 
         // check user if not set yet return null
         //if (!this.state.user) return null;
-
+        console.log(this.state.user, 'wowie')
         // create routes
         let routes = this.props.menus.map((x, i) => {
             if (!x.component) return null;
@@ -73,13 +73,13 @@ export default class Portal extends React.Component {
             return <Route
                 key={i}
                 exact path={this.props.prefix + x.link}
+                user={this.state.user}
                 render={props => <Component  {...props} />}
             />
         })
 
         // include logout of user
         let showLogoutOfSubuser = Storage.has('goa-loginasuser-tokens');
-        console.log(this.state.user, 'user')
         // return portal view
         return (
             <div style={STYLES.body}>

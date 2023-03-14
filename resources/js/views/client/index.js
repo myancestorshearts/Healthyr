@@ -66,7 +66,7 @@ class App extends React.Component {
 			})
 		}
 
-		return <Portal prefix="/client" menus={MENUS} />
+		return <Portal prefix="/client" menus={MENUS}/>
 	}
 }
 

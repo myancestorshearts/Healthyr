@@ -80,10 +80,11 @@ class Kit {
     }
 
     static get(parameters, successCallback, failureCallback) {
-        WebClient.basicPost(parameters, '/api/client/kits', successCallback, failureCallback);
+        WebClient.basicGet(parameters, '/api/client/kits', successCallback, failureCallback);
     }
 }
 
 export default class Api {
     static User = User;
+    static Kit = Kit;
 }
