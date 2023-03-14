@@ -130,14 +130,14 @@ class ClientController extends BaseController
         // check for platform user
         $user = Mysql\Common\User::where('id', '=', ApiAuth::user()->id)->limit(1)->get()->first();
         if (!isset($user)) return $response->jsonFailure('No user exists with user id', 'INVALID_USER_ID', 'INVALID_USER_ID');
-
+       
         // get kits
         $user_kits = Mysql\Common\UserKit::where([
             ['user_id', '=', $user->id],
             ['active', '=', 1]
         ])->get();
 
-
+        
         $filter_age = 250;
         $filter_gender = $user->gender;
 
