@@ -155,7 +155,7 @@ export default class AnalyteRange extends React.Component {
                     </FlexContainer>
                 </div> 
     
-                <div style={STYLES.textarea}>
+         <div style={STYLES.textarea}>
                 <FlexContainer direction='row' gap='15px'>
 
                 <Input
@@ -207,7 +207,7 @@ export default class AnalyteRange extends React.Component {
                 />
                 
                 </FlexContainer>
-                </div>
+        </div>
                
                         
            

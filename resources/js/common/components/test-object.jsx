@@ -316,7 +316,7 @@ export default class TestObject extends React.Component {
 	                  {PANEL_DICT[this.props.test.samples[0].panels[0]]}
 	               </div>
 	               <div style={{fontWeight: '600px'}}>
-	               		KIT ID - {this.props.test.kit_id}
+	               		KITS ID - {this.props.test.kit_id}
 	               </div>
 	               <div>
 	                  {(this.props.test.samples[0].report.results) ? (this.props.test.samples[0].report.results.length > 0 ? this.props.test.samples[0].report.results.length + ' biomarkers tested' : null) : null}

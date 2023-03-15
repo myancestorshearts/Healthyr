@@ -8,6 +8,8 @@ import ContentSettings from './content/settings'
 import ContentAdvertisements from './content/advertisement'
 import ContentVendors from './content/vendors'
 import ContentVendorsKit from './content/vendors_kits'
+import ContentOrgan from './content/body_segments'
+import ContentBodySegment from './content/body_segments'
 import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 
@@ -31,6 +33,12 @@ const MENUS = [
     icon: 'fa fa-thermometer-full',
     component: ContentAnalytes,
     link: '/analytes', 
+  },
+  {
+    title: 'Body Segments',
+    icon: 'fa fa-skeleton',
+    component: ContentBodySegment,
+    link: '/bodySegement', 
   },
   {
     title: 'Advertisement',

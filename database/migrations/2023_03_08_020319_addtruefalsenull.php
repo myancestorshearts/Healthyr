@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('analytes', function($table)
-        {
-            $table->string('binary_false_effect')->nullable()->default(null)->change();
-            $table->string('binary_true_effect')->nullable()->default(null)->change();
-            $table->string('unit_of_measure')->nullable()->default(null)->change();
+        // Schema::table('analytes', function($table)
+        // {
+        //     $table->string('binary_false_effect')->nullable()->default(null)->change();
+        //     $table->string('binary_true_effect')->nullable()->default(null)->change();
+        //     $table->string('unit_of_measure')->nullable()->default(null)->change();
 
-        });
+        // });
     }
 
     /**

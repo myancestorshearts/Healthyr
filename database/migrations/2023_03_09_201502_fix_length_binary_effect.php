@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('analytes', function (Blueprint $table) {
-            $table->string('binary_false_effect', 2048)->change();
-            $table->string('binary_true_effect', 2048)->change();
-        });
+        // Schema::table('analytes', function (Blueprint $table) {
+        //     $table->string('binary_false_effect', 2048)->change();
+        //     $table->string('binary_true_effect', 2048)->change();
+        // });
     }
 
     /**

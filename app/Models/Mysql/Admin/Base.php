@@ -14,6 +14,9 @@ class Base extends Mysql\Common\Base
         'analyterangeeffect' => Mysql\Common\AnalyteRangeEffect::class,
         'advertisment' => Mysql\Common\Advertisment::class,
         'vendor' => Mysql\Common\Vendor::class,
-        'vendorkit' => Mysql\Common\VendorKit::class
+        'vendorkit' => Mysql\Common\VendorKit::class,
+        'organ' => Mysql\Common\Organ::class,
+        'organanalyte' => Mysql\Common\OrganAnalyte::class,
+        'bodysegments' => Mysql\Common\BodySegment::class,
 	];
 }

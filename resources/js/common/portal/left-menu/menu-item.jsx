@@ -79,6 +79,7 @@ const STYLES = {
         width: '30px',
         textAlign: 'center',
         color: '#D8D8D8'
+        
        
     }
 }
