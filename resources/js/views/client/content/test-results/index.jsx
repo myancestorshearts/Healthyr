@@ -27,6 +27,7 @@ export default class TestView extends React.Component {
                <TestResults
                 user={this.props.user}
                />
+               
          </div>
       )
    }
